@@ -5,7 +5,7 @@ This is a skeleton project designed for Agentic Development, structured to suppo
 Special thanks to **@IndyDevDan** and his Youtube video that inspired this project: [Youtube video](https://www.youtube.com/watch?v=fop_yxV-mPo)
 
 ## How to use
-Delete files for the demo app in 'apps/' directory and plance your project files there. Then customize the MD files to support your peoject.
+Delete files for the demo app in 'apps/' directory and plance your project files there. Then customize the MD files to support your project.
 
 ## Overview
 1. **Agents / Commands**: `.claude/` directory
