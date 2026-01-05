@@ -1,6 +1,7 @@
 ---
 description: Prime agent with Database context via psql
 allowed-tools: Read, Glob, Grep, Bash
+model: openai/gpt-5
 ---
 
 # Prime: Database

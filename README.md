@@ -8,10 +8,10 @@ Special thanks to **@IndyDevDan** and his Youtube video that inspired this proje
 Delete files for the demo app in 'apps/' directory and plance your project files there. Then customize the MD files to support your project.
 
 ## Overview
-1. **Agents / Commands**: `.claude/` directory
+1. **Agents / Commands**: `.opencode/` directory
 2. **Project Specs**: `specs/`
 3. **App Reviews**: `app_reviews/`
-4. **Skills**: `.claude/skills/`
+4. **Skills**: `.opencode/skills/`
 
 ## Agents & Commands
 - **Prime**: `prime [query]`
@@ -25,7 +25,7 @@ Delete files for the demo app in 'apps/' directory and plance your project files
 
 ```text
 .
-├── .claude/                # Agent definitions, commands, and skills
+├── .opencode/                # Agent definitions, commands, and skills
 │   ├── agents/             # Agent definitions
 │   │   ├── fetch_docs.md   # Documentation fetcher agent
 │   │   ├── review_agent.md # Code review agent

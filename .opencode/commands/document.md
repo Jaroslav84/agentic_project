@@ -1,5 +1,6 @@
 ---
 description: Generate documentation or specifications for code
+model: zai-coding-plan/glm-4.5-air
 ---
 
 # Document

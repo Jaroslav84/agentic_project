@@ -1,5 +1,6 @@
 ---
 description: Closed loop client testing - runs and fixes pytest for client
+model: zai-coding-plan/glm-4.5-air
 ---
 
 # Test Client (Closed Loop)

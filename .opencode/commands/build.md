@@ -2,7 +2,7 @@
 description: Build the codebase based on the plan
 argument-hint: [path-to-plan]
 allowed-tools: Read, Write, Bash
-model: any
+model: openai/gpt-5
 ---
 
 # Build

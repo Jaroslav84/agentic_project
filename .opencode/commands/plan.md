@@ -1,4 +1,7 @@
-# Plan
+---
+description: Planner
+model: openai/gpt-5
+---
 
 Create a plan to complete the task using the specified markdown `Plan Format`. Research the codebase and create a thorough plan appropriate to the task's complexity.
 
@@ -31,7 +34,7 @@ prompt: $ARGUMENTS (IMPORTANT: second argument)
 
 - `README.md` - Project overview and instructions (start here)
 - `apps/` - Application layer you'll be working in
-- `.claude/commands/` - Claude command templates
+- `.opencode/commands/` - Claude command templates
 - `specs/` - Specification and plan documents
 
 ## Plan Format

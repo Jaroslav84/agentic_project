@@ -1,5 +1,6 @@
 ---
 description: Pull a ticket from the issue tracker (Jira)
+model: openai/gpt-5
 ---
 
 # Pull Ticket

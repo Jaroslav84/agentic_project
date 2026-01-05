@@ -1,7 +1,7 @@
 ---
 name: review-agent
 description: Autonomous review agent that validates changes using the review prompt. Use after completing a feature to ensure quality.
-model: any
+model: zai-coding-plan/glm-4.5-air
 color: green
 ---
 
@@ -17,7 +17,7 @@ You are a code review specialist that validates changes autonomously.
 
 ## Workflow
 
-1. READ and EXECUTE `.claude/commands/review.md`
+1. READ and EXECUTE `.opencode/commands/review.md`
 2. If issues found, fix them and repeat step 1
 3. Once passing, write review summary to `app_reviews/{feature}-review.md`
 

@@ -1,5 +1,6 @@
 ---
 description: Scout the codebase for a specific query
+model: zai-coding-plan/glm-4.5-air
 ---
 
 # Scout

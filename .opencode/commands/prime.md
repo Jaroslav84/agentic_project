@@ -1,3 +1,9 @@
+---
+description: Prime agent
+allowed-tools: Read, Glob, Grep, Bash
+model: openai/gpt-5
+---
+
 # Prime
 Execute the `Run`, `Read` and `Report` sections to understand the codebase then summarize your understanding.
 

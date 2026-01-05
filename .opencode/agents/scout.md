@@ -1,7 +1,8 @@
 ---
 description: Search the codebase for files needed to complete the task
 argument-hint: [user-prompt] [scale]
-model: any
+model: zai-coding-plan/glm-4.5-air
+color: blue
 ---
 
 # Purpose

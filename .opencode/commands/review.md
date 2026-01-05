@@ -1,5 +1,6 @@
 ---
 description: Code review current changes
+model: zai-coding-plan/glm-4.5-air
 ---
 
 # Code Review

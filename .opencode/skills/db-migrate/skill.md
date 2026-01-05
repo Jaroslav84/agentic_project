@@ -1,6 +1,7 @@
 ---
 name: Database Migration
 description: Executes database migrations using the postgres MCP server. Use when applying schema changes, running migrations, or updating database structure.
+model: zai-coding-plan/glm-4.5-air
 ---
 
 # Database Migration

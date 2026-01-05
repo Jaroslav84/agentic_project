@@ -1,5 +1,6 @@
 ---
 description: Reproduce a bug and document steps - does NOT fix, prepares resolution file
+model: zai-coding-plan/glm-4.5-air
 ---
 
 # Reproduce Bug

@@ -1,5 +1,6 @@
 ---
 description: Start the application
+model: zai-coding-plan/glm-4.5-air
 ---
 
 # Start Apps
@@ -10,7 +11,7 @@ Start the demo server (FastAPI) on port 2026.
 
 1. EXECUTE the start skill
    ```bash
-   python3 .claude/skills/start-stop-app/tools/start.py
+   python3 .opencode/skills/start-stop-app/tools/start.py
    ```
 
 2. VERIFY the app is running

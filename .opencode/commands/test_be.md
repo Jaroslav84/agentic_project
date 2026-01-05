@@ -1,5 +1,6 @@
 ---
 description: Closed loop backend testing - runs and fixes pytest for server
+model: zai-coding-plan/glm-4.5-air
 ---
 
 # Test Backend (Closed Loop)
