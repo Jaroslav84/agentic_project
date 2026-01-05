@@ -23,7 +23,7 @@ TARGET: $ARGUMENTS
    - Infer types and behavior where explicit documentation is missing.
 
 3. DETERMINE output location
-   - **General Documentation**: Store in `ai_docs/` (e.g., `ai_docs/{component}_docs.md`)
+   - **General Documentation**: Store in `docs/` (e.g., `docs/{component}_docs.md`)
    - **Specifications/Requirements**: Store in `specs/` (e.g., `specs/{feature}_spec.md`)
 
 4. GENERATE content

@@ -1,4 +1,4 @@
-# CLAUDE.md
+# OPENCODE.md
 
 This file provides guidance to AI agents when working with this codebase.
 
@@ -8,7 +8,7 @@ An "Agentic Skeleton Project" designed to demonstrate AI agent capabilities, fea
 
 ## Commands
 
-- `python3 .opencode/skills/start-stop-app/tools/start.py` - Start demo server
+- `python3 .opencode/skill/start-stop-app/tools/start.py` - Start demo server
 - `python3 apps/client/main.py` - Run demo client
 - `python3 -m pytest` - Run tests (from apps/{app_name} dir)
 

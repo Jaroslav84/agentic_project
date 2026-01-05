@@ -11,7 +11,7 @@ Start the demo server (FastAPI) on port 2026.
 
 1. EXECUTE the start skill
    ```bash
-   python3 .opencode/skills/start-stop-app/tools/start.py
+   python3 .opencode/skill/start-stop-app/tools/start.py
    ```
 
 2. VERIFY the app is running

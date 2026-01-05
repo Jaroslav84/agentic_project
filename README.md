@@ -11,7 +11,7 @@ Delete files for the demo app in 'apps/' directory and plance your project files
 1. **Agents / Commands**: `.opencode/` directory
 2. **Project Specs**: `specs/`
 3. **App Reviews**: `app_reviews/`
-4. **Skills**: `.opencode/skills/`
+4. **Skills**: `.opencode/skill/`
 
 ## Agents & Commands
 - **Prime**: `prime [query]`
@@ -26,12 +26,12 @@ Delete files for the demo app in 'apps/' directory and plance your project files
 ```text
 .
 ├── .opencode/                # Agent definitions, commands, and skills
-│   ├── agents/             # Agent definitions
+│   ├── agent/             # Agent definitions
 │   │   ├── fetch_docs.md   # Documentation fetcher agent
 │   │   ├── review_agent.md # Code review agent
 │   │   ├── scout.md        # Codebase scout agent
 │   │   └── test_writer.md  # Test writing agent
-│   ├── commands/           # Command definitions
+│   ├── command/           # Command definitions
 │   │   ├── build.md        # Build/implementation command
 │   │   ├── document.md     # Documentation generator
 │   │   ├── plan.md         # Planning command
@@ -43,15 +43,15 @@ Delete files for the demo app in 'apps/' directory and plance your project files
 │   │   ├── start_apps.md   # App startup command
 │   │   ├── test_be.md      # Backend testing
 │   │   └── test_fe.md      # Frontend testing
-│   └── skills/             # Executable skills
+│   └── skill/             # Executable skills
 │       ├── db-migrate/     # Database migration skill
 │       └── start-stop-app/ # App lifecycle management
-├── ai_docs/                # Project documentation for AI context
+├── docs/                # Project documentation for AI context
 ├── apps/                   # Application source code
 │   ├── client/             # Python client application
 │   └── server/             # FastAPI/Python server application
 ├── specs/                  # Technical specifications
-└── CLAUDE.md               # Main entry point/guide for Claude
+└── OPENCODE.md               # Main entry point/guide for OpenCode
 ```
 
 ## Reference Links

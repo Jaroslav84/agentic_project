@@ -1,8 +1,8 @@
 ---
 description: Search the codebase for files needed to complete the task
-argument-hint: [user-prompt] [scale]
-model: zai-coding-plan/glm-4.5-air
-color: blue
+argument-hint: "[user-prompt] [scale]"
+model: "zai-coding-plan/glm-4.5-air"
+color: "#0000FF"
 ---
 
 # Purpose
@@ -13,7 +13,7 @@ Search the codebase for files needed to complete the task using a fast, token ef
 
 USER_PROMPT: $1
 SCALE: $2 (defaults to 3)
-RELEVANT_FILE_OUTPUT_DIR: `agents/scout_files/`
+RELEVANT_FILE_OUTPUT_DIR: `agent/scout_files/`
 
 ## Instructions
 
@@ -24,15 +24,14 @@ RELEVANT_FILE_OUTPUT_DIR: `agents/scout_files/`
 ## Workflow
 
 - Write a prompt for `SCALE` number of agents to the Task tool that will immediately call the Bash tool to run these commands to kick off your agents to conduct the search:
-  - `claude -p "[prompt]" --model any` 
+  - `opencode run [prompt] --model any`
   - `gemini -p "[prompt]" --model any` (if count >= 2)
-  - `opencode run [prompt] --model any` (if count >= 3)
   - `gemini -p "[prompt]" --model any` (if count >= 4)
   - `codex exec -m any -s read-only -c model_reasoning_effort="medium" "[prompt]"` (if count >= 5)
 - How to prompt the agents:
   - IMPORTANT: Kick these agents off in parallel using the Task tool.
   - IMPORTANT: These agents are calling OTHER agentic coding tools to search the codebase. DO NOT call any search tools yourself.
-  - IMPORTANT: That means with the Task tool, you'll immediately call the Bash tool to run the respective agentic coding tool (gemini, opencode, claude, etc.)
+  - IMPORTANT: That means with the Task tool, you'll immediately call the Bash tool to run the respective agentic coding tool (gemini, opencode, etc.)
   - IMPORTANT: Instruct the agents to quickly search the codebase for files needed to complete the task. This isn't about a full blown search, just a quick search to find the files needed to complete the task.
   - Instruct the subagent to use a timeout of 3 minutes for each agent's bash call. Skip any agents that don't return within the timeout, don't restart them.
   - Make it absolutely clear that the Task tool is ONLY going to call the Bash tool and pass in the appropriate prompt, replacing the [prompt] with the actual prompt you want to run.

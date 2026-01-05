@@ -17,8 +17,8 @@ Manage the demo FastAPI development server running on port 2026.
 
 ```bash
 # Start the app
-python3 .opencode/skills/start-stop-app/tools/start.py
+python3 .opencode/skill/start-stop-app/tools/start.py
 
 # Stop the app
-python3 .opencode/skills/start-stop-app/tools/stop.py
+python3 .opencode/skill/start-stop-app/tools/stop.py
 ```

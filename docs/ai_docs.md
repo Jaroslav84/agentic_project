@@ -13,7 +13,7 @@ Integrated Rich library for beautiful console output:
 - Clean, segmented display of responses
 
 ### MCP Server Integration Support
-Added support for Model Context Protocol (MCP) servers through the `mcp_server_file` field in drop zone configuration. This allows integration with external tools and services. The file path is passed directly to ClaudeCodeOptions, which handles loading the configuration.
+Added support for Model Context Protocol (MCP) servers through the `mcp_server_file` field in drop zone configuration. This allows integration with external tools and services. The file path is passed directly to OpenCodeOptions, which handles loading the configuration.
 
 
 ### MCP Server File Format

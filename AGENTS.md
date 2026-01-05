@@ -1,1 +1,1 @@
-Read CLAUDE.md
+Read OPENCODE.md
