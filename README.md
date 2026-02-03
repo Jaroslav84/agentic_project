@@ -1,4 +1,15 @@
-# Agentic Skeleton Project
+# Agentic Project
+
+![Version](https://img.shields.io/badge/Version-v1.1-blue?style=for-the-badge)
+![AI Powered](https://img.shields.io/badge/AI-Powered-FF4B4B?style=for-the-badge&logo=openai&logoColor=white)
+![Claude Code](https://img.shields.io/badge/Claude_Code-Supported-D1913C?style=for-the-badge&logo=anthropic&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Isolated-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Security](https://img.shields.io/badge/Security-Sandboxed-8A2BE2?style=for-the-badge&logo=lock&logoColor=white)
+![Shell](https://img.shields.io/badge/Shell-Automated-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)
+
+![Agentic Project Logo](logo.png)
+
+---
 
 This is a skeleton project designed for Agentic Development, structured to support AI agents with defined skills, commands, and documentation.
 
