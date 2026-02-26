@@ -1,7 +1,7 @@
 ---
 description: Prime agent
 allowed-tools: Read, Glob, Grep, Bash
-model: openai/gpt-5
+model: ""
 ---
 
 # Prime

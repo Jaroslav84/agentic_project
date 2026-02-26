@@ -1,7 +1,7 @@
 ---
 name: review-agent
 description: Autonomous review agent that validates changes using the review prompt. Use after completing a feature to ensure quality.
-model: zai-coding-plan/glm-4.5-air
+model: ""
 color: "#00FF00"
 ---
 

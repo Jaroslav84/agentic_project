@@ -1,7 +1,7 @@
 ---
 name: test-writer
 description: Generates comprehensive test suites for Python modules. Use after implementing new features or when test coverage is needed.
-model: zai-coding-plan/glm-4.5-air
+model: ""
 color: "#FF00FF"
 ---
 

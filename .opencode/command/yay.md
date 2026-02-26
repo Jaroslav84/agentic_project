@@ -1,6 +1,6 @@
 ---
 description: Prevent code bloat and technical debt from accumulating during iterative bug fixing.
-model: openai/gpt-5
+model: ""
 ---
 
 ## "Yay it works!" cleanup command

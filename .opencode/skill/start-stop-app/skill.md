@@ -1,7 +1,7 @@
 ---
 name: Start/Stop Demo App
 description: Start or stop the demo server (FastAPI) on port 2026. Use when you need to run or kill the development server.
-model: zai-coding-plan/glm-4.5-air
+model: ""
 ---
 
 # Start/Stop Demo App

@@ -1,7 +1,7 @@
 ---
 name: fetch-docs
 description: Fetches and summarizes documentation from URLs. Use when you need external API or library documentation.
-model: zai-coding-plan/glm-4.5-air
+model: ""
 color: "#00FFFF"
 ---
 

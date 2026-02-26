@@ -1,6 +1,6 @@
 ---
 description: Planner
-model: openai/gpt-5
+model: ""
 ---
 
 Create a plan to complete the task using the specified markdown `Plan Format`. Research the codebase and create a thorough plan appropriate to the task's complexity.
