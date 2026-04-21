@@ -348,7 +348,7 @@ function getCertImage(cert) {
   /* Check cert name overrides first */
   for (var keyword in certToImage) {
     if (cert.name.indexOf(keyword) !== -1) {
-      return 'img/artwork/optimized/certs/' + certToImage[keyword];
+      return '../img/artwork/optimized/certs/' + certToImage[keyword];
     }
   }
 
@@ -372,12 +372,12 @@ function getCertImage(cert) {
   };
 
   var img = tradeImages[cert.trade] || 'hard-hat-safety.jpg';
-  return 'img/artwork/optimized/certs/' + img;
+  return '../img/artwork/optimized/certs/' + img;
 }
 
 /* Map cert body to organization badge image */
 function getCertBadge(cert) {
-  if (cert.body === 'AWS') return cert.trade === 'Welding' ? 'img/icons/badges/certificates/aws-welding.png' : 'img/icons/badges/certificates/aws.png';
+  if (cert.body === 'AWS') return cert.trade === 'Welding' ? '../img/icons/badges/certificates/aws-welding.png' : '../img/icons/badges/certificates/aws.png';
   var m = {
     'OSHA':'certificates/osha.png','EPA':'certificates/epa.png','AHA':'certificates/aha.png',
     'NFPA':'certificates/nfpa.png','ATSSA':'certificates/atssa.png','NATE':'certificates/nate.png',
@@ -393,7 +393,7 @@ function getCertBadge(cert) {
     'Autodesk':'providers/autodesk.png','CertainTeed':'providers/certainteed.png',
     'CEC Provider':'providers/cec.png','CEC ATTCP':'providers/cec.png'
   };
-  return m[cert.body] ? 'img/icons/badges/' + m[cert.body] : null;
+  return m[cert.body] ? '../img/icons/badges/' + m[cert.body] : null;
 }
 
 /* Get XP value by level */
