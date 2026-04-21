@@ -1,112 +1,139 @@
-![Version](https://img.shields.io/badge/Version-v1.2-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-v1.3-blue?style=for-the-badge)
+![Claude Code](https://img.shields.io/badge/Claude_Code-ready-D97757?style=for-the-badge)
+![OpenCode](https://img.shields.io/badge/OpenCode-ready-5D2E8C?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Spec-Driven](https://img.shields.io/badge/Spec--Driven-yes-2EA043?style=for-the-badge)
+![Agentic](https://img.shields.io/badge/Agentic-development-8A2BE2?style=for-the-badge)
+![MCP](https://img.shields.io/badge/MCP-compatible-000000?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
 ![Agentic Project Logo](logo.png)
 
 # Agentic Project
 
-This is a skeleton project designed for Agentic Development, structured to support AI agents with defined skills, commands, and documentation.
+Remember the waterfall model from the 70s?
+`requirements → specification → design → build → test → release → maintenance`
 
-Just drag and drop `.agents/` and `AGENTS.md` into your project, or run:
 
+Now that AI is here, let's *bring it back* with a twist!
+
+
+This is a `skeleton project` designed for:
+- **Spec-Driven Requirements Gathering**: idea → research → mission → … → plan
+- **Mockup-First Web UI**: clickable HTML artifacts in `dashboard/` validate the product *before* code — so specs, design, and build all converge on something you can actually see and click.
+- **Spec-Driven Delivery**: gated pipeline — plan → spec → design → build → test → release — each stage has exit criteria before advancing.
+- **Agentic Development**: structured to support AI agents with defined `commands` / `skills` / `CLAUDE.md`
+
+Think of it as a starting point of a project, right from project discovery stage.
+
+---
+
+## Setup
+
+`bootstrap` your existing (or new) project by running:
 ```bash
-python3 scripts/bootstrap_agents.py /path/to/your/project
+python3 scripts/bootstrap.py ~/path_to_your_project
 ```
 
-The script copies `.agents/` and `AGENTS.md` into the target folder. When files already exist, it prompts: **Overwrite**, **Skip**, **Diff**, or **Merge** (append for .md files). Use **All overwrite** or **All skip** to apply the same choice to remaining conflicts.
+Copies `.claude/` and `CLAUDE.md` into the target. On conflicts it prompts **Overwrite / Skip / Diff / Merge** (Merge appends, `.md` only), plus **All overwrite / All skip** to apply one choice to the rest.
 
-Don't forget to run **Prime** to familiarize the agent with your codebase, and **prime_feedback** (`.agents/commands/prime_feedback.md`) to set up your project for autonomous, self-correcting development.
+Don't forget to run **Prime** to familiarize the agent with your codebase. When your project is up and running then do **prime_feedback** (`.claude/commands/PRIME_FEEDBACK.md`) to set up your project for autonomous, self-correcting development and get minimum 2x better results when working with AI ;)
 
-**WARNING!:** *Don't fall into the agentic trap!!!* Using agents or too many rules to follow can drastically decrease your LLM output quality! Read more at the end of this file. Keep AGENTS.md around 200 instructions tops. Read below why. 
+Also check out my `YAY.md` command. Super useful. I run it 20x a day to keep code clean.
 
-### Maturity Levels
+**WARNING!** *Don't fall into the agentic trap!!!* Using agents or too many rules to follow can drastically decrease your LLM output quality! Read more at the end of this file. Keep CLAUDE.md around 200 instructions tops. Read below why.
 
-From Copy-Paste to Autonomous Development
+Special thanks to **@IndyDevDan** and his YouTube video that inspired this project: [YouTube video](https://www.youtube.com/watch?v=fop_yxV-mPo)
 
-| Level | Quality | Speed | What you get |
-|-------|---------|-------|--------------|
-| **1** | 1.5x | 1.5x | You use chatgpt.com in the browser and copy-paste code |
-| **2** | 2x | 2x | You advance to IDEs and TUI tools |
-| **3** | 2.5x | 2.5x | You start using the "PLAN" agent before tackling anything big |
-| **4** | 3x | 3x | You start using the "ASK" agent before any PLAN — two questions: *Any questions? Any concerns?* |
-| **5** | 3.5x | 3x | You use different models for different tasks. You minimize context degradation. You know your token limits and use think-first vs tool-first models properly |
-| **6** | 4x | 4x | You start using `AGENTS.md` and `skills/commands` for each of your projects |
-| **7** | 4.5x | 4.5x | You don't fall into the agentic trap — one giant context, one confused agent, zero results. You split responsibilities across multiple focused agents and MD files |
-| **8** | 5x | 6x | You prime your projects with `prime.md`. You let your agents know about and control your project |
-| **9** | 6x | 10x | You set up full **Autonomous Feedback Loop** — agents run linters, run tests, they run and catch exceptions and runtime errors, read logs, build outputs, and even the browser console. You setup agents to see and interact with the Frontend directly. You achieve a **100% automated testing feedback loop**. You gain 2–3× better results & speed |
-| **10** | 7x | 12x | You write specifications as long prompts using another LLM |
-| **11** | 8x | 13x | You leave out the context-heavy work until the MVP is ready — anything with an avalanche effect on the codebase |
-| **12** | 9x | 15x | You create frontend designs upfront using CSS themes alongside the specification. When done, you ask 10–20×: *"What is NOT implemented?"* — use OUTPUT as PLAN → BUILD → repeat |
-| **13** | 10x | 16x | You start asking: *"Search GitHub — maybe someone already did this?"* and you integrate rather than implement |
-| **14** | 11x | 18x | You setup LSP, Vector DB and MCP together. Your agents have structural code understanding with long-term memory. Your stack becomes a living, connected organism |
-| **15** | 12x | 20x | Your agents remember your coding style, libraries, and past mistakes across projects. Every new project starts with accumulated context. You version control your prompts and agent configs — `AGENTS.md`, `prime.md`, `MEMORY.md` in git like any other codebase asset |
-| **16** | 13x | 20x | You setup sandboxed environments, boundaries, permissions and protect yourself against prompt injections |
-| **17** | 15x | 25x | You orchestrate multiple specialized agents in parallel — planner, coder, reviewer, tester — running concurrently on the same task. You build a router that automatically sends tasks to the right model based on complexity and cost |
-| **18** | 16x | 30x | You setup agents to see and interact with the frontend directly — a direct application of parallel orchestration. You achieve a **100% automated testing feedback loop** |
-| **19** | 20x | 50x | You run a software business without a dev team. Agents handle implementation, testing, deployment, monitoring — including blue-green and canary deployments. You handle product and architecture. One person, the output of a 10-person team |
-
-
-#### ONE DAY
-
-| Level | What you get |
-|-------|--------------|
-| **1** | You don't touch code. You reply to LLM questions while agents run tests on the code |
-| **2** | You swipe through a gallery of specifications, designs, and solutions — coded on the fly as you swipe |
-| **3** | You use brainwaves to swipe left or right between designs, architectural choices, and business logic. You don't type, talk, or look. An AI helmet flashes images in your brain and gets prompts from your brainwave activity |
-
-
-Special thanks to **@IndyDevDan** and his Youtube video that inspired this project: [Youtube video](https://www.youtube.com/watch?v=fop_yxV-mPo)
+---
 
 ## Overview
-1. **Agents / Commands / Skills**: `.agents/` directory
-2. **Project Specs**: `specs/` that you create as big promts with progress tracking. This is bigger than just a simple "PLAN".
-3. **Reviews**: `reviews/` done by agents (security audits, etc)
-4. **Docs**: `docs/` for the LLM agents
+
+1. **Agents / Commands / Skills**: `.claude/` — the AI tooling (agents invoked by slash commands, plus executable skills)
+2. **Plan**: `plan/` — stage 1. Idea → research → mission → decisions → business plan. See [plan/04-STAGES.md](plan/04-STAGES.md) for gate criteria.
+3. **Spec & Design**: `specs/` — what is being built (FR / NFR / use cases) and how (logical / process / physical views, data model, interface contracts)
+4. **UI artifacts**: `dashboard/` — static pages that match the spec's use cases, handed off to implementation
+5. **Code**: `src/` — `backend/` (FastAPI) + `frontend/` (client app)
+6. **Reviews**: `reviews/` — security audits and design reviews, usually run by agents
+7. **Docs**: `docs/` — ADRs (`adr/`), cached Anthropic docs for agents (`anthropic/`), UML diagrams (`uml/`)
+
+---
 
 ## Agents & Commands
-- **Prime**: `prime [query]`
-- **Bootstrap Feedback Loop**: `prime_feedback` — One-time setup for autonomous, self-correcting development (log capture, process output, `.agents/PROJECT_LOOP.md`)
+- **Prime**: `prime [query]` — familiarize the agent with the codebase
+- **Prime DB w/ Tools**: `prime_db_w_tools` — prime with database context via psql
+- **Bootstrap Feedback Loop**: `prime_feedback` — One-time setup for autonomous, self-correcting development (log capture, process output, `.claude/PROJECT_LOOP.md`)
+- **Agents Loops Extension**: `agents_loops_extension` — autonomous feedback loop protocol
 - **Plan**: `plan [id] [prompt]`
+- **Build**: `build` — implement from plan
 - **Scout**: `scout [query]`
 - **Review**: `review [feature]`
-- **Test Writer**: `test_writer`
-- **Documentation Fetcher**: `fetch_docs [urls]`
+- **Reproduce**: `reproduce` — reproduce a bug and document steps
+- **Test BE / Test FE**: `test_be` / `test_fe` — closed-loop pytest
+- **Start Apps**: `start_apps`
+- **Yay**: `yay` — de-sloppify after multiple fix attempts
+- **Pull Ticket**: `pull_ticket` — pull a Jira ticket
+- **Document**: `document` — generate docs or specs for code
+- **Test Writer**: `test_writer` (agent)
+- **Documentation Fetcher**: `fetch_docs [urls]` (agent)
 
 ## Project Structure
 
 ```text
 .
-├── .agents/                    # Agents, Commands, and Skills (vendor-neutral)
-│   ├── agents/                 # Agent definitions
-│   │   ├── fetch_docs.md       # Documentation fetcher agent
-│   │   ├── review_agent.md     # Code review agent
-│   │   ├── scout.md            # Codebase scout agent
-│   │   └── test_writer.md      # Test writing agent
-│   ├── commands/               # Command definitions
-│   │   ├── prime_feedback.md   # Autonomous feedback loop setup
-│   │   ├── build.md            # Build/implementation command
-│   │   ├── document.md         # Documentation generator
-│   │   ├── plan.md             # Planning command
-│   │   ├── prime.md            # Codebase priming
-│   │   ├── pull_ticket.md      # Jira ticket puller
-│   │   ├── reproduce.md        # Bug reproduction
-│   │   ├── review.md           # Code review command
-│   │   ├── scout.md            # Scout command
-│   │   ├── start_apps.md       # App startup command
-│   │   ├── test_be.md          # Backend testing
-│   │   └── test_fe.md          # Frontend testing
-│   └── skills/                 # Executable skills
-│       ├── db-migrate/         # Database migration skill
-│       └── start-stop-app/     # App lifecycle management
-├── docs/                       # Project documentation for AI context
-├── apps/                       # Application source code
-│   ├── client/                 # Python client application
-│   └── server/                 # FastAPI/Python server application
-├── specs/                      # Technical specifications
-└── AGENTS.md                   # Main entry point for AI agents
+├── .claude/                          # Agents, Commands, and Skills
+│   ├── agents/                       # Agent definitions
+│   │   ├── FETCH_DOCS.md             # Documentation fetcher agent
+│   │   ├── REVIEW_AGENT.md           # Code review agent
+│   │   ├── SCOUT.md                  # Codebase scout agent
+│   │   └── TEST_WRITER.md            # Test writing agent
+│   ├── commands/                     # Command definitions
+│   │   ├── AGENTS_LOOPS_EXTENSION.md # Autonomous feedback loop protocol
+│   │   ├── BUILD.md                  # Build/implementation command
+│   │   ├── DOCUMENT.md               # Documentation generator
+│   │   ├── PLAN.md                   # Planning command
+│   │   ├── PRIME.md                  # Codebase priming
+│   │   ├── PRIME_DB_W_TOOLS.md       # Prime with DB context via psql
+│   │   ├── PRIME_FEEDBACK.md         # Autonomous feedback loop setup
+│   │   ├── PULL_TICKET.md            # Jira ticket puller
+│   │   ├── REPRODUCE.md              # Bug reproduction
+│   │   ├── REVIEW.md                 # Code review command
+│   │   ├── SCOUT.md                  # Scout command
+│   │   ├── START_APPS.md             # App startup command
+│   │   ├── TEST_BE.md                # Backend testing
+│   │   ├── TEST_FE.md                # Frontend testing
+│   │   └── YAY.md                    # De-sloppify after repeated fixes
+│   ├── skills/                       # Executable skills
+│   │   ├── db-migrate/               # Database migration skill
+│   │   ├── start-stop-app/           # App lifecycle management
+│   │   └── (+ Anthropic official skills — see below)
+│   └── settings.local.json           # Claude Code Allow/Deny permissions
+├── scripts/
+│   ├── bootstrap.py                  # Copies .claude/ + CLAUDE.md into target project
+│   └── linters/                      # Per-stack linters (python/cpp/swift/php/angular/quake3)
+├── docs/                             # Project documentation for AI context
+├── src/                              # Application source code
+│   ├── client/                       # Python client application
+│   └── server/                       # FastAPI/Python server application
+├── plan/                             # Stage-1 planning (idea → decisions)
+├── specs/                            # Technical specifications
+│   ├── 01-SPECIFICATION_v1.0.md              # Project specification (filled)
+│   ├── 02-TEMPLATE-SPECIFICATION_OMG_v1.0.md # OMG-UML-2.5.1 specification template
+│   ├── 03-SPECIFICATION_OMG_HOWTO_v1.0.md    # Walkthrough for filling the spec template
+│   ├── 04-TEMPLATE-DESIGN_OMG_v1.0.md        # IEEE-1016 / RUP / 4+1 design template
+│   └── 05-DESIGN_v1.0.md                     # Project design document (filled)
+├── dashboard/                        # Static UI artifacts
+├── reviews/                          # Security and design reviews
+├── BOOTSTRAP.md                      # One-time boot actions (invoked by CLAUDE.md)
+├── CHANGELOG.md
+└── CLAUDE.md                         # Main entry point for AI agents
 ```
 
+### Anthropic official skills included under `.claude/skills/`
+`algorithmic-art`, `brand-guidelines`, `canvas-design`, `claude-api`, `doc-coauthoring`, `docx`, `frontend-design`, `internal-comms`, `mcp-builder`, `pdf`, `pptx`, `skill-creator`, `slack-gif-creator`, `theme-factory`, `web-artifacts-builder`, `webapp-testing`, `xlsx`.
+
 ## Reference Links
-- [Youtube video](https://www.youtube.com/watch?v=fop_yxV-mPo)
+- [YouTube video](https://www.youtube.com/watch?v=fop_yxV-mPo)
 - [Agentic Engineer](https://agenticengineer.com/)
 - [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
 

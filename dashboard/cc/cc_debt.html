@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/cc-shared.css">
+<style>
+/* ── Debt-specific overrides & additions ── */
+
+/* HEADER BAR */
+.hdr{
+  display:flex;align-items:center;gap:16px;padding:14px 20px;
+  background:var(--bg2);border-bottom:2px solid rgba(255,64,64,.2);flex-shrink:0;
+}
+.hdr-ico{font-size:22px;color:var(--R)}
+.hdr-title{font-family:var(--nw);font-size:22px;letter-spacing:.06em;color:var(--t)}
+.hdr-sub{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.1em}
+.hdr-mission{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  padding:4px 10px;background:rgba(255,64,64,.12);border:1px solid rgba(255,64,64,.25);
+  border-radius:3px;color:var(--R);
+}
+.hdr-spacer{flex:1}
+.hdr-stat{display:flex;flex-direction:column;align-items:center;padding:0 16px;border-left:1px solid rgba(255,255,255,.06)}
+.hdr-stat .hl{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
+.hdr-stat .hv{font-family:var(--nw);font-size:20px;line-height:1.1}
+.hdr-stat .hv.R{color:var(--R)}.hdr-stat .hv.Y{color:var(--Y)}.hdr-stat .hv.O{color:var(--O)}.hdr-stat .hv.G{color:var(--G)}
+
+/* Table: debt-specific row states */
+thead th.sort-desc::after{content:' \2193';color:var(--R)}
+tbody tr{cursor:pointer}
+tbody tr:hover td{background:rgba(255,64,64,.04)}
+tbody tr.critical td{background:rgba(255,64,64,.06)}
+tbody tr.critical td:first-child{border-left:3px solid var(--R)}
+tbody tr.warning td:first-child{border-left:3px solid var(--Y)}
+tbody tr.escalated td{opacity:.5}
+tr.active-row td{background:rgba(255,64,64,.10)}
+.detail-row td{border-bottom:2px solid rgba(255,64,64,.25)}
+td.val{color:var(--t);font-weight:600}
+td.val.overdue{color:var(--R)}
+
+/* Badges */
+.age-badge{display:inline-block;font-size:12px;padding:2px 8px;border-radius:3px;font-weight:600;font-family:var(--mono)}
+.age-badge.d30{background:rgba(238,150,18,.15);color:var(--Y);border:1px solid rgba(238,150,18,.3)}
+.age-badge.d60{background:rgba(233,84,0,.15);color:var(--O);border:1px solid rgba(233,84,0,.3)}
+.age-badge.d90{background:rgba(255,64,64,.15);color:var(--R);border:1px solid rgba(255,64,64,.3)}
+.age-badge.d120{background:rgba(255,64,64,.25);color:#ff8080;border:1px solid rgba(255,64,64,.5)}
+
+.status-pill{display:inline-block;font-size:11px;padding:2px 7px;border-radius:3px;font-family:var(--mono);font-weight:600;letter-spacing:.08em}
+.status-pill.new{background:rgba(255,255,255,.07);color:var(--tm);border:1px solid rgba(255,255,255,.12)}
+.status-pill.contacted{background:rgba(159,0,250,.15);color:var(--Cl);border:1px solid rgba(159,0,250,.3)}
+.status-pill.promised{background:rgba(96,190,53,.15);color:var(--G);border:1px solid rgba(96,190,53,.3)}
+.status-pill.disputed{background:rgba(255,64,64,.15);color:var(--R);border:1px solid rgba(255,64,64,.3)}
+.status-pill.escalated{background:rgba(233,84,0,.18);color:var(--O);border:1px solid rgba(233,84,0,.3)}
+
+.late-fee{font-size:11px;color:var(--Y);font-family:var(--mono)}
+
+/* Action buttons */
+.act-btn{
+  padding:4px 10px;font-size:11px;font-family:var(--mono);letter-spacing:.06em;
+  border-radius:2px;cursor:pointer;border:1px solid;transition:background .15s;background:transparent;
+}
+.act-btn.call{color:var(--Cl);border-color:rgba(159,0,250,.3)}
+.act-btn.call:hover{background:rgba(159,0,250,.12)}
+.act-btn.sms{color:var(--tm);border-color:rgba(255,255,255,.15)}
+.act-btn.sms:hover{background:rgba(255,255,255,.06)}
+.act-btn.esc{color:var(--O);border-color:rgba(233,84,0,.3)}
+.act-btn.esc:hover{background:rgba(233,84,0,.12)}
+.act-btn.paid{color:var(--G);border-color:rgba(96,190,53,.3)}
+.act-btn.paid:hover{background:rgba(96,190,53,.12)}
+
+/* Detail panel: debt-specific heads + sections */
+.dp-row .k{min-width:110px}
+.dp-row .v.R{color:var(--R)}.dp-row .v.Y{color:var(--Y)}.dp-row .v.G{color:var(--G)}.dp-row .v.purple{color:var(--Cl)}
+.dp-head.inv::before{background:var(--R)}.dp-head.contact::before{background:var(--Cl)}.dp-head.hist::before{background:var(--Y)}.dp-head.next::before{background:var(--G)}
+.dp-opening{margin-top:10px;padding:8px 12px;background:rgba(255,64,64,.08);border-left:3px solid var(--R);font-size:13px;color:#ff8080;line-height:1.5;font-family:var(--jost);font-style:italic}
+.dp-next-action{margin-top:8px;padding:10px 14px;background:rgba(255,64,64,.06);border:1px solid rgba(255,64,64,.2);border-radius:4px;font-size:13px;color:var(--R);font-family:var(--mono)}
+.dp-next-action .label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.dp-timeline{margin-top:8px}
+.dp-timeline .evt{display:flex;gap:10px;padding:5px 0;font-size:12px;border-left:2px solid rgba(255,255,255,.08);padding-left:12px;margin-left:4px}
+.dp-timeline .evt .edate{color:var(--dim);font-family:var(--mono);min-width:80px;flex-shrink:0}
+.dp-timeline .evt .etype{font-family:var(--jost);color:var(--tm)}
+.dp-timeline .evt.call .etype{color:var(--Cl)}
+.dp-timeline .evt.sms .etype{color:var(--Y)}
+.dp-timeline .evt.esc .etype{color:var(--O)}
+.dp-inv-footer{margin-top:8px}
+.dp-contact-notes{margin-top:10px}
+.dp-history-section{margin-top:14px}
+.dp-no-history{color:var(--dim);font-style:italic}
+.dp-script-section{margin-top:12px}
+.dp-esc-section{margin-top:12px}
+
+/* Footer: debt height + go button */
+.footer{height:56px;border-top:2px solid rgba(255,64,64,.3)}
+.go-btn{
+  padding:0 28px;height:36px;
+  background:var(--R);color:#fff;border:none;
+  font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:10px;
+}
+.go-btn:hover{background:#e03030}
+.go-btn::before{content:'\260e';font-size:14px}
+
+@media(max-width:768px){
+  .go-btn{padding:0 16px;height:32px;font-size:12px;letter-spacing:.12em;}
+}
+</style>
+<script defer src="../js/env.js"></script>
+<script defer src="../js/cc-shared.js"></script>
+<script defer src="../js/debt.js"></script>
+<script defer src="../js/debt-detail.js"></script>
+<script defer src="../js/proplink.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <span class="hdr-ico">&#9873;</span>
+  <div>
+    <div class="hdr-title">Debt Collector</div>
+    <div class="hdr-sub">Overdue invoices · Sales calls to collect</div>
+  </div>
+  <span class="hdr-mission">MISSION 4</span>
+  <div class="hdr-spacer"></div>
+  <div class="hdr-stat">
+    <span class="hl">Overdue</span>
+    <span class="hv R">7</span>
+  </div>
+  <div class="hdr-stat">
+    <span class="hl">Owed</span>
+    <span class="hv R">$284,630</span>
+  </div>
+  <div class="hdr-stat">
+    <span class="hl">Late Fees</span>
+    <span class="hv Y">$6,812</span>
+  </div>
+  <div class="hdr-stat">
+    <span class="hl">Collected (MTD)</span>
+    <span class="hv G">$41,200</span>
+  </div>
+  <div class="hdr-stat">
+    <span class="hl">Oldest</span>
+    <span class="hv O">127d</span>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <span class="tb-label">Sort</span>
+  <select class="tb-select">
+    <option>Amount Owed ↓</option>
+    <option>Days Overdue ↓</option>
+    <option>Late Fee Accrued ↓</option>
+    <option>Last Contact ↑</option>
+  </select>
+  <div class="tb-sep"></div>
+  <span class="tb-label">Filter</span>
+  <select class="tb-select">
+    <option>All Overdue</option>
+    <option>30–60 days</option>
+    <option>60–90 days</option>
+    <option>90+ days (critical)</option>
+    <option>Disputed</option>
+    <option>Payment Promised</option>
+  </select>
+  <div class="tb-sep"></div>
+  <button class="tb-btn warn">Escalate Selected to Morgan</button>
+  <button class="tb-btn">Export CSV</button>
+  <div class="tb-spacer"></div>
+  <span style="font-family:var(--mono);font-size:12px;color:var(--dim)">
+    Late fee rate: <span style="color:var(--Y)">1.5%</span> after day 31 &nbsp;·&nbsp;
+    Payment terms: <span style="color:var(--tm)">Net 30</span>
+  </span>
+</div>
+
+<!-- TABLE -->
+<div class="tbl-wrap">
+<table>
+<thead>
+<tr>
+  <th style="width:32px">#</th>
+  <th>propID</th>
+  <th>Client / Location</th>
+  <th>Contact</th>
+  <th class="sort-desc">Amount Owed</th>
+  <th>Invoiced</th>
+  <th>Overdue</th>
+  <th>Late Fee</th>
+  <th>Status</th>
+  <th>Flags</th>
+  <th style="width:180px">Actions</th>
+</tr>
+</thead>
+<tbody>
+
+<tr class="critical" data-id="10201">
+  <td style="color:var(--dim)">1</td>
+  <td><a href="https://app.fieldtech.example/#/pins?propID=10201" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#10201</a></td>
+  <td class="name">BluePine / Oak and Iron<br><span style="font-size:12px;color:var(--dim);font-family:var(--mono)">Walnut Creek, CA</span></td>
+  <td class="name">Jon Araiza<br><span style="font-size:11px;color:var(--dim);font-family:var(--mono)">Property Manager</span></td>
+  <td class="val overdue">$87,400</td>
+  <td style="font-family:var(--mono);font-size:13px">2025-12-03</td>
+  <td><span class="age-badge d120">127d</span></td>
+  <td class="late-fee">$3,934</td>
+  <td><span class="status-pill contacted">CONTACTED</span></td>
+  <td>
+    <span class="flag R">CRITICAL</span>
+    <span class="flag Y">2ND NOTICE</span>
+  </td>
+  <td>
+    <button class="act-btn call">Call</button>
+    <button class="act-btn sms">SMS</button>
+    <button class="act-btn esc">Morgan</button>
+  </td>
+</tr>
+
+<tr class="critical" data-id="9876">
+  <td style="color:var(--dim)">2</td>
+  <td><a href="https://app.fieldtech.example/#/pins?propID=9876" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#9876</a></td>
+  <td class="name">Summit Mgmt Management / Sommerset Place<br><span style="font-size:12px;color:var(--dim);font-family:var(--mono)">Sacramento, CA</span></td>
+  <td class="name">Anya Belton<br><span style="font-size:11px;color:var(--dim);font-family:var(--mono)">Property Manager</span></td>
+  <td class="val overdue">$62,100</td>
+  <td style="font-family:var(--mono);font-size:13px">2025-12-18</td>
+  <td><span class="age-badge d90">112d</span></td>
+  <td class="late-fee">$1,552</td>
+  <td><span class="status-pill new">NEW</span></td>
+  <td>
+    <span class="flag R">90+ DAYS</span>
+  </td>
+  <td>
+    <button class="act-btn call">Call</button>
+    <button class="act-btn sms">SMS</button>
+    <button class="act-btn esc">Morgan</button>
+  </td>
+</tr>
+
+<tr class="warning" data-id="10045">
+  <td style="color:var(--dim)">3</td>
+  <td><a href="https://app.fieldtech.example/#/pins?propID=10045" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#10045</a></td>
+  <td class="name">EAH Housing / Maple Orchards<br><span style="font-size:12px;color:var(--dim);font-family:var(--mono)">Vacaville, CA</span></td>
+  <td class="name">Russ Clark<br><span style="font-size:11px;color:var(--dim);font-family:var(--mono)">Property Manager</span></td>
+  <td class="val overdue">$47,200</td>
+  <td style="font-family:var(--mono);font-size:13px">2026-01-15</td>
+  <td><span class="age-badge d60">84d</span></td>
+  <td class="late-fee">$708</td>
+  <td><span class="status-pill promised">PROMISED</span></td>
+  <td>
+    <span class="flag G">PAYMENT PROMISED</span>
+    <span class="flag dim">Apr 15</span>
+  </td>
+  <td>
+    <button class="act-btn call">Call</button>
+    <button class="act-btn sms">SMS</button>
+    <button class="act-btn paid">Mark Paid</button>
+  </td>
+</tr>
+
+<tr data-id="10312">
+  <td style="color:var(--dim)">4</td>
+  <td><a href="https://app.fieldtech.example/#/pins?propID=10312" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#10312</a></td>
+  <td class="name">Silvercreek Assoc. / The Willows<br><span style="font-size:12px;color:var(--dim);font-family:var(--mono)">San Leandro, CA</span></td>
+  <td class="name">Courtney Mack<br><span style="font-size:11px;color:var(--dim);font-family:var(--mono)">HOA Property Mgr</span></td>
+  <td class="val overdue">$38,500</td>
+  <td style="font-family:var(--mono);font-size:13px">2026-02-01</td>
+  <td><span class="age-badge d60">68d</span></td>
+  <td class="late-fee">$577</td>
+  <td><span class="status-pill contacted">CONTACTED</span></td>
+  <td>
+    <span class="flag Y">HOA BOARD</span>
+  </td>
+  <td>
+    <button class="act-btn call">Call</button>
+    <button class="act-btn sms">SMS</button>
+    <button class="act-btn esc">Morgan</button>
+  </td>
+</tr>
+
+<tr class="warning" data-id="10198">
+  <td style="color:var(--dim)">5</td>
+  <td><a href="https://app.fieldtech.example/#/pins?propID=10198" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#10198</a></td>
+  <td class="name">DataVerse / Midtown HOA<br><span style="font-size:12px;color:var(--dim);font-family:var(--mono)">Hayward, CA</span></td>
+  <td class="name">Brian Smith<br><span style="font-size:11px;color:var(--dim);font-family:var(--mono)">Community Director</span></td>
+  <td class="val overdue">$24,300</td>
+  <td style="font-family:var(--mono);font-size:13px">2026-02-10</td>
+  <td><span class="age-badge d30">59d</span></td>
+  <td class="late-fee">$0</td>
+  <td><span class="status-pill new">NEW</span></td>
+  <td></td>
+  <td>
+    <button class="act-btn call">Call</button>
+    <button class="act-btn sms">SMS</button>
+    <button class="act-btn esc">Morgan</button>
+  </td>
+</tr>
+
+<tr class="escalated" data-id="9934">
+  <td style="color:var(--dim)">6</td>
+  <td><a href="https://app.fieldtech.example/#/pins?propID=9934" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#9934</a></td>
+  <td class="name">New Earth Residential / The Crossings<br><span style="font-size:12px;color:var(--dim);font-family:var(--mono)">Sacramento, CA</span></td>
+  <td class="name">Tammy Ellis<br><span style="font-size:11px;color:var(--dim);font-family:var(--mono)">Property Manager</span></td>
+  <td class="val overdue">$14,800</td>
+  <td style="font-family:var(--mono);font-size:13px">2026-01-22</td>
+  <td><span class="age-badge d60">78d</span></td>
+  <td class="late-fee">$0</td>
+  <td><span class="status-pill disputed">DISPUTED</span></td>
+  <td>
+    <span class="flag R">DISPUTED</span>
+    <span class="flag Y">MORGAN REVIEW</span>
+  </td>
+  <td>
+    <button class="act-btn esc" style="opacity:.5">Escalated</button>
+  </td>
+</tr>
+
+<tr data-id="10410">
+  <td style="color:var(--dim)">7</td>
+  <td><a href="https://app.fieldtech.example/#/pins?propID=10410" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#10410</a></td>
+  <td class="name">Harbor Horizon HOAtes / Seabreeze II<br><span style="font-size:12px;color:var(--dim);font-family:var(--mono)">Richmond, CA</span></td>
+  <td class="name">Tasha Williams<br><span style="font-size:11px;color:var(--dim);font-family:var(--mono)">Property Manager</span></td>
+  <td class="val overdue">$10,330</td>
+  <td style="font-family:var(--mono);font-size:13px">2026-02-28</td>
+  <td><span class="age-badge d30">41d</span></td>
+  <td class="late-fee">$41</td>
+  <td><span class="status-pill new">NEW</span></td>
+  <td>
+    <span class="flag dim">1ST NOTICE</span>
+  </td>
+  <td>
+    <button class="act-btn call">Call</button>
+    <button class="act-btn sms">SMS</button>
+    <button class="act-btn esc">Morgan</button>
+  </td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="foot-stat">
+    <div class="fl">Total Owed</div>
+    <div class="fv R">$284,630</div>
+  </div>
+  <div class="foot-stat">
+    <div class="fl">Late Fees</div>
+    <div class="fv Y">$6,812</div>
+  </div>
+  <div class="foot-stat">
+    <div class="fl">Collected MTD</div>
+    <div class="fv G">$41,200</div>
+  </div>
+  <div class="foot-stat">
+    <div class="fl">Disputed</div>
+    <div class="fv O">1</div>
+  </div>
+  <div class="foot-stat">
+    <div class="fl">Promised</div>
+    <div class="fv G">1</div>
+  </div>
+  <div class="foot-actions">
+    <button class="foot-btn">Export Report</button>
+    <button class="go-btn">START COLLECTION CALLS</button>
+  </div>
+</div>
+
+</body>
+</html>

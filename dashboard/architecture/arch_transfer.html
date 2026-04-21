@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/graph.css">
+<style>
+/* page-specific: canvas dimensions, node interactions, hub pulse */
+.canvas{width:1920px;height:1000px}
+.node-shape{transition:filter .12s}
+.node-group{cursor:grab}
+.node-group.dragging{cursor:grabbing}
+.node-group.dimmed{opacity:.15}
+.node-group.lit{opacity:1}
+@keyframes hub-pulse-ring{
+  0%{stroke-opacity:.5;stroke-width:2}
+  70%{stroke-opacity:0;stroke-width:16}
+  100%{stroke-opacity:0;stroke-width:16}
+}
+@media(max-width:768px){.canvas{width:1200px;height:700px}}
+@media(max-width:480px){.canvas{width:900px;height:550px}}
+</style>
+<script defer src="../js/env.js"></script>
+<script defer src="../js/graph-core.js"></script>
+<script defer src="../js/transfer-data.js"></script>
+<script defer src="../js/transfer-details.js"></script>
+<script defer src="../js/transfer-render.js"></script>
+<script defer src="../js/transfer-shapes.js"></script>
+<script defer src="../js/transfer-main.js"></script>
+<script defer src="../js/transfer-ui.js"></script>
+<script defer src="../js/proplink.js"></script>
+</head>
+<body>
+<div class="shell">
+<div class="top-bar">
+  <span class="stit">Warm Transfer &mdash; Parallel Ring Flow</span>
+  <span class="meta">16 nodes &middot; 16 edges &middot; animated flow</span>
+  <span class="hint">&#9670; DRAG NODES TO REPOSITION &nbsp;&middot;&nbsp; HOVER FOR DETAILS</span>
+  <button class="fs-btn" id="fsBtn" onclick="toggleFS()" title="Fullscreen">&#x26F6;</button>
+</div>
+
+<div class="graph-wrap" id="graphWrap">
+  <div class="canvas" id="cnv">
+
+<div class="cheat">
+  <div class="cheat-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">Cheat Sheet <span>&#9660;</span></div>
+  <div class="cheat-body">
+    <div class="cheat-section">Open Questions (Blockers)</div>
+    <div class="cheat-row"><span class="cheat-code">OQ-1</span><span class="cheat-desc">Dan Harper — phone number TBD</span></div>
+    <div class="cheat-row"><span class="cheat-code">OQ-2</span><span class="cheat-desc">Jenna Martinez — phone number TBD</span></div>
+    <div class="cheat-row"><span class="cheat-code">OQ-5</span><span class="cheat-desc">Henry + Leah share same phone</span></div>
+    <div class="cheat-row"><span class="cheat-code">OQ-6</span><span class="cheat-desc">Leah has no HubSpot Pro seat</span></div>
+    <div class="cheat-row"><span class="cheat-code">OQ-8</span><span class="cheat-desc">HubSpot email mismatches (3 reps)</span></div>
+    <div class="cheat-section">Data Fields</div>
+    <div class="cheat-row"><span class="cheat-code">propID</span><span class="cheat-desc">Proposal ID in FieldTECH</span></div>
+    <div class="cheat-row"><span class="cheat-code">userID</span><span class="cheat-desc">Person ID in FieldTECH</span></div>
+    <div class="cheat-row"><span class="cheat-code">hs_owner_id</span><span class="cheat-desc">HubSpot rep ID (use instead of email)</span></div>
+    <div class="cheat-row"><span class="cheat-code">manager_userID</span><span class="cheat-desc">Attribution field — Sales writes 7225</span></div>
+    <div class="cheat-section">Transfer Logic</div>
+    <div class="cheat-row"><span class="cheat-code">16s</span><span class="cheat-desc">Ring timeout — try next rep pool</span></div>
+    <div class="cheat-row"><span class="cheat-code">&times;3</span><span class="cheat-desc">Up to 3 reps rung simultaneously</span></div>
+  </div>
+</div>
+    <svg id="mainSvg" class="graph-svg" style="position:absolute;inset:0;width:1920px;height:1000px;overflow:visible;z-index:2;pointer-events:none"></svg>
+    <canvas id="partCvs" width="1920" height="1000" style="position:absolute;left:0;top:0;z-index:4;pointer-events:none"></canvas>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="sb-item">
+    <div class="pdot" style="background:var(--G);box-shadow:0 0 6px var(--G);animation:blink 2s infinite"></div>
+    <span style="color:var(--G)">SALESCLAW ONLINE</span>
+  </div>
+  <div class="sb-item"><span>16s TIMEOUT &middot; 3 REPS MAX</span></div>
+  <div class="sb-item" style="margin-left:auto">
+    <span style="color:var(--C)">SPEC v1.0 &middot; Mission 1</span>
+  </div>
+</div>
+<div class="legend-row">
+  <div class="li"><div class="li-line" style="background:#60be35"></div>Engagement / success</div>
+  <div class="li"><div class="li-line" style="background:#9f00fa"></div>AI orchestration</div>
+  <div class="li"><div class="li-line" style="background:#ff4040"></div>Active call / failure</div>
+  <div class="li"><div class="li-line" style="background:#e95400"></div>SMS / notification</div>
+  <div class="li"><div class="li-line" style="background:#ee9612"></div>Selection / command</div>
+</div>
+</div><!-- /shell -->
+
+<!-- Floating tooltip -->
+<div id="tt">
+  <div class="tt-head">
+    <div class="tt-head-text">
+      <div class="tt-name" id="tt-name">Node</div>
+      <div class="tt-role" id="tt-role">Role</div>
+      <div class="tt-status" id="tt-status">
+        <span class="tt-sdot" id="tt-sdot"></span>
+        <span id="tt-sv"></span>
+      </div>
+    </div>
+  </div>
+  <div class="tt-metrics" id="tt-metrics"></div>
+  <div class="tt-conns" id="tt-conns"></div>
+  <div class="tt-note" id="tt-note"></div>
+  <div class="tt-drag-hint">&#10303; Drag to reposition</div>
+</div>
+
+</body>
+</html>

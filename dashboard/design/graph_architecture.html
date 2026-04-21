@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>System Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Norwester';src:url('../css/norwester.otf') format('opentype')}
+:root{
+  --bg:#1a1a1a;--bg2:#242424;--bg3:#2a2a2a;--bg4:#323232;
+  --C:#9f00fa;--Cl:#d36eff;
+  --t:#ffffff;--tm:#e0e0e0;--td:#c8c8c8;--dim:#888888;
+  --mono:'JetBrains Mono',monospace;
+  --jost:'Jost','Helvetica Neue',Arial,sans-serif;
+  --nw:'Norwester','Jost',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:auto;background:var(--bg);color:var(--t);font-family:var(--jost)}
+.shell{display:flex;flex-direction:column;min-height:100%}
+.hdr{
+  width:100%;display:flex;align-items:center;gap:16px;
+  padding:16px 28px;background:#161616;
+  border-bottom:2px solid var(--C);flex-shrink:0;
+}
+.hdr-title{font-family:var(--nw);font-size:22px;letter-spacing:.06em;text-transform:uppercase;color:var(--t)}
+.hdr-title em{color:var(--C);font-style:normal}
+.content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center}
+.icon{margin-bottom:28px;opacity:.85}
+.title{font-family:var(--nw);font-size:32px;letter-spacing:.08em;text-transform:uppercase;color:var(--t);margin-bottom:16px}
+.title em{color:var(--C);font-style:normal}
+.desc{font-family:var(--jost);font-size:18px;color:var(--td);line-height:1.7;max-width:600px;margin-bottom:36px}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:40px;max-width:700px}
+.chip{
+  padding:9px 18px;
+  background:var(--bg3);border:1px solid var(--bg4);
+  font-family:var(--mono);font-size:13px;color:var(--td);
+  transition:border-color .2s,color .2s;cursor:default;
+}
+.chip:hover{border-color:var(--C);color:var(--Cl)}
+.status{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:32px}
+.foot{font-family:var(--mono);font-size:13px;color:var(--dim);letter-spacing:.12em}
+.foot span{color:var(--C)}
+@media(max-width:768px){
+  .title{font-size:24px}
+  .desc{font-size:16px}
+  .chip{font-size:12px;padding:7px 14px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hdr">
+    <span class="hdr-title">System <em>Architecture</em></span>
+  </div>
+  <div class="content">
+    <div class="icon"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#9f00fa" stroke-width="1.5" stroke-linecap="round">
+  <rect x="12" y="8" width="40" height="12" rx="2"/>
+  <rect x="12" y="26" width="40" height="12" rx="2"/>
+  <rect x="12" y="44" width="40" height="12" rx="2"/>
+</svg></div>
+    <div class="title">System <em>Architecture</em></div>
+    <div class="status">Specification Phase</div>
+    <p class="desc">Kruchten 4+1 architectural view of the JobSiteLink platform</p>
+    <div class="chips">
+      <span class="chip">4 Stakeholders</span>
+      <span class="chip">5-Layer Stack</span>
+      <span class="chip">External APIs</span>
+      <span class="chip">LLM Integration</span>
+      <span class="chip">Notification Services</span>
+      <span class="chip">Core &rarr; Domain &rarr; Intelligence &rarr; Infra &rarr; Presentation</span>
+    </div>
+    <div class="foot"><span>JOBSITELINK</span></div>
+  </div>
+</div>
+</body>
+</html>

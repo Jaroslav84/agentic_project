@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CleanPNG – High-Quality Transparent PNG Images for Business & Marketing</title>
+  <meta name="description" content="CleanPNG offers high-quality transparent PNG images for business, marketing, education, and presentations. Download businessman emotion PNG, holding object PNG, sale text PNG, and more.">
+  <link rel="canonical" href="https://www.cleanpng.com/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CleanPNG">
+  <meta property="og:title" content="CleanPNG – High-Quality Transparent PNG Images for Business & Marketing">
+  <meta property="og:description" content="Download high-quality transparent PNG images for business, marketing, education, and presentations. Explore businessman emotion PNG, holding object PNG, and sale text PNG.">
+  <meta property="og:url" content="https://www.cleanpng.com/">
+  <meta property="og:image" content="https://www.cleanpng.com/static/og-cover.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CleanPNG – High-Quality Transparent PNG Images">
+  <meta name="twitter:description" content="Download professional transparent PNG images for business, marketing, and presentations.">
+  <meta name="twitter:image" content="https://www.cleanpng.com/static/og-cover.png">
+  <script src="/jsloader.html?f=jquery-3.6.1.min.js@lazyload.js@common.js@index.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #0b0f1a;
+      --green: #6bdc6b;
+      --text-main: #111;
+      --text-muted: #666;
+      --border: #e5e7eb;
+      --card-bg: #fff;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text-main);
+      background: #f7f8fa;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius);
+    }
+
+    header.hero {
+      background: linear-gradient(180deg, #070b18, #0d1226);
+      color: #fff;
+      padding: 60px 20px 80px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 28px;
+      font-weight: 700;
+      max-width: 1024px;
+      margin: 0 auto 28px;
+    }
+
+    .hero-search {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .hero-search input {
+      flex: 1;
+      padding: 14px 16px;
+      border: none;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .hero-search button {
+      background: var(--green);
+      color: #0b1c0b;
+      font-weight: 600;
+      padding: 0 22px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .homepage-section {
+      max-width: 1200px;
+      margin: 56px auto;
+      padding: 0 20px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .view-all {
+      font-size: 14px;
+      color: #2563eb;
+    }
+
+    .section-description {
+      color: var(--text-muted);
+      font-size: 14px;
+      max-width: 900px;
+      margin-bottom: 8px;
+    }
+
+    .popular-searches {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 18px;
+    }
+
+    .popular-searches a {
+      color: #2563eb;
+    }
+
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 18px;
+    }
+
+    .png-item {
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .image-card {
+      width: 100%;
+      height: 100%;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      max-height: 92%;
+    }
+
+
+
+    .categories ul {
+      columns: 3;
+      margin-top: 16px;
+    }
+
+    .categories li {
+      list-style: none;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .browse-all {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 14px;
+      color: #2563eb;
+    }
+
+    .about h2,
+    .about h3 {
+      margin-bottom: 10px;
+    }
+
+    .about p {
+      color: var(--text-muted);
+      max-width: 900px;
+      margin-bottom: 14px;
+    }
+
+    .about ul li {
+      margin-left: 18px;
+      list-style: disc;
+      color: var(--text-muted);
+    }
+
+    .faq details {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 10px;
+    }
+
+    .faq summary {
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .faq p {
+      margin-top: 8px;
+      color: var(--text-muted);
+    }
+
+    .site-footer {
+      background: linear-gradient(180deg, #0b0f1a, #070b18);
+      color: #d1d5db;
+      padding: 60px 20px 30px;
+      margin-top: 80px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    .footer-column h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: 10px;
+    }
+
+    .footer-column a {
+      font-size: 14px;
+      color: #cbd5f5;
+      transition: color 0.2s ease;
+    }
+
+    .footer-column a:hover {
+      color: #6bdc6b;
+    }
+
+    .footer-bottom {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 13px;
+      color: #9ca3af;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 20px;
+    }
+
+
+    @media (max-width: 768px) {
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .footer-column h4 {
+        margin-bottom: 12px;
+      }
+      .hero h1 {
+        font-size: 22px;
+      }
+      .categories ul {
+        columns: 2;
+      }
+    }
+
+
+  </style>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What makes CleanPNG different from other PNG websites?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CleanPNG focuses on editorial-style PNG illustrations designed specifically for real business, marketing, and presentation use."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What formats and resolutions are available?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "All images are provided in high-resolution PNG format with transparent backgrounds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are CleanPNG images free to download?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All PNG images on CleanPNG are free to download and use. You can use them in personal and commercial projects without attribution, unless otherwise stated on the asset page."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are the PNG images transparent?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, all CleanPNG images feature transparent backgrounds for easy integration."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you support customization or diversity?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our collection includes diverse characters, styles, and scenarios to fit various needs."
+          }
+        }
+      ]
+    }
+  </script>
+
+
+</head>
+
+<body>
+
+<header class="hero">
+  <h1>High-Quality Transparent PNG Images</h1>
+  <div class="hero-search">
+    <input id="heroSearch" type="text" name="q" placeholder="Search businessman emotion PNG, holding object PNG, sale text PNG...">
+    <button id="searchButton" type="submit">Search</button>
+  </div>
+
+</header>
+
+<section class="homepage-section">
+  <div class="section-header">
+    <h2>Businessman Emotion PNG Images</h2>
+    <a class="view-all" href="https://www.cleanpng.com/png/businessman-emotion/">View All</a>
+  </div>
+  <p class="section-description">
+    Businessman emotion PNG images feature professional male characters expressing stress, confusion, confidence, success, and other workplace emotions.
+  </p>
+  <p class="popular-searches">
+    <strong>Popular searches:</strong>
+    <a href="https://www.cleanpng.com/png/confused-businessman/">confused businessman png</a> ·
+    <a href="https://www.cleanpng.com/png/stressed-businessman/">stressed businessman png</a> ·
+    <a href="https://www.cleanpng.com/png/happy-businessman/">happy businessman png</a> ·
+    <a href="https://www.cleanpng.com/png/overwhelmed-businessman/">overwhelmed businessman png</a> ·
+    <a href="https://www.cleanpng.com/png/successful-businessman/">successful businessman png</a> ·
+    <a href="https://www.cleanpng.com/png/frustrated-businessman/">frustrated businessman png</a> ·
+    <a href="https://www.cleanpng.com/png/tired-businessman/">tired businessman png</a> ·
+    <a href="https://www.cleanpng.com/png/angry-businessman/">angry businessman png</a>
+  </p>
+
+  <div class="image-grid">
+
+    <a class="png-item" href="https://www.cleanpng.com/png/confused-businessman/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/rda/bxt/vo6m354se.webp" alt="confused businessman emotion png"> </div></a>
+
+    <a class="png-item"  href="https://www.cleanpng.com/png/stressed-businessman/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/kkt/hks/acbnhurra.webp" alt="stressed businessman png"></div></a>
+
+    <a class="png-item"  href="https://www.cleanpng.com/png/happy-businessman/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/eku/jam/afjzaescl.webp" alt="happy businessman png"></div></a>
+
+    <a class="png-item"  href="https://www.cleanpng.com/png/angry-businessman/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/off/kpj/ac05ns0tm.webp" alt="angry businessman png"></div></a>
+
+    <a class="png-item"  href="https://www.cleanpng.com/png/thinking-businessman/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/qjf/cxm/vkhb5ggt5.webp" alt="thinking businessman png"></div></a>
+
+
+
+  </div>
+</section>
+
+<section class="homepage-section">
+  <div class="section-header">
+    <h2>Holding Object PNG</h2>
+    <a class="view-all" href="https://www.cleanpng.com/png/holding-object/">Browse Collection</a>
+  </div>
+
+  <p class="section-description">
+    Holding object PNG images show people or characters holding phones, signs, documents, megaphones, gifts, charts, and tools.
+  </p>
+  <p class="popular-searches">
+    <strong>Popular searches:</strong>
+    <a href="https://www.cleanpng.com/png/holding-sign/">holding sign png</a> ·
+    <a href="https://www.cleanpng.com/png/holding-phone/">holding phone png</a> ·
+    <a href="https://www.cleanpng.com/png/holding-document/">holding document png</a> ·
+    <a href="https://www.cleanpng.com/free/holding-megaphone.html">holding megaphone png</a> ·
+    <a href="https://www.cleanpng.com/free/holding-tablet.html">holding tablet png</a> ·
+    <a href="https://www.cleanpng.com/free/holding-laptop.html">holding laptop png</a> ·
+    <a href="https://www.cleanpng.com/png/holding-book/">holding book png</a> ·
+    <a href="https://www.cleanpng.com/png/holding-flower/">holding flower png</a>
+  </p>
+  <div class="image-grid">
+    <a class="png-item" href="https://www.cleanpng.com/free/holding-sign.html"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/pwn/klm/abfus2rtd.webp" alt="holding sign png" loading="lazy"></div></a>
+    <a class="png-item" href="https://www.cleanpng.com/free/holding-phone.html"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/our/ymb/voyeoaofm.webp" alt="holding phone png" loading="lazy"></div></a>
+    <a class="png-item" href="https://www.cleanpng.com/free/holding-trophy.html"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/trm/zil/ajuskf6xy.webp" alt="holding trophy png" loading="lazy"></div></a>
+    <a class="png-item" href="https://www.cleanpng.com/free/holding-megaphone.html"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/qcg/ilg/vx5bp3m6r.webp" alt="holding megaphone png" loading="lazy"></div></a>
+    <a class="png-item" href="https://www.cleanpng.com/free/holding-gift.html"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/yax/juj/v8lqurtlv.webp" alt="holding gift png" loading="lazy"></div></a>
+
+  </div>
+</section>
+
+<section class="homepage-section">
+  <div class="section-header">
+    <h2>Sale & Promotion Text PNG</h2>
+    <a class="view-all" href="https://www.cleanpng.com/png/sale-promotion-text/">View All</a>
+  </div>
+
+  <p class="section-description">
+    Sale and promotion text PNG images include discount labels, sale badges, and limited-time offers for e-commerce and marketing.
+  </p>
+  <p class="popular-searches">
+    <strong>Popular searches:</strong>
+    <a href="https://www.cleanpng.com/free/sale-text.html">sale text png</a> ·
+    <a href="https://www.cleanpng.com/free/flash-sale-text.html">flash sale text png</a> ·
+    <a href="https://www.cleanpng.com/free/big-sale.html">big sale text png</a> ·
+    <a href="https://www.cleanpng.com/free/huge-discount.html">huge discount text png</a> ·
+    <a href="https://www.cleanpng.com/free/ends-soon-text.html">ends soon text png</a> ·
+    <a href="https://www.cleanpng.com/free/free-shipping-text.html">free shipping text png</a> ·
+    <a href="https://www.cleanpng.com/free/instant-sale.html">instant sale text png</a>
+  </p>
+
+  <div class="image-grid">
+    <a class="png-item" href="https://www.cleanpng.com/free/sale-text.html"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/hzs/uqw/vlevjkiey.webp" alt="sale text png" loading="lazy"></div></a>
+    <a class="png-item" href="https://www.cleanpng.com/free/discount-text.html"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/gqg/waf/vl5fzh56c.webp" alt="discount text png" loading="lazy"></div></a>
+    <a class="png-item" href="https://www.cleanpng.com/free/special-offer-text.html"><div class="image-card"><img src="https://icon2.cleanpng.com/20180820/lya/7ce20b566080c6620d69bf7648b09e3b.webp" alt="special offer text png" loading="lazy"></div></a>
+    <a class="png-item" href="https://www.cleanpng.com/free/limited-time-sale-text.html"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/sex/fep/vx0h2wkrv.webp" alt="limited time offer png" loading="lazy"></div></a>
+    <a class="png-item" href="https://www.cleanpng.com/free/final-sale-text.html"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/wli/dxi/vver24385.webp" alt="final sale text png" loading="lazy"></div></a>
+
+  </div>
+</section>
+
+
+<section class="homepage-section">
+  <div class="section-header">
+    <h2>New PNG Images & Latest Illustrations</h2>
+    <a href="https://www.cleanpng.com/png/trending.html" class="view-all">View All</a>
+  </div>
+
+  <p class="section-description">
+    New PNG images showcase the latest transparent illustrations added to CleanPNG, including business characters, holding object graphics, and promotional text designs for real-world projects.
+  </p>
+
+  <div class="image-grid">
+        <a class="png-item" href="/png-man-taking-phone-selfie-8720584/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/cye/sdz/vdb8120uc.webp" alt="Man Taking Phone Selfie" loading="lazy"></div></a>
+        <a class="png-item" href="/png-smiling-guy-with-laptop-8720583/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/cso/pwn/vdu5hpman.webp" alt="Smiling guy with laptop" loading="lazy"></div></a>
+        <a class="png-item" href="/png-cute-pink-bellied-bunny-8720582/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/jcp/xir/vdba8ip76.webp" alt="Cute pink-bellied bunny" loading="lazy"></div></a>
+        <a class="png-item" href="/png-worried-pink-panda-8720581/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/zns/utl/vdbaf4aiw.webp" alt="Worried pink panda" loading="lazy"></div></a>
+        <a class="png-item" href="/png-delicate-teacup-flower-bouquet-8720580/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/ios/tbq/vdbv7p3jd.webp" alt="Delicate teacup flower bouquet" loading="lazy"></div></a>
+        <a class="png-item" href="/png-pink-tulips-teacup-bouquet-8720579/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/jhb/hzh/vdbveivx0.webp" alt="Pink tulips teacup bouquet" loading="lazy"></div></a>
+        <a class="png-item" href="/png-gold-crescent-with-lilies-and-lanterns-8720578/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/llx/rnr/vdbwzgcl9.webp" alt="Gold crescent with lilies and lanterns" loading="lazy"></div></a>
+        <a class="png-item" href="/png-pastel-baby-bottle-ribbon-frame-8720577/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/vbt/hwl/vdu0gamxe.webp" alt="Pastel Baby Bottle Ribbon Frame" loading="lazy"></div></a>
+        <a class="png-item" href="/png-cute-teddy-baby-frame-8720576/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/luq/djp/vdbwd9wcq.webp" alt="Cute teddy baby frame" loading="lazy"></div></a>
+        <a class="png-item" href="/png-cartoon-bear-with-bubble-tea-8720575/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/wpm/flb/vdu1sv6g2.webp" alt="Cartoon Bear with Bubble Tea" loading="lazy"></div></a>
+        <a class="png-item" href="/png-smiling-cat-holding-flower-8720574/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/lvr/jac/vdbxyno97.webp" alt="Smiling cat holding flower" loading="lazy"></div></a>
+        <a class="png-item" href="/png-smiling-cat-holding-milk-8720573/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/olv/cbv/vdu2z3it9.webp" alt="Smiling Cat Holding Milk" loading="lazy"></div></a>
+        <a class="png-item" href="/png-playful-now-3d-lettering-8720572/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/ifr/fzm/vdbxbtv72.webp" alt="Playful NOW 3D lettering" loading="lazy"></div></a>
+        <a class="png-item" href="/png-luxurious-gold-ramadan-lantern-8720571/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/vyf/lts/vdbyw16dt.webp" alt="Luxurious gold Ramadan lantern" loading="lazy"></div></a>
+        <a class="png-item" href="/png-colorful-wish-hand-lettering-8720570/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/gkc/lch/vdu21ee30.webp" alt="Colorful Wish Hand-lettering" loading="lazy"></div></a>
+        <a class="png-item" href="/png-glasses-bear-drinking-bubble-tea-8720569/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/xah/ili/vdu3nu924.webp" alt="Glasses Bear Drinking Bubble Tea" loading="lazy"></div></a>
+        <a class="png-item" href="/png-man-working-at-laptop-8720568/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/qpj/uwq/vdu30khul.webp" alt="Man Working at Laptop" loading="lazy"></div></a>
+        <a class="png-item" href="/png-colorful-cake-lettering-8720567/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/ciw/tme/vdu4ls208.webp" alt="Colorful Cake Lettering" loading="lazy"></div></a>
+        <a class="png-item" href="/png-boy-holding-pink-balloon-8720566/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/ztl/qbf/vdu4ihjvj.webp" alt="Boy Holding Pink Balloon" loading="lazy"></div></a>
+        <a class="png-item" href="/png-chibi-girl-with-giant-pink-flower-8720565/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/off/ftx/vdu5kzrss.webp" alt="Chibi Girl with Giant Pink Flower" loading="lazy"></div></a>
+        <a class="png-item" href="/png-playful-gift-lettering-8720564/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/fvn/roz/vdudsci7i.webp" alt="Playful Gift Lettering" loading="lazy"></div></a>
+        <a class="png-item" href="/png-pastel-teacup-flower-bouquet-8720563/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/szp/upz/vdu0ac8sp.webp" alt="Pastel Teacup Flower Bouquet" loading="lazy"></div></a>
+        <a class="png-item" href="/png-vintage-teacup-floral-bouquet-8720562/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/vip/fsp/vdue9u02e.webp" alt="Vintage Teacup Floral Bouquet" loading="lazy"></div></a>
+        <a class="png-item" href="/png-colorful-bloom-lettering-8720561/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/rrr/faj/vdue4b13g.webp" alt="Colorful Bloom Lettering" loading="lazy"></div></a>
+        <a class="png-item" href="/png-adorable-baby-in-teal-beanie-8720560/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/ybk/zjv/vduff7rnz.webp" alt="Adorable Baby in Teal Beanie" loading="lazy"></div></a>
+        <a class="png-item" href="/png-red-kiss-lip-print-8720559/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/yya/rpe/vdugoo5yz.webp" alt="Red Kiss Lip Print" loading="lazy"></div></a>
+        <a class="png-item" href="/png-friendly-man-in-pale-shirt-8720558/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/prt/sgl/vduhydx4q.webp" alt="Friendly Man in Pale Shirt" loading="lazy"></div></a>
+        <a class="png-item" href="/png-minimalist-person-working-on-laptop-8720557/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci3/kyz/rir/vduh0vd0m.webp" alt="Minimalist Person Working on Laptop" loading="lazy"></div></a>
+        <a class="png-item" href="/png-colorful-sea-lettering-8720556/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci4/xew/llo/vduiu9inz.webp" alt="Colorful 'SEA' Lettering" loading="lazy"></div></a>
+        <a class="png-item" href="/png-woman-texting-in-yellow-top-8720555/"><div class="image-card"><img src="https://icon2.cleanpng.com/ci2/gqg/tia/vduj90fio.webp" alt="Woman Texting in Yellow Top" loading="lazy"></div></a>
+    
+  </div>
+</section>
+
+<section class="homepage-section categories">
+  <h2>Popular Illustration Categories</h2>
+
+  <ul class="category-list">
+
+    <li><a href="https://www.cleanpng.com/png/mothers-day-typography/">Mothers Day Typography PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/home-study/">Home Study PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/classroom-teaching/">Classroom Teaching PNG</a></li>
+
+    <li><a href="https://www.cleanpng.com/png/mom-and-child/">Mom and Child PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/family-scene/">Family Scene PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/flower-bouquet/">Flower Bouquet PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/education-scene/"></a>Education Scene PNG</li>
+    <li><a href="https://www.cleanpng.com/png/work-scene/">Work Scene PNG</a></li>
+
+    <li><a href="https://www.cleanpng.com/png/fathers-day/">Fathers Day PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/flower/">Flower PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/earth-day/">Earth Day PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/spring-flowers/">Spring Flowers PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/easter/">Easter PNG</a></li>
+
+    <li><a href="https://www.cleanpng.com/png/mothers-day/">Mothers Day PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/spring-lifestyle/">Spring Lifestyle PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/cartoon-learning-student/">Learning Student PNG</a></li>
+
+    <li><a href="https://www.cleanpng.com/png/cartoon-people/">Cartoon People Activity PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/cartoon-job/">Cartoon Job PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/lifestyle-scene/">Lifestyle Scene PNG</a></li>
+
+    <li><a href="https://www.cleanpng.com/png/cartoon-home-life/">Cartoon Home Life PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/cartoon-success-achievement/">Cartoon Success PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/cartoon-office-worker/">Cartoon Office Worker PNGg</a></li>
+
+    <li><a href="https://www.cleanpng.com/png/cartoon-learning-student/">Cartoon Learning PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/cartoon-stress-work-pressure/">Cartoon Stress PNG</a></li>
+
+    <li><a href="https://www.cleanpng.com/png/cute-korean-kawaii-style/">Cute Korean Kawaii PNG</a></li>
+    <li><a href="https://www.cleanpng.com/png/cartoon-people-activity/">Cartoon People Activity PNG</a></li>
+
+
+    <!-- more -->
+  </ul>
+
+  <a href="https://www.cleanpng.com/popular-searches/" class="browse-all">Browse All Categories</a>
+</section>
+
+
+<section class="homepage-section about">
+  <h2>What Is CleanPNG?</h2>
+  <p>
+    CleanPNG is a professional PNG image library offering high-quality transparent illustrations for business, marketing, education, and presentations.
+  </p>
+
+  <h3>Why Choose CleanPNG?</h3>
+  <ul>
+    <li>Editorial-style PNG illustrations designed for real business use</li>
+    <li>High-resolution transparent backgrounds</li>
+    <li>Commercial-friendly usage</li>
+    <li>Easy search by emotion, object, and scenario</li>
+  </ul>
+</section>
+
+<section class="homepage-section faq">
+  <h2>Frequently Asked Questions</h2>
+
+  <details>
+    <summary>What makes CleanPNG different from other PNG websites?</summary>
+    <p>CleanPNG focuses on editorial-style PNG illustrations designed specifically for real business, marketing, and presentation use.</p>
+  </details>
+
+  <details>
+    <summary>What formats and resolutions are available?</summary>
+    <p>All images are provided in high-resolution PNG format with transparent backgrounds.</p>
+  </details>
+
+  <details>
+    <summary>Are CleanPNG images free to download?</summary>
+    <p>Yes. All PNG images on CleanPNG are free to download and use. You can use them in personal and commercial projects without attribution, unless otherwise stated on the asset page.</p>
+  </details>
+
+
+  <details>
+    <summary>Are the PNG images transparent?</summary>
+    <p>Yes, all CleanPNG images feature transparent backgrounds for easy integration.</p>
+  </details>
+
+  <details>
+    <summary>Do you support customization or diversity?</summary>
+    <p>Our collection includes diverse characters, styles, and scenarios to fit various needs.</p>
+  </details>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <div class="footer-column">
+      <h4>Content</h4>
+      <ul>
+        <li><a href="https://www.cleanpng.com/png/trending.html">Trending PNG</a></li>
+        <li><a href="https://www.cleanpng.com/png/popular.html">Popular PNG</a></li>
+        <li><a href="https://www.cleanpng.com/png/top.html">Featured PNG</a></li>
+        <li><a href="https://www.cleanpng.com/popular-searches/">Categories</a></li>
+        <li><a href="https://www.cleanpng.com/holiday/">Holiday</a></li>
+        <li><a href="https://www.cleanpng.com/trending-searches/">Search Trends</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="https://www.cleanpng.com/about.html">About</a></li>
+        <li><a href="https://www.cleanpng.com/dmca.html">DMCA</a></li>
+        <li><a href="https://www.cleanpng.com/terms.html">Terms & Cookies</a></li>
+        <li><a href="https://www.cleanpng.com/contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h4>Contributor</h4>
+      <ul>
+        <li><a href="https://members.cleanpng.com/login.html">Login</a></li>
+        <li><a href="https://members.cleanpng.com/register.html">Sign Up</a></li>
+        <li><a href="https://members.cleanpng.com/upload.html">Submit</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © <span id="footer-year"></span> CleanPNG. All rights reserved.
+  </div>
+
+  <script>
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+  </script>
+
+</footer>
+<script>
+  var searchInput = document.getElementById('heroSearch');
+  var searchButton = document.getElementById('searchButton');
+
+  function triggerSearch() {
+    var searchTerm = searchInput.value.trim();
+    if (!searchTerm) return;
+    var words = searchTerm.split(" ");
+    if (words.length > 10) {
+      words = words.filter(
+              (word) => !["with", "in", "of", "and", "the", "a"].includes(word.toLowerCase())
+      );
+      if (words.length > 10) {
+        words = words.slice(0, 10);
+      }
+      if (words.length === 0) {
+        return;
+      }
+    }
+    var s = words.map((word) => word.replace(/'/g, "")).join("-");
+    if (s && s !== "search-png-images") {
+      var t = "/free/" + s + ".html";
+      var tag = s + "_user";
+      $.get(
+              "https://topdata.freepnges.com/cleanpng_hits_process.php?id=" +
+              tag + "&hl=cleanpngtag_user"
+      );
+      window.location.href = t;
+    }
+  }
+
+  searchInput.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+      triggerSearch();
+    }
+  });
+
+  searchButton.addEventListener('click', function() {
+    triggerSearch();
+  });
+
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WR5JC9XF6P"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WR5JC9XF6P');
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log("CleanPNG homepage loaded");
+  });
+</script>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ebea909ba063253',t:'MTc3NjEyNzIzOA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

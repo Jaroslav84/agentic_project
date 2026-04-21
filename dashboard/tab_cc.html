@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/subtabs.css">
+<style>
+@font-face{font-family:'Norwester';src:url('css/norwester.otf') format('opentype')}
+:root{
+  --bg:#1a1a1a;--bg2:#242424;--bg3:#2a2a2a;--bg4:#323232;--bg5:#2e2e2e;
+  --C:#9f00fa;--Ch:#7a00c0;--Cl:#d36eff;
+  --O:#ff6a1a;--G:#72d648;--R:#ff4040;--Y:#ffb020;--P:#d36eff;
+  --t:#ffffff;--tm:#e0e0e0;--td:#c8c8c8;--dim:#888888;
+  --mono:'JetBrains Mono',monospace;
+  --jost:'Jost','Helvetica Neue',Arial,sans-serif;
+  --nw:'Norwester','Jost',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:#1a1a1a;color:var(--t);font-family:var(--jost);display:flex;flex-direction:column}
+
+/* ── SYSTEM STATUS BAR ── */
+.sysbar{
+  display:flex;align-items:stretch;height:48px;
+  background:#1e1e1e;border-bottom:1px solid rgba(159,0,250,.12);
+  font-family:var(--mono);font-size:14px;flex-shrink:0;
+  overflow:hidden;
+}
+.sb-seg{
+  display:flex;align-items:center;gap:8px;
+  padding:0 16px;border-right:1px solid rgba(255,255,255,.05);
+  white-space:nowrap;
+}
+.sb-seg.last{border-right:none;margin-left:auto;border-left:1px solid rgba(255,255,255,.05)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot.G{background:var(--G);box-shadow:0 0 7px var(--G)}
+.dot.Y{background:var(--Y);box-shadow:0 0 7px var(--Y)}
+.dot.R{background:var(--R);box-shadow:0 0 7px var(--R);animation:blink 1s infinite}
+.dot.C{background:var(--C);box-shadow:0 0 7px var(--C);animation:blink 2.5s ease-in-out infinite}
+.dot.dim{background:var(--dim)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.sb-lbl{color:var(--td);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.sb-ico{width:14px;height:14px;object-fit:contain;opacity:.55;flex-shrink:0}
+.sb-val{color:var(--t);font-weight:500;font-size:14px}
+.sb-val.G{color:var(--G)}.sb-val.Y{color:var(--Y)}.sb-val.R{color:var(--R)}.sb-val.C{color:var(--Cl)}
+.sb-seg.active-call{background:rgba(159,0,250,.08);border-color:rgba(159,0,250,.2)}
+
+/* ── BATCH BANNER ── */
+.batchbar{
+  display:flex;align-items:stretch;height:46px;flex-shrink:0;
+  background:rgba(159,0,250,.08);border-bottom:2px solid var(--C);
+  font-family:var(--mono);
+}
+.bb-seg{display:flex;align-items:center;gap:8px;padding:0 18px;border-right:1px solid rgba(159,0,250,.15);white-space:nowrap;font-size:14px}
+.bb-seg:first-child{background:rgba(159,0,250,.12);padding:0 22px}
+.bb-title{font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--Cl);font-weight:600}
+.bb-lbl{color:rgba(211,110,255,.65);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.bb-val{color:var(--t);font-weight:600}
+.bb-val.alert{color:var(--Y)}
+.bb-val.ok{color:var(--G)}
+.bb-btn{
+  margin-left:auto;display:flex;align-items:center;gap:10px;padding:0 30px;
+  background:var(--C);color:#fff;border:none;cursor:pointer;
+  font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  transition:background .15s;box-shadow:0 0 16px rgba(159,0,250,.4);
+}
+.bb-btn:hover{background:var(--Ch);box-shadow:0 0 24px rgba(159,0,250,.6)}
+.bb-arrow{font-size:10px;opacity:.7}
+
+/* ── C&C SUB-TABS — uses shared subtabs.css (.subtabs / .stb) ── */
+/* Icons & badges specific to C&C */
+.tab-ico{font-size:13px}
+.stb-badge{margin-left:2px}
+
+/* ── FRAME AREA ── */
+.cc-frames{flex:1;position:relative;overflow:hidden}
+.ccf{position:absolute;inset:0;border:none;width:100%;height:100%;display:none;background:var(--bg)}
+.ccf.on{display:block}
+
+@media(max-width:768px){
+  .sysbar{overflow-x:auto;-webkit-overflow-scrolling:touch;height:40px;font-size:12px;}
+  .sb-seg{padding:0 10px;gap:5px;flex-shrink:0;}
+  .sb-lbl{font-size:10px;letter-spacing:.1em;}
+  .sb-val{font-size:12px;}
+  .batchbar{overflow-x:auto;-webkit-overflow-scrolling:touch;height:40px;}
+  .bb-seg{padding:0 10px;flex-shrink:0;font-size:12px;}
+  .bb-title{font-size:11px;letter-spacing:.14em;}
+  .bb-btn{padding:0 16px;font-size:12px;letter-spacing:.1em;}
+  .subtabs{height:28px;}
+  .stb{font-size:9px;letter-spacing:.1em;padding:0 10px;}
+}
+@media(max-width:480px){
+  .sysbar{height:36px;}
+  .sb-seg{padding:0 8px;gap:4px;}
+  .dot{width:6px;height:6px;}
+  .subtabs{height:26px;}
+  .stb{font-size:8px;letter-spacing:.08em;padding:0 8px;}
+  .tab-ico{font-size:10px;}
+  .batchbar{height:34px;}
+  .bb-seg{padding:0 8px;font-size:11px;}
+}
+</style>
+<script defer src="js/env.js"></script>
+<script defer src="js/tab-cc.js"></script>
+</head>
+<body>
+
+<!-- SUB-TABS (always first) -->
+<div class="subtabs">
+  <button class="stb on" id="tab-dashboard" onclick="showCC('dashboard',this)"><span class="tab-ico">⬡</span> MAP</button>
+  <button class="stb" id="tab-queue" onclick="showCC('queue',this)"><span class="tab-ico">◈</span> QUEUE <span class="stb-badge">10</span></button>
+  <button class="stb" id="tab-live" onclick="showCC('live',this)"><span class="tab-ico">◉</span> LIVE CALL</button>
+  <button class="stb" id="tab-chat" onclick="showCC('chat',this)"><span class="tab-ico">⌘</span> CHAT</button>
+  <button class="stb" id="tab-logs" onclick="showCC('logs',this)"><span class="tab-ico">≡</span> CALL LOGS</button>
+  <button class="stb" id="tab-metrics" onclick="showCC('metrics',this)"><span class="tab-ico">◎</span> METRICS</button>
+  <button class="stb" id="tab-workers" onclick="showCC('workers',this)"><span class="tab-ico">⚡</span> WORKERS</button>
+  <button class="stb" id="tab-recordings" onclick="showCC('recordings',this)"><span class="tab-ico">⊙</span> RECORDINGS</button>
+  <button class="stb" id="tab-config" onclick="showCC('config',this)"><span class="tab-ico">⚙</span> CONFIG</button>
+  <button class="stb" id="tab-reps" onclick="showCC('reps',this)"><span class="tab-ico">◈</span> REPS</button>
+  <button class="stb" id="tab-debt" onclick="showCC('debt',this)"><span class="tab-ico">⚑</span> DEBT <span class="stb-badge R">7</span></button>
+  <button class="stb" id="tab-status" onclick="showCC('status',this)"><span class="tab-ico">◎</span> STATUS <span class="stb-badge alert">1</span></button>
+</div>
+
+<!-- SYSTEM STATUS BAR -->
+<div class="sysbar">
+  <div class="sb-seg">
+    <div class="dot G"></div>
+    <span class="sb-lbl">System</span>
+    <span class="sb-val G">ONLINE</span>
+  </div>
+  <div class="sb-seg active-call">
+    <div class="dot C"></div>
+    <span class="sb-lbl">Active Call</span>
+    <span class="sb-val C">propID #8294</span>
+  </div>
+  <div class="sb-seg">
+    <div class="dot G"></div>
+    <img class="sb-ico" src="img/icons/services/nvidia.png" alt="">
+    <span class="sb-lbl">Worker</span>
+    <span class="sb-val G">w-d4e7 · IN_CALL</span>
+  </div>
+  <div class="sb-seg">
+    <div class="dot G"></div>
+    <img class="sb-ico" src="img/icons/services/rust.png" alt="">
+    <span class="sb-lbl">SalesClaw</span>
+    <span class="sb-val G">RUNNING</span>
+  </div>
+  <div class="sb-seg">
+    <div class="dot G"></div>
+    <img class="sb-ico" src="img/icons/services/postgresql.png" alt="">
+    <span class="sb-lbl">PostgreSQL</span>
+    <span class="sb-val G">OK</span>
+  </div>
+  <div class="sb-seg">
+    <div class="dot G"></div>
+    <img class="sb-ico" src="img/icons/services/telnyx.png" alt="">
+    <span class="sb-lbl">Telnyx</span>
+    <span class="sb-val G">OK</span>
+  </div>
+  <div class="sb-seg">
+    <div class="dot G"></div>
+    <img class="sb-ico" src="img/icons/services/hubspot.png" alt="">
+    <span class="sb-lbl">HubSpot</span>
+    <span class="sb-val G">OK · 4m</span>
+  </div>
+  <div class="sb-seg">
+    <div class="dot G"></div>
+    <span class="sb-lbl">FieldTECH</span>
+    <span class="sb-val G">SSH ◈</span>
+  </div>
+  <div class="sb-seg">
+    <div class="dot G"></div>
+    <img class="sb-ico" src="img/icons/services/matrix.png" alt="">
+    <span class="sb-lbl">Matrix</span>
+    <span class="sb-val G">CONNECTED</span>
+  </div>
+  <div class="sb-seg">
+    <div class="dot C"></div>
+    <span class="sb-val C">MISSION 1</span>
+    <span class="sb-lbl">&nbsp;·&nbsp; Apr 10 2026 · 11:47 AM PT</span>
+  </div>
+  <div class="sb-seg" style="border-left:1px solid rgba(159,0,250,.3);margin-left:auto;">
+    <span class="sb-lbl" style="color:var(--G);">Batch #12 Active</span>
+    <span class="sb-val" style="color:var(--t);">&nbsp;·&nbsp; 4 of 10 &nbsp;·&nbsp; $909,603</span>
+  </div>
+  <div class="sb-seg" style="border-left:1px solid rgba(238,150,18,.25);">
+    <span class="sb-lbl" style="color:var(--Y);">GPU Cost Today</span>
+    <span class="sb-val" style="color:var(--Y);">$0.29</span>
+  </div>
+  <div class="sb-seg last" style="border-left:1px solid rgba(96,190,53,.25);">
+    <div class="dot G" style="animation:blink 2s infinite"></div>
+    <span class="sb-val G">SALESCLAW ONLINE</span>
+  </div>
+</div>
+
+<!-- PENDING BATCH BANNER (below tabs, queue tab only) -->
+<div class="batchbar" id="batchbar" style="display:none">
+  <div class="bb-seg"><span class="bb-title">⚠&nbsp; Batch #12 · Pending Approval</span></div>
+  <div class="bb-seg"><span class="bb-lbl">Calls</span>&nbsp;<span class="bb-val">10</span></div>
+  <div class="bb-seg"><span class="bb-lbl">Total Value</span>&nbsp;<span class="bb-val">$909,603</span></div>
+  <div class="bb-seg"><span class="bb-lbl">Avg Stale</span>&nbsp;<span class="bb-val">206d</span></div>
+  <div class="bb-seg"><span class="bb-lbl">VIP Flagged</span>&nbsp;<span class="bb-val alert">2</span></div>
+  <div class="bb-seg"><span class="bb-lbl">Excluded</span>&nbsp;<span class="bb-val ok">0 removed</span></div>
+  <div class="bb-seg"><span class="bb-lbl">Window</span>&nbsp;<span class="bb-val">Tue–Fri 10:30–4:30 PT</span></div>
+  <button class="bb-btn" onclick="showCC('queue',document.getElementById('tab-queue'))"><span class="bb-arrow">▶▶</span> Review &amp; Approve Batch</button>
+</div>
+
+<!-- IFRAMES -->
+<div class="cc-frames">
+  <iframe class="ccf on" id="ccf-dashboard" src="cc/cc_dashboard.html"></iframe>
+  <iframe class="ccf"    id="ccf-queue"     data-src="cc/cc_queue.html"></iframe>
+  <iframe class="ccf"    id="ccf-live"      data-src="cc/cc_live.html"></iframe>
+  <iframe class="ccf"    id="ccf-chat"      data-src="cc/cc_chat.html"></iframe>
+  <iframe class="ccf"    id="ccf-logs"      data-src="cc/cc_logs.html"></iframe>
+  <iframe class="ccf"    id="ccf-metrics"   data-src="cc/cc_metrics.html"></iframe>
+  <iframe class="ccf"    id="ccf-workers"   data-src="cc/cc_workers.html"></iframe>
+  <iframe class="ccf"    id="ccf-recordings" data-src="cc/cc_recordings.html"></iframe>
+  <iframe class="ccf"    id="ccf-config"    data-src="cc/cc_config.html"></iframe>
+  <iframe class="ccf"    id="ccf-reps"      data-src="cc/cc_reps.html"></iframe>
+  <iframe class="ccf"    id="ccf-debt"      data-src="cc/cc_debt.html"></iframe>
+  <iframe class="ccf"    id="ccf-status"    data-src="cc/cc_status.html"></iframe>
+</div>
+
+</body>
+</html>

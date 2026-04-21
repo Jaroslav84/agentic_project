@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/graph.css">
+<style>
+.canvas{width:1920px;height:800px}
+.edge-svg{position:absolute;inset:0;width:1920px;height:800px;overflow:visible;z-index:2;pointer-events:none}
+.particle-canvas{position:absolute;left:0;top:0;z-index:4;pointer-events:none}
+.sf-online-dot{background:var(--G);box-shadow:0 0 6px var(--G);animation:blink 2s infinite}
+.sf-online-label{color:var(--G)}
+.sf-spec-item{margin-left:auto}
+.sf-spec-label{color:var(--C)}
+.sf-legend-provision{background:#ee9612}
+.sf-legend-ready{background:#60be35}
+.sf-legend-ai{background:#9f00fa}
+.sf-legend-audio{background:#ff4040}
+.sf-legend-teardown{background:#e95400}
+.sf-legend-terminal{background:#585858}
+</style>
+<script defer src="../js/env.js"></script>
+<script defer src="../js/graph-core.js"></script>
+<script defer src="../js/stateflow-data.js"></script>
+<script defer src="../js/stateflow-render.js"></script>
+<script defer src="../js/stateflow-main.js"></script>
+<script defer src="../js/proplink.js"></script>
+</head>
+<body>
+<div class="shell">
+<div class="top-bar">
+  <span class="stit">Worker Lifecycle &mdash; State Flow</span>
+  <span class="meta">12 states &middot; 16 edges &middot; animated transitions</span>
+  <span class="hint">&#9670; DRAG NODES TO REPOSITION &nbsp;&middot;&nbsp; HOVER FOR DETAILS</span>
+  <button class="fs-btn" id="fsBtn" onclick="toggleFS()" title="Fullscreen">&#x26F6;</button>
+</div>
+
+<div class="graph-wrap" id="graphWrap">
+  <div class="canvas" id="cnv">
+
+<div class="cheat">
+  <div class="cheat-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">Cheat Sheet <span>&#9660;</span></div>
+  <div class="cheat-body">
+    <div class="cheat-section">Voice Stack</div>
+    <div class="cheat-row"><span class="cheat-code">VAD</span><span class="cheat-desc">Voice Activity Detection — speech vs silence</span></div>
+    <div class="cheat-row"><span class="cheat-code">STT</span><span class="cheat-desc">Speech-to-Text (audio → words)</span></div>
+    <div class="cheat-row"><span class="cheat-code">TTS</span><span class="cheat-desc">Text-to-Speech (words → audio)</span></div>
+    <div class="cheat-row"><span class="cheat-code">RNNT</span><span class="cheat-desc">Streaming STT model (Parakeet)</span></div>
+    <div class="cheat-row"><span class="cheat-code">LLM</span><span class="cheat-desc">Large Language Model (Claude Sonnet)</span></div>
+    <div class="cheat-section">Telephony</div>
+    <div class="cheat-row"><span class="cheat-code">SIP</span><span class="cheat-desc">Call routing protocol (Telnyx)</span></div>
+    <div class="cheat-row"><span class="cheat-code">G.711</span><span class="cheat-desc">Phone audio format — 8kHz</span></div>
+    <div class="cheat-section">Data</div>
+    <div class="cheat-row"><span class="cheat-code">propID</span><span class="cheat-desc">Proposal ID in FieldTECH</span></div>
+    <div class="cheat-row"><span class="cheat-code">manager_userID</span><span class="cheat-desc">Attribution field — Sales writes 7225</span></div>
+  </div>
+</div>
+    <svg id="edgeSvg" class="edge-svg"></svg>
+    <canvas id="partCvs" width="1920" height="800" class="particle-canvas"></canvas>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="sb-item">
+    <div class="pdot sf-online-dot"></div>
+    <span class="sf-online-label">SALESCLAW ONLINE</span>
+  </div>
+  <div class="sb-item">
+    <span>SEQUENTIAL &mdash; ONE CALL AT A TIME</span>
+  </div>
+  <div class="sb-item sf-spec-item">
+    <span class="sf-spec-label">SPEC v1.0 &middot; Mission 1</span>
+  </div>
+</div>
+<div class="legend-row">
+  <div class="li"><div class="li-line sf-legend-provision"></div>Provisioning</div>
+  <div class="li"><div class="li-line sf-legend-ready"></div>Ready / healthy</div>
+  <div class="li"><div class="li-line sf-legend-ai"></div>AI orchestration</div>
+  <div class="li"><div class="li-line sf-legend-audio"></div>Audio / active</div>
+  <div class="li"><div class="li-line sf-legend-teardown"></div>Teardown</div>
+  <div class="li"><div class="li-line sf-legend-terminal"></div>Terminal / dead</div>
+</div>
+</div><!-- /shell -->
+
+<!-- Floating tooltip -->
+<div id="tt">
+  <div class="tt-head">
+    <div class="tt-head-text">
+      <div class="tt-name" id="tt-name">Node</div>
+      <div class="tt-role" id="tt-role">Role</div>
+      <div class="tt-status" id="tt-status">
+        <span class="tt-sdot" id="tt-sdot"></span>
+        <span id="tt-sv"></span>
+      </div>
+    </div>
+    <div class="tt-head-icon" id="tt-head-icon"></div>
+  </div>
+  <div class="tt-metrics" id="tt-metrics"></div>
+  <div class="tt-conns" id="tt-conns"></div>
+  <div class="tt-note" id="tt-note"></div>
+  <div class="tt-drag-hint">&#10303; Drag to reposition</div>
+</div>
+
+</body>
+</html>

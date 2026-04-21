@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sales AI — Changelog</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0d0d;--bg2:#161616;--bg3:#1e1e1e;--bg4:#252525;
+  --line:rgba(255,255,255,.06);--line2:rgba(255,255,255,.12);
+  --C:#9f00fa;--Cl:#d36eff;--C2:rgba(159,0,250,.1);--C3:rgba(159,0,250,.2);
+  --G:#19b500;--G2:rgba(25,181,0,.1);
+  --B:#4a7ab5;--B2:rgba(74,122,181,.1);
+  --P:#8b5cf6;--P2:rgba(139,92,246,.1);
+  --R:#e05555;--R2:rgba(224,85,85,.1);
+  --t:#f0ede4;--td:#b09aba;--dim:#666;
+  --title:'Syne',sans-serif;--mono:'DM Mono',monospace;--body:'Outfit',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg);color:var(--t);font-family:var(--body);overflow-x:hidden}
+
+/* PAGE HEADER */
+.page-header{padding:40px 48px 0;max-width:1000px;margin:0 auto}
+.ph-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--C);text-transform:uppercase;margin-bottom:10px}
+.ph-title{font-family:var(--title);font-size:clamp(32px,4vw,48px);font-weight:800;color:var(--t);line-height:1.1;letter-spacing:-1px;margin-bottom:10px}
+.ph-sub{font-size:16px;color:var(--td);line-height:1.6;max-width:560px;margin-bottom:28px}
+.ph-stats{display:flex;gap:24px;flex-wrap:wrap;padding-bottom:32px;border-bottom:1px solid var(--line2)}
+.ph-stat{text-align:center}
+.ph-stat-val{font-family:var(--title);font-size:26px;font-weight:700;color:var(--C)}
+.ph-stat-lbl{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+
+/* TIMELINE */
+.timeline{padding:36px 48px 80px;max-width:1000px;margin:0 auto;position:relative}
+.timeline::before{content:"";position:absolute;left:48px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--C2),var(--line2) 30%,var(--line) 80%,transparent)}
+
+/* ENTRY */
+.entry{display:grid;grid-template-columns:60px 1fr;gap:0 24px;margin-bottom:40px;position:relative}
+.entry:last-child{margin-bottom:0}
+
+/* Dot */
+.entry-dot{display:flex;flex-direction:column;align-items:center;gap:0;padding-top:2px}
+.dot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid;position:relative;z-index:2}
+.dot svg{width:20px;height:20px}
+.dot.org{background:rgba(159,0,250,.15);border-color:rgba(159,0,250,.5)}
+.dot.grn{background:rgba(25,181,0,.12);border-color:rgba(25,181,0,.4)}
+.dot.blu{background:rgba(74,122,181,.1);border-color:rgba(74,122,181,.4)}
+.dot.pur{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.4)}
+.dot.red{background:rgba(224,85,85,.1);border-color:rgba(224,85,85,.35)}
+.dot.dim{background:rgba(255,255,255,.04);border-color:var(--line2)}
+
+/* Card */
+.entry-card{background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:20px 24px;transition:border-color .2s}
+.entry-card:hover{border-color:rgba(159,0,250,.3)}
+.entry-card.org{border-left:3px solid rgba(159,0,250,.5)}
+.entry-card.grn{border-left:3px solid rgba(25,181,0,.4)}
+.entry-card.blu{border-left:3px solid rgba(74,122,181,.4)}
+.entry-card.pur{border-left:3px solid rgba(139,92,246,.4)}
+.entry-card.red{border-left:3px solid rgba(224,85,85,.35)}
+
+.entry-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.entry-date{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em}
+.entry-tag{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:2px 8px;border-radius:20px}
+.entry-tag.org{background:var(--C2);color:var(--Cl);border:1px solid rgba(159,0,250,.3)}
+.entry-tag.grn{background:var(--G2);color:#60d830;border:1px solid rgba(25,181,0,.3)}
+.entry-tag.blu{background:var(--B2);color:#7ab4e8;border:1px solid rgba(74,122,181,.3)}
+.entry-tag.pur{background:var(--P2);color:#b89cf6;border:1px solid rgba(139,92,246,.3)}
+.entry-tag.red{background:var(--R2);color:#f08080;border:1px solid rgba(224,85,85,.3)}
+.entry-tag.dim{background:rgba(255,255,255,.04);color:var(--td);border:1px solid var(--line2)}
+
+.entry-title{font-family:var(--title);font-size:18px;font-weight:700;color:var(--t);margin-bottom:6px;line-height:1.3}
+.entry-desc{font-size:14px;color:var(--td);line-height:1.7;margin-bottom:12px}
+.entry-desc strong{color:var(--t);font-weight:500}
+
+/* Item list inside card */
+.item-list{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--td);line-height:1.5}
+.item-icon{flex-shrink:0;margin-top:1px;font-size:14px;width:18px;text-align:center}
+.item strong{color:var(--t);font-weight:500}
+
+/* Pill tags row */
+.pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.pill{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:20px;background:var(--bg3);border:1px solid var(--line2);color:var(--dim)}
+.pill.hi{background:var(--C2);border-color:rgba(159,0,250,.25);color:var(--Cl)}
+.pill.grn{background:var(--G2);border-color:rgba(25,181,0,.25);color:#60d830}
+.pill.blu{background:var(--B2);border-color:rgba(74,122,181,.25);color:#7ab4e8}
+
+/* Illustration inline SVG areas */
+.illus{float:right;margin:0 0 12px 20px;opacity:.55}
+
+/* Version badge */
+.ver-badge{display:inline-flex;align-items:center;gap:6px;background:var(--C2);border:1px solid rgba(159,0,250,.35);padding:4px 12px;border-radius:20px;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--Cl);letter-spacing:.08em}
+.ver-dot{width:6px;height:6px;background:var(--C);border-radius:50%;box-shadow:0 0 6px var(--C)}
+
+/* Current marker */
+.current-marker{display:flex;align-items:center;gap:10px;margin-bottom:24px;font-family:var(--mono);font-size:11px;color:var(--C);letter-spacing:.1em}
+.current-line{flex:1;height:1px;background:linear-gradient(to right,rgba(159,0,250,.4),transparent)}
+
+/* Footer note */
+.footer-note{padding:0 48px 40px;max-width:1000px;margin:0 auto}
+.fn-inner{background:var(--bg2);border:1px solid var(--line2);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:14px;font-size:13px;color:var(--td)}
+.fn-icon{font-size:24px;flex-shrink:0}
+
+@media(max-width:680px){
+  .page-header,.timeline,.footer-note{padding-left:20px;padding-right:20px}
+  .timeline::before{left:20px}
+  .entry{grid-template-columns:44px 1fr;gap:0 14px}
+  .illus{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="ph-eyebrow">Sales AI · Build History</div>
+  <div class="ph-title">What's Been Built</div>
+  <div class="ph-sub">A running log of everything added to the Sales AI controller — what it does, when it shipped, and why it matters.</div>
+  <div class="ph-stats">
+    <div class="ph-stat"><div class="ph-stat-val">6</div><div class="ph-stat-lbl">Major Milestones</div></div>
+    <div class="ph-stat"><div class="ph-stat-val">24</div><div class="ph-stat-lbl">Documents Created</div></div>
+    <div class="ph-stat"><div class="ph-stat-val">12</div><div class="ph-stat-lbl">Sales Reps Onboarded</div></div>
+    <div class="ph-stat"><div class="ph-stat-val">10</div><div class="ph-stat-lbl">Controller Tabs</div></div>
+    <div class="ph-stat"><div class="ph-stat-val" style="color:var(--G)">Live</div><div class="ph-stat-lbl">Platform Status</div></div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline">
+
+  <!-- ═══ CURRENT NOW ═══ -->
+  <div class="current-marker">
+    <div class="ver-dot"></div>
+    <span>NOW · April 2026 · SPEC v1.0</span>
+    <div class="current-line"></div>
+  </div>
+
+  <!-- ═══ ENTRY: PROJECT HUB ═══ -->
+  <div class="entry">
+    <div class="entry-dot"><div class="dot org">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#9f00fa" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    </div></div>
+    <div class="entry-card org">
+      <div class="entry-meta">
+        <span class="entry-date">April 20, 2026</span>
+        <span class="entry-tag org">Project Intelligence</span>
+      </div>
+      <div class="entry-title">Project Hub — Docs, Cost Estimates &amp; This Changelog</div>
+      <div class="entry-desc">The <strong>Project tab</strong> grew into a full planning hub for Alex and the ops team — every decision document, cost model, and milestone log in one place.</div>
+      <div class="item-list">
+        <div class="item"><div class="item-icon">📋</div><div><strong>Docs</strong> — architecture notes, runbook, onboarding guides, and rep-facing FAQs consolidated into the controller</div></div>
+        <div class="item"><div class="item-icon">💰</div><div><strong>Cost Estimates</strong> — monthly infrastructure breakdown (RunPod GPU, DigitalOcean, Telnyx, Claude API) and per-call unit economics</div></div>
+        <div class="item"><div class="item-icon">📅</div><div><strong>Changelog</strong> — this page</div></div>
+      </div>
+      <div class="pill-row">
+        <span class="pill hi">Docs</span><span class="pill hi">Cost Est</span><span class="pill hi">Changelog</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ENTRY: CONTROLLER UI REFRESH ═══ -->
+  <div class="entry">
+    <div class="entry-dot"><div class="dot org">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#9f00fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    </div></div>
+    <div class="entry-card org">
+      <div class="entry-meta">
+        <span class="entry-date">April 18, 2026</span>
+        <span class="entry-tag org">Controller UI</span>
+      </div>
+      <div class="entry-title">Top Bar Refactor — Architecture + Design Tabs Split</div>
+
+      <svg class="illus" width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <rect x="10" y="8" width="60" height="64" rx="4" fill="#1e1e1e" stroke="rgba(159,0,250,.3)" stroke-width="1.5"/>
+        <rect x="20" y="20" width="40" height="5" rx="2" fill="rgba(159,0,250,.4)"/>
+        <rect x="20" y="30" width="32" height="3" rx="1.5" fill="rgba(255,255,255,.1)"/>
+        <rect x="20" y="36" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.07)"/>
+        <rect x="20" y="48" width="16" height="16" rx="2" fill="rgba(159,0,250,.15)" stroke="rgba(159,0,250,.3)" stroke-width="1"/>
+        <rect x="40" y="48" width="20" height="16" rx="2" fill="rgba(74,122,181,.15)" stroke="rgba(74,122,181,.3)" stroke-width="1"/>
+      </svg>
+
+      <div class="entry-desc">The controller nav was refactored with a <strong>generic, reusable top bar</strong>. Architecture diagrams got their own primary tab, and a new Design tab was added for product-level flow and schema views.</div>
+      <div class="item-list">
+        <div class="item"><div class="item-icon">🎯</div><div>Primary tabs reordered: Presentation · Analytics · Data · Design · Architecture · Project · Lists · Scripts · C&amp;C · Changelog</div></div>
+        <div class="item"><div class="item-icon">🧩</div><div>Secondary tab bar auto-shows per primary — 10 Design sub-views, 10 Data sub-views, versioned Presentation</div></div>
+        <div class="item"><div class="item-icon">🔖</div><div>NEW badge on Changelog · version pulse badge (<strong>SPEC v1.0</strong>) pinned to brand column</div></div>
+      </div>
+      <div class="pill-row">
+        <span class="pill hi">10 primaries</span><span class="pill">40+ iframes</span><span class="pill">lazy-load</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ENTRY: DATA + LISTS + ANALYTICS ═══ -->
+  <div class="entry">
+    <div class="entry-dot"><div class="dot blu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#4a7ab5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div></div>
+    <div class="entry-card blu">
+      <div class="entry-meta">
+        <span class="entry-date">April 15, 2026</span>
+        <span class="entry-tag blu">Data &amp; Analytics</span>
+      </div>
+      <div class="entry-title">Lists, Analytics, and the Full Data Library</div>
+
+      <svg class="illus" width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <rect x="8" y="50" width="10" height="22" rx="2" fill="rgba(159,0,250,.5)"/>
+        <rect x="22" y="38" width="10" height="34" rx="2" fill="rgba(74,122,181,.5)"/>
+        <rect x="36" y="44" width="10" height="28" rx="2" fill="rgba(25,181,0,.5)"/>
+        <rect x="50" y="30" width="10" height="42" rx="2" fill="rgba(139,92,246,.4)"/>
+        <rect x="64" y="20" width="10" height="52" rx="2" fill="rgba(159,0,250,.7)"/>
+        <path d="M13 50 L27 38 L41 44 L55 30 L69 20" stroke="rgba(159,0,250,.6)" stroke-width="1.5" stroke-dasharray="3 2" fill="none"/>
+      </svg>
+
+      <div class="entry-desc">The controller's <strong>Lists</strong> and <strong>Analytics</strong> tabs were filled with the operational data the AI caller needs — people, VIPs, blacklists, and deep pipeline analysis.</div>
+      <div class="item-list">
+        <div class="item"><div class="item-icon">👥</div><div><strong>Sales People</strong> — 12 reps with transfer-pool flags, status, paid history, stale pipeline value</div></div>
+        <div class="item"><div class="item-icon">⭐</div><div><strong>VIP Lists</strong> — clients, customers, deals, locations that get flagged for human review before the AI dials</div></div>
+        <div class="item"><div class="item-icon">🚫</div><div><strong>Blacklists</strong> — clients, customers, deals, locations, subs that the AI must never contact</div></div>
+        <div class="item"><div class="item-icon">📊</div><div><strong>Analytics</strong> — pipeline overview, rep performance, client intelligence, contact coverage, 20-stat intel digest</div></div>
+        <div class="item"><div class="item-icon">🗂️</div><div><strong>Browser</strong> — raw data access for all proposals with sort + filter</div></div>
+      </div>
+      <div class="pill-row">
+        <span class="pill blu">12 tables</span><span class="pill blu">30 fake proposals</span><span class="pill">search + sort</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ENTRY: PLATFORM V1.0 ═══ -->
+  <div class="entry">
+    <div class="entry-dot"><div class="dot grn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#19b500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div></div>
+    <div class="entry-card grn">
+      <div class="entry-meta">
+        <span class="entry-date">April 12, 2026 — 7:00 AM</span>
+        <span class="entry-tag grn">Platform Launch</span>
+      </div>
+      <div class="entry-title">Sales AI v1.0 — Controller Goes Live</div>
+
+      <svg class="illus" width="88" height="80" viewBox="0 0 88 80" fill="none">
+        <circle cx="44" cy="40" r="30" fill="none" stroke="rgba(25,181,0,.2)" stroke-width="1.5"/>
+        <circle cx="44" cy="40" r="20" fill="none" stroke="rgba(25,181,0,.3)" stroke-width="1.5"/>
+        <circle cx="44" cy="40" r="8" fill="rgba(25,181,0,.2)" stroke="rgba(25,181,0,.6)" stroke-width="2"/>
+        <circle cx="44" cy="10" r="5" fill="rgba(159,0,250,.5)" stroke="rgba(159,0,250,.8)" stroke-width="1.5"/>
+        <circle cx="70" cy="56" r="5" fill="rgba(74,122,181,.5)" stroke="rgba(74,122,181,.8)" stroke-width="1.5"/>
+        <circle cx="18" cy="56" r="5" fill="rgba(139,92,246,.5)" stroke="rgba(139,92,246,.8)" stroke-width="1.5"/>
+        <line x1="44" y1="15" x2="44" y2="32" stroke="rgba(25,181,0,.3)" stroke-width="1"/>
+        <line x1="65" y1="52" x2="52" y2="46" stroke="rgba(25,181,0,.3)" stroke-width="1"/>
+        <line x1="23" y1="52" x2="36" y2="46" stroke="rgba(25,181,0,.3)" stroke-width="1"/>
+      </svg>
+
+      <div class="entry-desc">The full Sales AI controller went live. Voice pipeline, outbound dialer, warm transfer, and command-and-control — <strong>the AI caller starts recovering stale proposals</strong>.</div>
+      <div class="item-list">
+        <div class="item"><div class="item-icon">🎙️</div><div><strong>Voice Pipeline</strong> — Pipecat + SmartTurn v3 + Parakeet RNNT STT + Inworld TTS (Kokoro fallback), p50 turn latency ~550ms</div></div>
+        <div class="item"><div class="item-icon">☎️</div><div><strong>Outbound Dialer</strong> — Telnyx-backed, ~45s worker boot-to-armed, sequential one-call-at-a-time per GPU worker</div></div>
+        <div class="item"><div class="item-icon">🔄</div><div><strong>Warm Transfer</strong> — live handoff to human reps with full context and proposal data</div></div>
+        <div class="item"><div class="item-icon">🧠</div><div><strong>SalesClaw Scheduler</strong> — Rust daemon managing RunPod worker lifecycle, batch orchestration, and Matrix command-and-control</div></div>
+        <div class="item"><div class="item-icon">🔐</div><div><strong>Auth + Session</strong> — gate-screen login, session persistence, URL-token auto-login for demos</div></div>
+      </div>
+      <div class="pill-row">
+        <span class="pill grn">v1.0 live</span><span class="pill grn">voice pipeline</span><span class="pill">warm transfer</span><span class="pill">SalesClaw</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ENTRY: SECURITY AUDIT ═══ -->
+  <div class="entry">
+    <div class="entry-dot"><div class="dot red">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#e05555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div></div>
+    <div class="entry-card red">
+      <div class="entry-meta">
+        <span class="entry-date">April 10, 2026</span>
+        <span class="entry-tag red">Security</span>
+      </div>
+      <div class="entry-title">Security Audit — 19 Findings, All Remediated ✓</div>
+      <div class="entry-desc">Before go-live, an <strong>independent static-analysis audit</strong> was run across all 34 HTML pages, 60+ JS files, and 2 CSS files. 3 critical, 5 high, 8 medium, and 3 low findings — every item either fixed or explicitly accepted.</div>
+      <div class="item-list">
+        <div class="item"><div class="item-icon">🛡️</div><div><strong>Auth</strong> — client-side gate replaced with session-backed flow; password never hashed into client code</div></div>
+        <div class="item"><div class="item-icon">🔍</div><div><strong>postMessage</strong> — all 5 handlers now validate origin; all sends use `window.location.origin` instead of `'*'`</div></div>
+        <div class="item"><div class="item-icon">📁</div><div><strong>Tokens</strong> — inline API tokens stripped from client JS and redacted in display data</div></div>
+        <div class="item"><div class="item-icon">✅</div><div><strong>XSS</strong> — markdown renderer validates URL protocol (http/https/mailto only), `rel="noopener noreferrer"` added to external links</div></div>
+      </div>
+      <div class="pill-row"><span class="pill" style="color:var(--G);border-color:rgba(25,181,0,.3);background:rgba(25,181,0,.08)">✓ Remediated</span><span class="pill">19 findings</span><span class="pill">static-analysis</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ ENTRY: SPEC + RESEARCH ═══ -->
+  <div class="entry">
+    <div class="entry-dot"><div class="dot pur">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    </div></div>
+    <div class="entry-card pur">
+      <div class="entry-meta">
+        <span class="entry-date">March – April 2026</span>
+        <span class="entry-tag pur">Research &amp; Specification</span>
+      </div>
+      <div class="entry-title">24 Documents — The Sales AI Blueprint</div>
+
+      <svg class="illus" width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <rect x="8" y="14" width="38" height="52" rx="3" fill="#1e1e1e" stroke="rgba(139,92,246,.3)" stroke-width="1.5"/>
+        <rect x="16" y="24" width="22" height="2.5" rx="1" fill="rgba(139,92,246,.5)"/>
+        <rect x="16" y="30" width="18" height="2" rx="1" fill="rgba(255,255,255,.12)"/>
+        <rect x="16" y="35" width="20" height="2" rx="1" fill="rgba(255,255,255,.08)"/>
+        <rect x="16" y="40" width="16" height="2" rx="1" fill="rgba(255,255,255,.08)"/>
+        <rect x="20" y="20" width="38" height="52" rx="3" fill="#252525" stroke="rgba(139,92,246,.2)" stroke-width="1.5"/>
+        <rect x="28" y="30" width="22" height="2.5" rx="1" fill="rgba(139,92,246,.4)"/>
+        <rect x="28" y="36" width="18" height="2" rx="1" fill="rgba(255,255,255,.1)"/>
+        <rect x="28" y="41" width="14" height="2" rx="1" fill="rgba(255,255,255,.07)"/>
+        <rect x="34" y="8" width="38" height="52" rx="3" fill="#2a2a2a" stroke="rgba(159,0,250,.25)" stroke-width="1.5"/>
+        <rect x="42" y="18" width="22" height="3" rx="1.5" fill="rgba(159,0,250,.5)"/>
+        <rect x="42" y="24" width="18" height="2" rx="1" fill="rgba(255,255,255,.12)"/>
+        <rect x="42" y="29" width="20" height="2" rx="1" fill="rgba(255,255,255,.09)"/>
+        <rect x="42" y="34" width="15" height="2" rx="1" fill="rgba(255,255,255,.07)"/>
+      </svg>
+
+      <div class="entry-desc">Before a line of controller code was written, <strong>every part of the Sales AI system was specified and documented</strong> — voice pipeline, worker lifecycle, transfer flow, script tiers, attribution rules.</div>
+      <div class="item-list">
+        <div class="item"><div class="item-icon">📝</div><div><strong>Specification v1.0</strong> — architecture overview, voice pipeline, worker lifecycle, rep escalation, inbound routing, transfer crash recovery</div></div>
+        <div class="item"><div class="item-icon">🏛️</div><div><strong>Design doc sections §1–§16</strong> — C4 architecture, component breakdown, call lifecycle sequence, SalesClaw scheduler, Pinnacle Services backend, PostgreSQL schema, API surface</div></div>
+        <div class="item"><div class="item-icon">📞</div><div><strong>Scripts</strong> — call / voicemail / SMS / email templates across all 4 tiers (T1 client-replied through T4 special-situations)</div></div>
+        <div class="item"><div class="item-icon">🔌</div><div><strong>Integrations</strong> — FieldTECH (proposal system), HubSpot (deal CRM), Telnyx (telephony), RunPod (GPU workers), Claude API (LLM)</div></div>
+      </div>
+      <div class="pill-row">
+        <span class="pill pur">24 documents</span><span class="pill">16 design sections</span><span class="pill">4 script tiers</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /timeline -->
+
+<!-- FOOTER NOTE -->
+<div class="footer-note">
+  <div class="fn-inner">
+    <div class="fn-icon">🔧</div>
+    <div>This changelog tracks work on the Sales AI controller between March–April 2026. SPEC v1.0 is the current build. Next milestone: batch dialing against the full 30-proposal pilot queue with live human-rep warm transfer.</div>
+  </div>
+</div>
+
+</body>
+</html>

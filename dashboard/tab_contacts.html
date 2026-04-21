@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Norwester';src:url('css/norwester.otf') format('opentype')}
+:root{--bg:#1a1a1a;--bg2:#242424;--bg3:#2a2a2a;--bg4:#323232;--bg5:#2e2e2e;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.05);--C:#9f00fa;--C2:rgba(159,0,250,0.12);--Ch:#7a00c0;--Cl:#d36eff;--O:#a78bfa;--G:#c0c0c0;--R:#7c3aed;--Y:#6b6b6b;--P:#d36eff;--t:#ffffff;--tm:#e0e0e0;--td:#c8c8c8;--dim:#888888;--bdr:#000;--bdr2:#282828;--mono:'JetBrains Mono',monospace;--cond:'Barlow Condensed',sans-serif;--jost:'Jost',sans-serif;--nw:'Norwester','Jost',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--mono);padding:24px;overflow-y:auto}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:var(--bg2);border:1px solid var(--line);padding:20px;margin-bottom:16px}
+.ch{font-size:12px;color:var(--td);letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px}
+.chart-wrap{position:relative;height:240px}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.stag{font-size:12px;color:var(--C);background:var(--C2);border:1px solid rgba(159,0,250,.3);padding:3px 8px;letter-spacing:.15em}
+.stit{font-family:var(--cond);font-size:21px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.sl{flex:1;height:1px;background:var(--line)}
+.quotes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.quote-card{background:var(--bg2);border:1px solid var(--line);padding:16px;position:relative}
+.quote-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.quote-card.c::before{background:var(--C)}.quote-card.r::before{background:var(--R)}.quote-card.o::before{background:var(--O)}.quote-card.g::before{background:var(--G)}
+.qstat{font-family:var(--cond);font-size:37px;font-weight:900;line-height:1;margin-bottom:6px}
+.quote-card.c .qstat{color:var(--C)}.quote-card.r .qstat{color:var(--td)}.quote-card.o .qstat{color:var(--P)}.quote-card.g .qstat{color:var(--tm)}
+.qtext{font-size:12px;color:var(--tm);line-height:1.6}
+.qsource{font-size:11px;color:var(--td);margin-top:6px}
+
+/* WATERFALL */
+.wf-flow{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px}
+.wf-step{background:var(--bg2);border:1px solid var(--line);padding:14px;text-align:center;position:relative}
+.wf-step::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--td);font-size:16px;z-index:1}
+.wf-step:last-child::after{display:none}
+.wf-tier{font-size:11px;color:var(--td);letter-spacing:.1em;margin-bottom:6px}
+.wf-name{font-size:12px;color:var(--t);margin-bottom:6px;line-height:1.3}
+.wf-num{font-family:var(--cond);font-size:27px;font-weight:800}
+.wf-sub{font-size:11px;color:var(--tm);margin-top:2px}
+
+/* TRANSFER POOL */
+.pool-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.pool-card{background:var(--bg2);border:1px solid var(--line);padding:12px;position:relative}
+.pool-priority{font-size:11px;color:var(--td);margin-bottom:4px}
+.pool-name{font-size:12px;color:var(--t);font-weight:500;margin-bottom:3px}
+.pool-phone{font-size:11px;color:var(--C)}
+.pool-hs{font-size:11px;margin-top:4px}
+.pool-card.last-resort{border-color:rgba(159,0,250,.3)}
+.pool-card.fallback{border-color:rgba(200,200,200,.3)}
+
+@media(max-width:768px){
+  body{padding:14px;}
+  .g2{grid-template-columns:1fr;}
+  .g3{grid-template-columns:1fr 1fr;}
+  .quotes-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .qstat{font-size:28px;}
+  .card{padding:14px;}
+  .chart-wrap{height:200px;}
+  .sh{flex-wrap:wrap;gap:8px;}
+  .stit{font-size:17px;}
+  .sl{display:none;}
+  .wf-flow{grid-template-columns:repeat(3,1fr);gap:6px;}
+  .wf-step::after{display:none;}
+  .wf-num{font-size:22px;}
+  .pool-grid{grid-template-columns:repeat(2,1fr);gap:6px;}
+}
+@media(max-width:480px){
+  body{padding:10px;}
+  .quotes-grid{grid-template-columns:1fr;}
+  .qstat{font-size:24px;}
+  .chart-wrap{height:180px;}
+  .wf-flow{grid-template-columns:1fr 1fr;}
+  .pool-grid{grid-template-columns:1fr;}
+}
+</style>
+<script defer src="js/env.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script defer src="js/contacts.js"></script>
+<script defer src="js/proplink.js"></script>
+</head>
+<body>
+
+<div class="sh"><span class="stag">§05</span><span class="stit">Contact Coverage & Transfer Pool</span><div class="sl"></div></div>
+
+<div class="quotes-grid">
+  <div class="quote-card c">
+    <div class="qstat">76%</div>
+    <div class="qtext">of stale proposals have a tier-1 contact in FieldTECH — 1,066 proposals ready to dial</div>
+    <div class="qsource">SOURCE: DATA_PROPOSALS_ALL.csv</div>
+  </div>
+  <div class="quote-card o">
+    <div class="qstat">54%</div>
+    <div class="qtext">of customers have no customerRole set — seniority sort only applies to 46% of contacts</div>
+    <div class="qsource">SOURCE: ZC_DATA_MODEL.md</div>
+  </div>
+  <div class="quote-card r">
+    <div class="qstat">5</div>
+    <div class="qtext">VIP contacts (Dalton + Keller cluster) that Sales AI must never auto-dial — human review only</div>
+    <div class="qsource">SOURCE: DATA_VIP_CUSTOMERS.csv</div>
+  </div>
+  <div class="quote-card g">
+    <div class="qstat">10</div>
+    <div class="qtext">reps in transfer pool — Marco first, Stacy last resort, Alex as absolute fallback</div>
+    <div class="qsource">SOURCE: SALES_PEOPLE.md</div>
+  </div>
+</div>
+
+<!-- WATERFALL FLOW -->
+<div class="card">
+  <div class="ch">Contact Resolution — Active Tiers (v1.0: T1 · T5 · T6 only — tiers 2/3/4 removed)</div>
+  <div class="wf-flow" style="grid-template-columns:repeat(4,1fr)">
+    <div class="wf-step">
+      <div class="wf-tier">TIER 1</div>
+      <div class="wf-name">userlocation</div>
+      <div class="wf-num" style="color:var(--C)">1,066</div>
+      <div class="wf-sub">manually assigned to location</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-tier">TIER 5</div>
+      <div class="wf-name">HubSpot deal assoc.</div>
+      <div class="wf-num" style="color:var(--C)">100%</div>
+      <div class="wf-sub">hs_object_id coverage</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-tier">TIER 6</div>
+      <div class="wf-name">HS engagement feed</div>
+      <div class="wf-num" style="color:var(--P)">email</div>
+      <div class="wf-sub">personal threads only · CC extraction</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-tier">UNREACHABLE</div>
+      <div class="wf-name">No contact found</div>
+      <div class="wf-num" style="color:var(--td)">3</div>
+      <div class="wf-sub">RACHELW confirmed · $122k</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSFER POOL -->
+<div class="card">
+  <div class="ch">Warm Transfer Pool — Priority Order (16s timeout each)</div>
+  <div class="pool-grid">
+    <div class="pool-card"><div class="pool-priority">Priority 1</div><div class="pool-name">Marco Diaz</div><div class="pool-phone">(555) 867-9978</div><div class="pool-hs"><span style="color:var(--Cl);text-shadow:0 0 6px rgba(159,0,250,.4)">&#x25C8;</span> HubSpot confirmed</div></div>
+    <div class="pool-card"><div class="pool-priority">Priority 2</div><div class="pool-name">Sarah Mitchell</div><div class="pool-phone">(555) 326-2980</div><div class="pool-hs"><span style="color:var(--Cl);text-shadow:0 0 6px rgba(159,0,250,.4)">&#x25C8;</span> HubSpot confirmed</div></div>
+    <div class="pool-card"><div class="pool-priority">Priority 3</div><div class="pool-name">Dan Harper</div><div class="pool-phone" style="color:var(--td)">⚠️ TBD (OQ-1)</div><div class="pool-hs"><span style="color:var(--Cl);text-shadow:0 0 6px rgba(159,0,250,.4)">&#x25C8;</span> HubSpot confirmed</div></div>
+    <div class="pool-card"><div class="pool-priority">Priority 4</div><div class="pool-name">Ruben Santos</div><div class="pool-phone">(555) 816-9925</div><div class="pool-hs"><span style="color:var(--Cl);text-shadow:0 0 6px rgba(159,0,250,.4)">&#x25C8;</span> HubSpot confirmed</div></div>
+    <div class="pool-card"><div class="pool-priority">Priority 5</div><div class="pool-name">Amy Adams</div><div class="pool-phone">(555) 538-0409</div><div class="pool-hs"><span style="color:var(--Cl);text-shadow:0 0 6px rgba(159,0,250,.4)">&#x25C8;</span> HubSpot confirmed</div></div>
+    <div class="pool-card"><div class="pool-priority">Priority 6</div><div class="pool-name">Henry Jordan</div><div class="pool-phone" style="color:var(--td)">(555) 407-7812 ⚠️shared</div><div class="pool-hs"><span style="color:var(--Cl);text-shadow:0 0 6px rgba(159,0,250,.4)">&#x25C8;</span> HubSpot confirmed</div></div>
+    <div class="pool-card"><div class="pool-priority">Priority 7</div><div class="pool-name">Leah Baker</div><div class="pool-phone" style="color:var(--td)">(555) 407-7812 ⚠️shared</div><div class="pool-hs" style="color:var(--td)">❌ NO HS SEAT (OQ-6)</div></div>
+    <div class="pool-card"><div class="pool-priority">Priority 8</div><div class="pool-name">Jenna Martinez</div><div class="pool-phone" style="color:var(--td)">⚠️ TBD (OQ-2)</div><div class="pool-hs"><span style="color:var(--Cl);text-shadow:0 0 6px rgba(159,0,250,.4)">&#x25C8;</span> HubSpot confirmed</div></div>
+    <div class="pool-card last-resort"><div class="pool-priority" style="color:var(--td)">Priority 9 · LAST RESORT</div><div class="pool-name">Stacy Kim</div><div class="pool-phone">(555) 467-5350</div><div class="pool-hs"><span style="color:var(--Cl);text-shadow:0 0 6px rgba(159,0,250,.4)">&#x25C8;</span> HubSpot confirmed</div></div>
+    <div class="pool-card fallback"><div class="pool-priority" style="color:var(--C)">Priority 10 · FALLBACK</div><div class="pool-name">Alex</div><div class="pool-phone" style="color:var(--C)">(555) 240-8884</div><div class="pool-hs">Always available</div></div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="card">
+    <div class="ch">Contact Tier Distribution</div>
+    <div class="chart-wrap"><canvas id="tierBar"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ch">Contact Role Breakdown</div>
+    <div class="chart-wrap"><canvas id="rolesBar"></canvas></div>
+  </div>
+</div>
+
+</body>
+</html>

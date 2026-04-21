@@ -1,0 +1,239 @@
+id,state,state_abbr,trade,industry,license_required,license_type,license_name,issuing_authority,experience_years,exam_required,application_fee,renewal_fee,renewal_years,reciprocity_states,bond_required,bond_amount,insurance_required,notes
+1,California,CA,General Engineering,Construction,Yes,State License,A General Engineering Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Fixed works: irrigation; power plants; tunnels; bridges; dams; pipelines; highways
+2,California,CA,General Building,Construction,Yes,State License,B General Building Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Requires 2+ unrelated building trades; cannot self-perform >50% specialty work without C license
+3,California,CA,Insulation,Construction,Yes,State License,C-2 Insulation and Acoustical Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Thermal; acoustical; and fire-resistive insulation
+4,California,CA,Boiler and Steam Fitting,Construction,Yes,State License,C-4 Boiler Hot Water Heating and Steam Fitting,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Boilers; hot water heating; steam fitting
+5,California,CA,Framing,Construction,Yes,State License,C-5 Framing and Rough Carpentry Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Structural framing; form work; rough carpentry
+6,California,CA,Cabinet and Finish Carpentry,Construction,Yes,State License,C-6 Cabinet Millwork and Finish Carpentry,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Cabinets; countertops; trim; finish carpentry
+7,California,CA,Low Voltage,Construction,Yes,State License,C-7 Low Voltage Systems Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Fire/life safety systems; communication systems; access control; low-voltage wiring
+8,California,CA,Concrete,Construction,Yes,State License,C-8 Concrete Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Concrete foundations; flatwork; reinforcing; post-tension; shotcrete
+9,California,CA,Drywall,Construction,Yes,State License,C-9 Drywall Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Drywall; plaster; stucco installation
+10,California,CA,Electrical,Construction,Yes,State License,C-10 Electrical Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Electrical systems; wiring; fixtures; apparatus; required for projects over $1000
+11,California,CA,Elevator,Construction,Yes,State License,C-11 Elevator Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Elevators; escalators; moving walks
+12,California,CA,Earthwork and Paving,Construction,Yes,State License,C-12 Earthwork and Paving Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Grading; trenching; paving; surfacing
+13,California,CA,Fencing,Construction,Yes,State License,C-13 Fencing Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Fencing of all types
+14,California,CA,Flooring,Construction,Yes,State License,C-15 Flooring and Floor Covering Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Wood; tile; carpet; vinyl flooring installation
+15,California,CA,Fire Protection,Construction,Yes,State License,C-16 Fire Protection Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Fire sprinkler systems; fire suppression; NICET Level II minimum for fire alarm designers
+16,California,CA,Glazing,Construction,Yes,State License,C-17 Glazing Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Glass; mirrors; curtain walls
+17,California,CA,HVAC,Construction,Yes,State License,C-20 Warm-Air Heating Ventilating and Air-Conditioning,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,HVAC systems installation; maintenance; repair; Title 24 heat pump requirements
+18,California,CA,Demolition,Construction,Yes,State License,C-21 Building Moving/Demolition Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Structural moving; demolition; dismantling
+19,California,CA,Asbestos Abatement,Construction,Yes,State License,C-22 Asbestos Abatement Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Asbestos removal and remediation; Cal/OSHA specific HAZWOPER requirements apply
+20,California,CA,Ornamental Metal,Construction,Yes,State License,C-23 Ornamental Metal Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Ornamental metal; wrought iron
+21,California,CA,Landscaping,Landscaping,Yes,State License,C-27 Landscaping Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Landscape construction; irrigation; planting
+22,California,CA,Lock and Security,Construction,Yes,State License,C-28 Lock and Security Equipment Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Locks; safes; security systems
+23,California,CA,Masonry,Construction,Yes,State License,C-29 Masonry Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Brick; block; stone; tile masonry
+24,California,CA,Painting,Construction,Yes,State License,C-33 Painting and Decorating Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Painting; wallpaper; coatings; EPA RRP cert required for pre-1978 buildings
+25,California,CA,Pipeline,Construction,Yes,State License,C-34 Pipeline Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Pipelines for water; gas; oil; industrial use
+26,California,CA,Plumbing,Construction,Yes,State License,C-36 Plumbing Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Plumbing systems; water heaters; gas piping; Title 24 heat pump water heater requirements
+27,California,CA,Refrigeration,Construction,Yes,State License,C-38 Refrigeration Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Refrigeration equipment; controls; insulation; EPA 608 Universal also required
+28,California,CA,Roofing,Construction,Yes,State License,C-39 Roofing Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Roof coverings; waterproofing; roof-mounted equipment; workers comp ~$15 per $100 payroll
+29,California,CA,Sheet Metal,Construction,Yes,State License,C-43 Sheet Metal Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Sheet metal fabrication; ductwork; flashing; gutters
+30,California,CA,Solar,Energy,Yes,State License,C-46 Solar Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Solar PV and thermal systems; NABCEP cert strongly preferred; solar mandate since 2020
+31,California,CA,Reinforcing Steel,Construction,Yes,State License,C-50 Reinforcing Steel Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Rebar installation; post-tensioning
+32,California,CA,Structural Steel,Construction,Yes,State License,C-51 Structural Steel Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Structural steel erection
+33,California,CA,Swimming Pool,Construction,Yes,State License,C-53 Swimming Pool Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Swimming pools; spas; hot tubs
+34,California,CA,Tile,Construction,Yes,State License,C-54 Ceramic and Mosaic Tile Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Ceramic; mosaic; stone tile installation
+35,California,CA,Well Drilling,Construction,Yes,State License,C-57 Well Drilling Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Water well drilling; monitoring wells
+36,California,CA,Welding,Construction,Yes,State License,C-60 Welding Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Structural and miscellaneous welding; AWS CW certification also recommended
+37,California,CA,Limited Specialty,Construction,Yes,State License,C-61 Limited Specialty Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,"Subcategories include D-49 Tree Service; D-3 Awning; D-41 Siding/Decking; D-56 Trenching; others"
+38,California,CA,Tree Care,Landscaping,Yes,State License,C-61/D-49 Tree Service Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Tree service specialty under C-61; ISA Certified Arborist also recommended
+39,Florida,FL,General Contractor,Construction,Yes,State License,Certified General Contractor (CGC),DBPR/CILB,4,Yes,249,209,2,MS|NC|LA,Yes,20000,Yes,"Unlimited scope; any type/size project; net worth $100K required; 14 hrs CE per cycle"
+40,Florida,FL,Building Contractor,Construction,Yes,State License,Certified Building Contractor (CBC),DBPR/CILB,4,Yes,249,209,2,MS|NC|LA,Yes,20000,Yes,Commercial up to 3 stories; single/multi-family residential; net worth $50K required
+41,Florida,FL,Residential Contractor,Construction,Yes,State License,Certified Residential Contractor (CRC),DBPR/CILB,4,Yes,249,209,2,MS|NC|LA,Yes,10000,Yes,Single-family homes; duplexes; townhomes up to 4 units; net worth $25K required
+42,Florida,FL,General Contractor,Construction,Yes,State Registration,Registered General Contractor,DBPR/CILB (local),4,Yes,249,209,2,None,Yes,10000,Yes,Local competency exam; limited to issuing jurisdiction only; lower credential portability
+43,Florida,FL,Building Contractor,Construction,Yes,State Registration,Registered Building Contractor,DBPR/CILB (local),4,Yes,249,209,2,None,Yes,10000,Yes,Local competency exam; limited to issuing jurisdiction
+44,Florida,FL,Residential Contractor,Construction,Yes,State Registration,Registered Residential Contractor,DBPR/CILB (local),4,Yes,249,209,2,None,Yes,10000,Yes,Local competency exam; limited to issuing jurisdiction
+45,Florida,FL,Electrical,Construction,Yes,State License,Certified Electrical Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,Electrical systems; wiring; fixtures; panels; NEC + FL amendments on exam; 14 hrs CE
+46,Florida,FL,Electrical,Construction,Yes,State Registration,Registered Electrical Contractor,DBPR/CILB (local),4,Yes,249,209,2,None,Yes,10000,Yes,Local competency exam; limited to issuing jurisdiction
+47,Florida,FL,HVAC,Construction,Yes,State License,Certified Mechanical Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,HVAC; refrigeration; heating; ventilation; ductwork; FMC on exam
+48,Florida,FL,HVAC,Construction,Yes,State License,Class A Air Conditioning Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,Unlimited AC work including mechanical systems
+49,Florida,FL,HVAC,Construction,Yes,State License,Class B Air Conditioning Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,Residential AC up to 25 tons
+50,Florida,FL,Plumbing,Construction,Yes,State License,Certified Plumbing Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,Plumbing systems; water/sewer connections; gas piping; FPC on exam
+51,Florida,FL,Plumbing,Construction,Yes,State Registration,Registered Plumbing Contractor,DBPR/CILB (local),4,Yes,249,209,2,None,Yes,10000,Yes,Local competency exam; limited to issuing jurisdiction
+52,Florida,FL,Roofing,Construction,Yes,State License,Certified Roofing Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,"FBC Chapter 15 on exam; hurricane hardening knowledge required in HVHZ areas"
+53,Florida,FL,Roofing,Construction,Yes,State Registration,Registered Roofing Contractor,DBPR/CILB (local),4,Yes,249,209,2,None,Yes,10000,Yes,Local competency exam; limited to issuing jurisdiction
+54,Florida,FL,Sheet Metal,Construction,Yes,State License,Certified Sheet Metal Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,Sheet metal fabrication; ductwork
+55,Florida,FL,Swimming Pool,Construction,Yes,State License,Certified Swimming Pool/Spa Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,Pools; spas; hot tubs; related mechanical/plumbing
+56,Florida,FL,Solar,Energy,Yes,State License,Certified Solar Energy Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,Solar PV and solar thermal systems; NABCEP cert increasingly preferred
+57,Florida,FL,Underground Utility,Construction,Yes,State License,Underground Utility and Excavation Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,Underground utility installation
+58,Florida,FL,Pollutant Storage,Construction,Yes,State License,Pollutant Storage Systems Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,Underground/aboveground storage tanks
+59,Florida,FL,Carpentry,Construction,Yes,State License,Certified Carpentry Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,New specialty effective July 1 2025 under SB 1142; structural carpentry; framing
+60,Florida,FL,Masonry,Construction,Yes,State License,Certified Masonry Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,New specialty effective July 1 2025; brick; block; stone; HVHZ structural requirements
+61,Florida,FL,Screen Enclosure,Construction,Yes,State License,Screen Enclosure/Aluminum Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,New specialty effective July 1 2025; screened enclosures; aluminum construction
+62,Florida,FL,Marine Construction,Construction,Yes,State License,Marine/Seawall Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,New specialty effective July 1 2025; seawalls; bulkheads; docks; pile driving
+63,Florida,FL,Door and Window,Construction,Yes,State License,Door and Window Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,New specialty effective July 1 2025; impact testing standards for HVHZ areas
+64,Florida,FL,Hurricane Protection,Construction,Yes,State License,Hurricane Protection Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,New specialty effective July 1 2025; shutters; impact-resistant products
+65,Florida,FL,Plaster and Lath,Construction,Yes,State License,Plaster and Lath Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,New specialty effective July 1 2025; plaster; lath; stucco
+66,Florida,FL,Garage Door,Construction,Yes,State License,Garage Door Contractor,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,New specialty effective July 1 2025; garage door systems
+67,Florida,FL,Electrician (Journeyman),Construction,Yes,Local Permit,Journeyman Electrician,Local Construction Trades Qualifying Board,4,Yes,150,100,2,None,No,0,No,"Local-level license; 8000 hrs documented experience + 144 hrs/yr classroom required"
+68,Florida,FL,Electrician (Master),Construction,Yes,Local Permit,Master Electrician,Local Construction Trades Qualifying Board,5,Yes,200,100,2,None,No,0,No,Local-level license; additional experience beyond journeyman required
+69,Texas,TX,Electrical,Construction,Yes,State License,Master Electrician License,TDLR,4,Yes,150,100,1,None,No,0,No,11 license types available; 4 hrs CE per renewal; NEC knowledge required
+70,Texas,TX,Electrical,Construction,Yes,State License,Journeyman Electrician License,TDLR,4,Yes,100,75,1,None,No,0,No,8000 hrs OJT required; 4 hrs CE per renewal
+71,Texas,TX,Electrical,Construction,Yes,State License,Residential Wireman License,TDLR,2,Yes,75,50,1,None,No,0,No,Limited to residential electrical work; 4000 hrs OJT required
+72,Texas,TX,Plumbing,Construction,Yes,State License,Responsible Master Plumber,TSBPE,4,Yes,200,150,1,None,No,0,No,Must pass business and trade exams; responsible for all work under license
+73,Texas,TX,Plumbing,Construction,Yes,State License,Journeyman Plumber License,TSBPE,4,Yes,100,75,1,None,No,0,No,8000 hrs OJT required; IPC knowledge required
+74,Texas,TX,Plumbing,Construction,Yes,State License,Tradesman Plumber License,TSBPE,2,Yes,75,50,1,None,No,0,No,Limited plumbing tasks under supervision of master plumber
+75,Texas,TX,HVAC,Construction,Yes,State License,ACR Contractor License,TDLR,4,Yes,150,100,1,None,No,0,No,Air Conditioning and Refrigeration; 8 hrs CE per renewal incl 1 hr state law
+76,Texas,TX,HVAC,Construction,Yes,State License,ACR Technician Registration,TDLR,0,Yes,50,50,1,None,No,0,No,EPA 608 certification also required; entry level registration
+77,Texas,TX,General Contractor,Construction,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No statewide GC license; some cities require local registration (Houston; Dallas; Austin; San Antonio)
+78,Texas,TX,Fire Protection,Construction,Yes,State License,Fire Sprinkler Contractor License,Texas State Fire Marshal,4,Yes,200,100,1,None,No,0,Yes,Required for fire protection systems; NICET certification recommended
+79,Texas,TX,Elevator,Construction,Yes,State License,Elevator Contractor/Mechanic License,TDLR,4,Yes,150,100,1,None,No,0,Yes,Required for elevator installation and maintenance
+80,New York,NY,Electrical,Construction,Local Only,Local Permit,Master Electrician License,NYC Department of Buildings,7,Yes,310,150,3,None,No,0,Yes,NYC-specific; no statewide electrician license; 7.5 yrs minimum experience
+81,New York,NY,Electrical,Construction,Local Only,Local Permit,Special Electrician License,NYC Department of Buildings,5,Yes,200,150,3,None,No,0,Yes,NYC limited electrical work license
+82,New York,NY,Plumbing,Construction,Local Only,Local Permit,Master Plumber License,NYC Department of Buildings,7,Yes,310,150,3,None,No,0,Yes,NYC-specific; no statewide plumber license; 7 yrs minimum experience
+83,New York,NY,Plumbing,Construction,Local Only,Local Permit,Licensed Journeyman Plumber,NYC Department of Buildings,5,Yes,200,100,3,None,No,0,No,NYC-specific journeyman level
+84,New York,NY,General Contractor,Construction,Local Only,Local Permit,General Contractor Registration,NYC Department of Buildings,0,No,200,100,2,None,Yes,20000,Yes,NYC DOB registration; no statewide GC license; $20K surety for home improvement
+85,New York,NY,Home Improvement,Construction,Local Only,Local Permit,Home Improvement Contractor License,NYC DCWP,0,No,200,100,2,None,Yes,20000,Yes,NYC specific; $20K surety bond or $200 trust fund enrollment required
+86,New York,NY,HVAC,Construction,Local Only,Local Permit,HVAC Contractor License,Local Municipal Boards,4,Yes,200,100,2,None,No,0,Yes,No statewide HVAC license; NYC and other municipalities issue local licenses
+87,New York,NY,Crane Operator,Construction,Yes,State License,Crane Operator License,NY DOL,3,Yes,250,150,2,None,No,0,Yes,State-level license; 3 years practical experience + exam required
+88,New York,NY,Asbestos,Construction,Yes,State License,Asbestos Handler License,NY DOL,0,Yes,200,100,1,None,No,0,Yes,State licensing through NY DOL; required for asbestos-related work
+89,Illinois,IL,Electrical,Construction,Local Only,Local Permit,Electrician License,Chicago Department of Buildings,4,Yes,150,100,2,None,No,0,No,No statewide electrician license; Chicago and other cities issue local licenses
+90,Illinois,IL,Plumbing,Construction,Yes,State License,Licensed Plumber,IDFPR,4,Yes,200,100,2,None,No,0,No,State-level licensing through IDFPR; one of few state-level trades in IL
+91,Illinois,IL,Roofing,Construction,Yes,State License,Roofing Contractor License,IDFPR,3,Yes,250,100,2,None,No,0,Yes,One of few state-level contractor licenses in IL
+92,Illinois,IL,HVAC,Construction,Local Only,Local Permit,HVAC Contractor License,Chicago Department of Buildings,4,Yes,150,100,2,None,No,0,No,No statewide HVAC license; local licensing in Chicago; Springfield; Rockford
+93,Illinois,IL,General Contractor,Construction,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No statewide GC license; local registration required in most municipalities
+94,Pennsylvania,PA,Home Improvement,Construction,Yes,State Registration,Home Improvement Contractor Registration,PA Attorney General,0,No,50,50,1,None,No,0,Yes,Required for contractors earning $5K+/yr; PA HIC number issued
+95,Pennsylvania,PA,Electrical,Construction,Local Only,Local Permit,Electrician License,Local Municipal Boards,4,Yes,150,100,2,None,No,0,No,No statewide license; each of 2562 municipalities sets own requirements
+96,Pennsylvania,PA,Plumbing,Construction,Local Only,Local Permit,Plumber License,Local Municipal Boards,4,Yes,150,100,2,None,No,0,No,No statewide license; Philadelphia; Pittsburgh have extensive requirements
+97,Pennsylvania,PA,HVAC,Construction,Local Only,Local Permit,HVAC Contractor License,Local Municipal Boards,4,Yes,150,100,2,None,No,0,No,No statewide HVAC license; local requirements vary widely
+98,Pennsylvania,PA,General Contractor,Construction,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No statewide GC license; HIC registration separate from trade licensing
+99,Ohio,OH,Electrical,Construction,Yes,State License,Electrical Contractor License,OCILB,4,Yes,200,100,2,None,No,0,Yes,"State-level for commercial; OH Dept of Commerce Division of Industrial Compliance"
+100,Ohio,OH,Plumbing,Construction,Yes,State License,Plumbing Contractor License,OCILB,4,Yes,200,100,2,None,No,0,Yes,State-level licensing through OCILB
+101,Ohio,OH,HVAC,Construction,Yes,State License,HVAC Contractor License,OCILB,4,Yes,200,100,2,None,No,0,Yes,State-level licensing through OCILB
+102,Ohio,OH,Refrigeration,Construction,Yes,State License,Refrigeration Contractor License,OCILB,4,Yes,200,100,2,None,No,0,Yes,Separate from HVAC; state-level licensing
+103,Ohio,OH,General Contractor,Construction,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No state GC license for most projects; local licensing/permitting over $1000
+104,Georgia,GA,General Contractor,Construction,Yes,State License,General Contractor - Unlimited,GA Secretary of State,4,Yes,300,200,2,None,Yes,5000,Yes,Net worth $150K required; projects over $2500 need state license; $500K GL minimum
+105,Georgia,GA,General Contractor,Construction,Yes,State License,General Contractor - Limited,GA Secretary of State,2,Yes,300,200,2,None,Yes,5000,Yes,Net worth $25K required; limited project value
+106,Georgia,GA,Electrical,Construction,Yes,State License,Electrical Contractor License,GA Division of Electrical Contractors,4,Yes,250,150,2,None,Yes,5000,Yes,State-level electrical contractor license; journeyman licenses are local
+107,Georgia,GA,Plumbing,Construction,Yes,State License,Master Plumber License,GA Board of Examiners for Master Plumbers,4,Yes,250,150,2,None,No,0,Yes,State-level licensing for master and journeyman plumbers
+108,Georgia,GA,Plumbing,Construction,Yes,State License,Journeyman Plumber License,GA Board of Examiners for Master Plumbers,4,Yes,200,100,2,None,No,0,No,State-level journeyman plumber
+109,Georgia,GA,HVAC,Construction,Yes,State License,Conditioned Air Contractor License,GA Secretary of State,4,Yes,250,150,2,None,Yes,5000,Yes,State-level HVAC licensing; EPA 608 also required
+110,Georgia,GA,Low Voltage,Construction,Yes,State License,Low Voltage Contractor License,GA Secretary of State,4,Yes,250,150,2,None,Yes,5000,Yes,Fire alarm; security; communication systems
+111,North Carolina,NC,General Contractor,Construction,Yes,State License,General Contractor - Unlimited,NCLBGC,4,Yes,300,200,1,FL|MS|LA,Yes,10000,Yes,Projects over $30K; unlimited tier; NASCLA exam accepted
+112,North Carolina,NC,General Contractor,Construction,Yes,State License,General Contractor - Intermediate,NCLBGC,3,Yes,300,200,1,FL|MS|LA,Yes,10000,Yes,Projects over $30K; intermediate tier up to $1M
+113,North Carolina,NC,General Contractor,Construction,Yes,State License,General Contractor - Limited,NCLBGC,2,Yes,300,200,1,FL|MS|LA,Yes,10000,Yes,Projects over $30K; limited tier up to $500K
+114,North Carolina,NC,Electrical,Construction,Yes,State License,Electrical Contractor License,NC Board of Examiners of Electrical Contractors,4,Yes,200,100,1,None,Yes,5000,Yes,State-level; annual CE required; min 50% in-person classroom
+115,North Carolina,NC,Plumbing,Construction,Yes,State License,Plumbing Contractor License,NC Board of Plumbing Heating and Fire Sprinkler,4,Yes,200,100,1,None,Yes,5000,Yes,State-level licensing; workers comp required for 3+ employees
+116,North Carolina,NC,HVAC,Construction,Yes,State License,Heating Contractor License,NC Board of Plumbing Heating and Fire Sprinkler,4,Yes,200,100,1,None,Yes,5000,Yes,State-level HVAC licensing; includes fire sprinkler contractors
+117,North Carolina,NC,Fire Protection,Construction,Yes,State License,Fire Sprinkler Contractor License,NC Board of Plumbing Heating and Fire Sprinkler,4,Yes,200,100,1,None,Yes,5000,Yes,State-level; NICET certification recommended
+118,Michigan,MI,General Contractor,Construction,Yes,State License,Residential Builder License,LARA,3,Yes,200,150,3,None,Yes,15000,Yes,Projects over $600; 60 hrs pre-licensure education or 3+ yrs experience
+119,Michigan,MI,General Contractor,Construction,Yes,State License,Maintenance and Alteration Contractor,LARA,3,Yes,200,150,3,None,Yes,10000,Yes,Maintenance; repair; alteration work only (no new construction)
+120,Michigan,MI,Electrical,Construction,Yes,State License,Master Electrician License,LARA Bureau of Construction Codes,4,Yes,200,100,3,None,No,0,Yes,State-level; apprentice; journeyman; master; and contractor levels
+121,Michigan,MI,Electrical,Construction,Yes,State License,Journeyman Electrician License,LARA Bureau of Construction Codes,4,Yes,150,75,3,None,No,0,No,8000 hrs OJT required
+122,Michigan,MI,Plumbing,Construction,Yes,State License,Master Plumber License,LARA Bureau of Construction Codes,4,Yes,200,100,3,None,No,0,Yes,State-level licensing
+123,Michigan,MI,Plumbing,Construction,Yes,State License,Journeyman Plumber License,LARA Bureau of Construction Codes,4,Yes,150,75,3,None,No,0,No,8000 hrs OJT required
+124,Michigan,MI,HVAC,Construction,Yes,State License,Mechanical Contractor License,LARA Bureau of Construction Codes,4,Yes,200,100,3,None,No,0,Yes,State-level HVAC/mechanical licensing
+125,Arizona,AZ,General Contractor,Construction,Yes,State License,B-1 General Commercial Contractor,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,Projects over $1000; trade + business exam + fingerprinting required
+126,Arizona,AZ,General Contractor,Construction,Yes,State License,B-2 General Residential Contractor,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,Residential construction; reciprocity with CA for certain types
+127,Arizona,AZ,General Engineering,Construction,Yes,State License,A General Engineering Contractor,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,Fixed works requiring specialized engineering; similar to CA A classification
+128,Arizona,AZ,Electrical,Construction,Yes,State License,C-11 Electrical Contractor,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,"State contractor license through ROC; no statewide journeyman license; local journeyman reqs"
+129,Arizona,AZ,Plumbing,Construction,Yes,State License,C-37 Plumbing Contractor,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,State contractor license through ROC
+130,Arizona,AZ,HVAC,Construction,Yes,State License,"C-39 Air Conditioning, Refrigeration and Heating",Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,State contractor license through ROC; EPA 608 also required
+131,Arizona,AZ,Roofing,Construction,Yes,State License,C-42 Roofing Contractor,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,80+ specialty classifications available through ROC
+132,Nevada,NV,General Contractor,Construction,Yes,State License,Class B General Building Contractor,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,"Bond $1K-$500K based on license limit; net worth/liquidity requirements"
+133,Nevada,NV,General Engineering,Construction,Yes,State License,Class A General Engineering Contractor,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,Fixed works requiring specialized engineering
+134,Nevada,NV,Electrical,Construction,Yes,State License,C-2 Electrical Contractor,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,State license required; OSHA 10 required within 15 days of hire for construction
+135,Nevada,NV,Plumbing,Construction,Yes,State License,C-1 Plumbing and Heating Contractor,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,Combined plumbing and heating classification
+136,Nevada,NV,HVAC,Construction,Yes,State License,"C-21 Refrigeration, Air Conditioning",NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,EPA 608 certification also required
+137,Nevada,NV,Roofing,Construction,Yes,State License,C-15 Roofing and Siding Contractor,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,30+ specialty contractor categories available
+138,Washington,WA,General Contractor,Construction,Yes,State Registration,Contractor Registration,WA L&I,0,No,250,250,2,None,Yes,12000,Yes,Mandatory for all contractors; UBI number required; $12K surety bond
+139,Washington,WA,Electrical,Construction,Yes,State License,Master Electrician License,WA L&I,4,Yes,200,150,3,None,Yes,12000,Yes,24 hrs CE per 3-yr renewal: 8 hrs NEC + 4 hrs RCW/WAC + 12 hrs industry
+140,Washington,WA,Electrical,Construction,Yes,State License,Journeyman Electrician License,WA L&I,4,Yes,150,100,3,None,No,0,No,8000 hrs OJT; 24 hrs CE per renewal; state OSHA plan (WISHA)
+141,Washington,WA,Plumbing,Construction,Yes,State License,Journeyman Plumber License,WA L&I,4,Yes,200,150,3,None,No,0,No,24 hrs CE per renewal: 12 hrs UPC minimum + 4 hrs electrical
+142,Washington,WA,HVAC,Construction,Yes,State License,HVAC/R Mechanic License,WA L&I,4,Yes,200,150,3,None,No,0,No,State-level licensing; EPA 608 also required
+143,Oregon,OR,General Contractor,Construction,Yes,State License,General Contractor License,Oregon CCB,4,Yes,350,250,2,None,Yes,20000,Yes,"Residential $20K bond; commercial $75K bond; endorsements required"
+144,Oregon,OR,General Contractor,Construction,Yes,State License,Residential Contractor License,Oregon CCB,2,Yes,250,200,2,None,Yes,20000,Yes,Residential endorsement; $20K bond
+145,Oregon,OR,Electrical,Construction,Yes,State License,General Journeyman Electrician,Oregon BCD,4,Yes,200,100,3,None,No,0,No,State-level licensing; supervised by Bureau of Construction & Development
+146,Oregon,OR,Plumbing,Construction,Yes,State License,Journeyman Plumber License,Oregon BCD,4,Yes,200,100,3,None,No,0,No,State-level licensing
+147,Oregon,OR,HVAC,Construction,Yes,State License,HVAC Contractor License,Oregon CCB,4,Yes,250,200,2,None,Yes,20000,Yes,Commercial endorsement requires $75K bond
+148,Colorado,CO,Electrical,Construction,Yes,State License,Master Electrician License,DORA Electrical Board,4,Yes,200,100,3,None,No,0,No,State-level; Residential Wireman; Journeyman; Master tiers
+149,Colorado,CO,Electrical,Construction,Yes,State License,Journeyman Electrician License,DORA Electrical Board,4,Yes,150,75,3,None,No,0,No,SB 25-165 expanded solar/PV oversight requirements
+150,Colorado,CO,Plumbing,Construction,Yes,State License,Journeyman Plumber License,CO State Plumbing Board,4,Yes,200,100,3,None,No,0,No,State-level through DORA
+151,Colorado,CO,HVAC,Construction,Local Only,Local Permit,HVAC Contractor License,Local Municipal Boards,4,Yes,150,100,2,None,No,0,No,No statewide HVAC license; Denver; Colorado Springs; etc. require local licenses
+152,Colorado,CO,General Contractor,Construction,Local Only,Local Permit,General Contractor License,Local Municipal Boards,0,No,150,100,2,None,No,0,No,No statewide GC license; local licensing in Denver; Colorado Springs; Boulder
+153,Colorado,CO,Solar,Energy,Yes,State Registration,PV Installer Registration,DORA Electrical Board,0,No,100,75,3,None,No,0,No,"SB 25-165 requires PV installers to register by Dec 31 2026; NABCEP cert helpful"
+154,California,CA,Electrical Sign,Construction,Yes,State License,C-45 Electrical Sign Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Electrical signs; neon; LED displays
+155,California,CA,Water Conditioning,Construction,Yes,State License,C-55 Water Conditioning Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Water treatment; softening; purification systems
+156,California,CA,Sanitation System,Construction,Yes,State License,C-42 Sanitation System Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Septic systems; cesspools; sewage disposal
+157,California,CA,Manufactured Housing,Construction,Yes,State License,C-47 General Manufactured Housing Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Manufactured/mobile home installation and setup
+158,California,CA,Traffic Control,Construction,Yes,State License,C-31 Construction Zone Traffic Control,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Traffic control devices; signs; barriers
+159,California,CA,Parking and Highway,Construction,Yes,State License,C-32 Parking and Highway Improvement,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Parking lots; driveways; highways
+160,California,CA,Lathing and Plastering,Construction,Yes,State License,C-35 Lathing and Plastering Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Lath; plaster; stucco; exterior insulation finish systems
+161,Florida,FL,Electrician (Apprentice),Construction,Yes,State Registration,Electrical Apprentice Registration,DBPR/CILB,0,No,50,50,1,None,No,0,No,"Must work under licensed electrician; 144 hrs annual classroom; first step in career"
+162,Florida,FL,HVAC (Registered),Construction,Yes,State Registration,Registered Mechanical Contractor,DBPR/CILB (local),4,Yes,249,209,2,None,Yes,10000,Yes,Local competency exam; limited to issuing jurisdiction
+163,Texas,TX,Electrical (Apprentice),Construction,Yes,State Registration,Apprentice Electrician Registration,TDLR,0,No,25,25,1,None,No,0,No,Must work under licensed electrician; first step toward journeyman
+164,Texas,TX,Well Drilling,Utilities,Yes,State License,Water Well Driller License,TDLR,2,Yes,150,100,1,None,No,0,No,Includes pump installer license
+165,Texas,TX,Elevator,Construction,Yes,State License,Elevator Mechanic License,TDLR,4,Yes,150,100,1,None,No,0,No,Required for elevator maintenance and installation
+166,Georgia,GA,Roofing,Construction,Yes,State License,Roofing Contractor License,GA Secretary of State,4,Yes,250,150,2,None,Yes,5000,Yes,Included in general contractor scope but separate specialty available
+167,North Carolina,NC,Residential Contractor,Construction,Yes,State License,Residential Contractor - Unlimited,NCLBGC,4,Yes,300,200,1,FL|MS|LA,Yes,10000,Yes,Residential-specific classification; unlimited tier
+168,Michigan,MI,Plumbing (Apprentice),Construction,Yes,State Registration,Apprentice Plumber Registration,LARA Bureau of Construction Codes,0,No,50,25,1,None,No,0,No,Must work under licensed plumber
+169,Michigan,MI,Electrical (Apprentice),Construction,Yes,State Registration,Apprentice Electrician Registration,LARA Bureau of Construction Codes,0,No,50,25,1,None,No,0,No,Must work under licensed electrician
+170,Arizona,AZ,Solar,Energy,Yes,State License,C-11R Solar PV Electrical Contractor,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,Solar PV installation; NABCEP cert recommended; reciprocity with CA C-46
+171,Arizona,AZ,Fire Protection,Construction,Yes,State License,C-16 Fire Protection Systems,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,Fire sprinkler and suppression systems
+172,Nevada,NV,Solar,Energy,Yes,State License,C-2G Solar Electrical Contractor,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,Solar PV installation; NABCEP cert recommended
+173,Washington,WA,Plumbing (Master),Construction,Yes,State License,Master Plumber License,WA L&I,5,Yes,250,200,3,None,No,0,Yes,Additional experience beyond journeyman required
+174,Washington,WA,Roofing,Construction,Yes,State Registration,Roofing Contractor Registration,WA L&I,0,No,250,250,2,None,Yes,12000,Yes,Falls under general contractor registration; specialty endorsement
+175,Oregon,OR,Roofing,Construction,Yes,State License,Roofing Contractor License,Oregon CCB,2,Yes,250,200,2,None,Yes,20000,Yes,Residential endorsement; separate from general contractor license
+176,Oregon,OR,Fire Protection,Construction,Yes,State License,Fire Protection Contractor License,Oregon BCD,4,Yes,250,200,2,None,Yes,20000,Yes,State-level fire protection licensing
+177,Colorado,CO,Residential Wireman,Construction,Yes,State License,Residential Wireman License,DORA Electrical Board,2,Yes,100,50,3,None,No,0,No,Limited to residential electrical work
+178,Illinois,IL,General Contractor,Construction,Local Only,Local Permit,General Contractor License,Chicago Department of Buildings,0,No,200,100,2,None,No,0,Yes,Chicago-specific; other cities have own requirements
+179,Ohio,OH,Hydronics,Construction,Yes,State License,Hydronics Contractor License,OCILB,4,Yes,200,100,2,None,No,0,Yes,Hydronic heating systems; separate specialty
+180,Ohio,OH,Plumbing (Journeyman),Construction,Yes,State License,Journeyman Plumber License,OCILB,4,Yes,150,75,2,None,No,0,No,Journey-level plumbing
+181,Ohio,OH,Electrical (Journeyman),Construction,Yes,State License,Journeyman Electrician License,OCILB,4,Yes,150,75,2,None,No,0,No,Journey-level electrical
+182,Georgia,GA,Fire Protection,Construction,Yes,State License,Fire Protection Contractor License,GA Secretary of State,4,Yes,250,150,2,None,Yes,5000,Yes,Fire sprinkler systems; NICET certification recommended
+183,North Carolina,NC,Roofing,Construction,Yes,State License,Roofing Contractor License,NCLBGC,2,Yes,300,200,1,None,Yes,10000,Yes,Specialty classification under NCLBGC
+184,Florida,FL,Fire Protection,Construction,Yes,State License,Fire Protection Contractor License,DBPR/CILB,4,Yes,249,209,2,None,Yes,10000,Yes,NICET certification recognized; depends on local jurisdiction
+185,Florida,FL,Low Voltage,Construction,Yes,Local Permit,Low Voltage Alarm System Contractor,FL DECLB,2,Yes,200,100,2,None,No,0,Yes,Licensed through Dept of Electrical and Communications Licensing Board
+186,New York,NY,Fire Protection,Construction,Local Only,Local Permit,Fire Suppression Contractor License,NYC Department of Buildings,4,Yes,250,150,3,None,No,0,Yes,NYC-specific; NICET certification recommended
+187,New York,NY,Welding,Construction,Local Only,Local Permit,Welder Certification,NYC Department of Buildings,2,Yes,200,100,3,None,No,0,No,NYC DOB requires certified welders for structural work
+188,Texas,TX,Roofing,Construction,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No statewide roofing license; some cities require local registration
+189,Texas,TX,Welding,Construction,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No state license; AWS CW/CWI certifications are industry standard
+190,California,CA,Residential Remodeling,Construction,Yes,State License,B-2 Residential Remodeling Contractor,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Proposed/new classification under 2026 regulatory changes
+191,Nevada,NV,Welding,Construction,Yes,State License,C-14 Steel Reinforcing and Erecting,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,Includes welding; steel erection; reinforcing
+192,Arizona,AZ,Welding,Construction,Yes,State License,C-65 Welding Contractor,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,Structural and specialty welding
+193,Washington,WA,HVAC (Apprentice),Construction,Yes,State Registration,HVAC Apprentice Registration,WA L&I,0,No,50,50,1,None,No,0,No,Must work under licensed HVAC technician
+194,Oregon,OR,HVAC (Journeyman),Construction,Yes,State License,Journeyman HVAC License,Oregon BCD,4,Yes,150,100,3,None,No,0,No,Journey-level mechanical/HVAC
+195,Michigan,MI,Roofing,Construction,Yes,State License,Roofing Contractor License,LARA Bureau of Construction Codes,3,Yes,200,150,3,None,Yes,15000,Yes,Falls under residential builder requirements
+196,Georgia,GA,General Contractor (Residential),Construction,Yes,State License,Residential Contractor License,GA Secretary of State,2,Yes,250,150,2,None,Yes,5000,Yes,Residential-specific; lower net worth requirement
+197,North Carolina,NC,Solar,Energy,Yes,State License,Electrical Contractor (Solar),NC Board of Examiners of Electrical Contractors,4,Yes,200,100,1,None,Yes,5000,Yes,Solar PV requires electrical contractor license; NABCEP cert recommended
+198,Florida,FL,Welding,Construction,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No state welder license; AWS certifications are industry standard; local permits may apply
+199,Texas,TX,Solar,Energy,Yes,State License,Electrical Contractor License (Solar),TDLR,4,Yes,150,100,1,None,No,0,No,Solar PV requires electrical license; NABCEP cert recommended; EVITP cert for EV chargers
+200,Illinois,IL,Fire Protection,Construction,Local Only,Local Permit,Fire Protection Contractor License,Local Fire Marshal,4,Yes,200,100,2,None,No,0,Yes,No statewide fire protection license; local requirements vary
+201,Pennsylvania,PA,Roofing,Construction,Local Only,Local Permit,Roofing Contractor License,Local Municipal Boards,0,No,100,50,2,None,No,0,No,No statewide roofing license; Philadelphia and Pittsburgh have local requirements
+202,Ohio,OH,General Contractor,Construction,Local Only,Local Permit,General Contractor Registration,Local Municipal Boards,0,No,100,50,2,None,No,0,No,Local licensing for projects over $1000; no state GC license
+203,Nevada,NV,Low Voltage,Construction,Yes,State License,C-2D Low Voltage Contractor,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,Low voltage; fire alarm; communication systems
+204,Arizona,AZ,Low Voltage,Construction,Yes,State License,C-11 Low Voltage Communication Systems,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,Communication; data; low voltage systems
+205,Washington,WA,Elevator,Construction,Yes,State License,Elevator Mechanic License,WA L&I,4,Yes,200,150,3,None,No,0,Yes,State-level elevator licensing
+206,Oregon,OR,Elevator,Construction,Yes,State License,Elevator Mechanic License,Oregon BCD,4,Yes,200,150,3,None,No,0,Yes,State-level elevator licensing
+207,Michigan,MI,Fire Protection,Construction,Yes,State License,Fire Protection Contractor License,LARA Bureau of Construction Codes,4,Yes,200,150,3,None,Yes,15000,Yes,State-level; NICET certification recommended
+208,Georgia,GA,Elevator,Construction,Yes,State License,Elevator Contractor License,GA Secretary of State,4,Yes,250,150,2,None,Yes,5000,Yes,State-level elevator contractor licensing
+209,California,CA,Lathing and Plastering,Construction,Yes,State License,C-35 Lathing and Plastering,CSLB,4,Yes,450,450,2,AZ|LA|NV,Yes,25000,Yes,Lath; plaster; stucco; EIFS
+210,Nevada,NV,Fire Protection,Construction,Yes,State License,C-41 Fire Protection Contractor,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,Fire sprinkler and suppression systems; NICET cert recommended
+211,Arizona,AZ,Swimming Pool,Construction,Yes,State License,B-5 Swimming Pool Contractor,Arizona ROC,4,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,Pools; spas; hot tubs; related mechanical
+212,Nevada,NV,Swimming Pool,Construction,Yes,State License,C-10 Swimming Pool Contractor,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,Pool construction and maintenance
+213,North Carolina,NC,Highway,Construction,Yes,State License,Highway Contractor License,NCLBGC,4,Yes,300,200,1,FL|MS|LA,Yes,10000,Yes,Highway and road construction; limited; intermediate; unlimited tiers
+214,North Carolina,NC,Public Utilities,Construction,Yes,State License,Public Utilities Contractor License,NCLBGC,4,Yes,300,200,1,FL|MS|LA,Yes,10000,Yes,Public utility construction; limited; intermediate; unlimited tiers
+215,Washington,WA,Solar,Energy,Yes,State License,Electrical Contractor License (Solar),WA L&I,4,Yes,200,150,3,None,Yes,12000,Yes,Solar PV requires electrical license; NABCEP cert recommended
+216,Oregon,OR,Solar,Energy,Yes,State License,Electrical Contractor License (Solar),Oregon BCD,4,Yes,250,200,2,None,Yes,20000,Yes,Solar PV requires electrical license and CCB registration
+217,Colorado,CO,Fire Protection,Construction,Local Only,Local Permit,Fire Protection Contractor License,Local Fire Marshal,4,Yes,200,100,2,None,No,0,Yes,No statewide fire protection license; local requirements vary
+218,Michigan,MI,HVAC (Journeyman),Construction,Yes,State License,Journeyman Mechanical License,LARA Bureau of Construction Codes,4,Yes,150,75,3,None,No,0,No,Journey-level HVAC/mechanical
+219,Ohio,OH,Fire Protection,Construction,Yes,State License,Fire Protection Contractor License,OCILB,4,Yes,200,100,2,None,No,0,Yes,State-level fire protection licensing; NICET cert recommended
+220,Pennsylvania,PA,Fire Protection,Construction,Local Only,Local Permit,Fire Protection Contractor License,Local Municipal Boards,4,Yes,200,100,2,None,No,0,Yes,No statewide license; Philadelphia requires local licensing
+221,New York,NY,General Contractor (Upstate),Construction,Local Only,Local Permit,General Contractor Registration,Local Municipal Boards,0,No,100,50,2,None,No,0,No,Individual counties and cities maintain own licensing requirements
+222,New York,NY,Roofing,Construction,Local Only,Local Permit,Roofing Contractor License,Local Municipal Boards,0,No,100,50,2,None,No,0,No,No statewide roofing license; local permits required
+223,New York,NY,Solar,Energy,Local Only,Local Permit,Solar Contractor License,Local Municipal Boards,4,Yes,200,100,2,None,No,0,Yes,No statewide solar license; NYC and other municipalities have local requirements
+224,Illinois,IL,Solar,Energy,Local Only,Local Permit,Solar Contractor License,Local Municipal Boards,4,Yes,150,100,2,None,No,0,No,No statewide solar license; local electrical licensing applies
+225,Pennsylvania,PA,Solar,Energy,Local Only,Local Permit,Solar Contractor License,Local Municipal Boards,4,Yes,150,100,2,None,No,0,No,No statewide solar license; local electrical licensing applies
+226,Ohio,OH,Solar,Energy,Yes,State License,Electrical Contractor License (Solar),OCILB,4,Yes,200,100,2,None,No,0,Yes,Solar PV requires electrical contractor license
+227,Georgia,GA,Solar,Energy,Yes,State License,Electrical Contractor License (Solar),GA Division of Electrical Contractors,4,Yes,250,150,2,None,Yes,5000,Yes,Solar PV requires electrical contractor license; NABCEP cert recommended
+228,Michigan,MI,Solar,Energy,Yes,State License,Electrical Contractor License (Solar),LARA Bureau of Construction Codes,4,Yes,200,100,3,None,No,0,Yes,Solar PV requires electrical license
+229,North Carolina,NC,Low Voltage,Construction,Yes,State License,Low Voltage Contractor License,NC Board of Examiners of Electrical Contractors,4,Yes,200,100,1,None,Yes,5000,Yes,Fire alarm; security; communication systems
+230,Florida,FL,Tree Care,Landscaping,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No state tree care license; ISA Certified Arborist recommended; local permits may apply
+231,Texas,TX,Tree Care,Landscaping,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No state tree care license; ISA Certified Arborist recommended
+232,New York,NY,Tree Care,Landscaping,Local Only,Local Permit,Tree Care License,Local Municipal Boards,0,No,100,50,1,None,No,0,Yes,NYC requires tree work permits; ISA Certified Arborist recommended
+233,Georgia,GA,Tree Care,Landscaping,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No state tree care license; ISA Certified Arborist recommended
+234,Michigan,MI,Tree Care,Landscaping,No,None,No State License Required,N/A,0,No,0,0,0,None,No,0,No,No state tree care license; ISA Certified Arborist recommended
+235,Nevada,NV,Landscaping,Landscaping,Yes,State License,C-10 Landscaping Contractor,NSCB,4,Yes,500,300,2,CA|AZ|UT,Yes,5000,Yes,Landscape construction and maintenance
+236,Arizona,AZ,Landscaping,Landscaping,Yes,State License,C-10R Landscaping Contractor,Arizona ROC,2,Yes,350,300,2,CA|LA|NV,Yes,2500,Yes,Landscape construction
+237,Washington,WA,Landscaping,Landscaping,Yes,State Registration,Landscape Contractor Registration,WA L&I,0,No,250,250,2,None,Yes,12000,Yes,Falls under general contractor registration
+238,Oregon,OR,Landscaping,Landscaping,Yes,State License,Landscape Contractor License,Oregon LCB,2,Yes,200,150,2,None,Yes,10000,Yes,Licensed through Landscape Contractors Board; separate from CCB

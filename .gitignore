@@ -1,9 +1,26 @@
 # Configuration files
 .mcp.json
 .env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # Logs
 logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # Python
 __pycache__/
@@ -68,9 +85,6 @@ uv.lock
 profile_default/
 ipython_config.py
 
-# pyenv
-.python-version
-
 # mypy
 .mypy_cache/
 .dmypy.json
@@ -88,3 +102,12 @@ cython_debug/
 # Ruff
 .ruff_cache/
 
+# Node / Web
+node_modules/
+.pnpm-store/
+.vite/
+.next/
+.nuxt/
+.turbo/
+.parcel-cache/
+.cache/

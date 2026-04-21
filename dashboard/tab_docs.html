@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sales AI — Docs</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#141414;--bg2:#1a1a1a;--bg3:#222;--bg4:#2a2a2a;
+  --line:rgba(255,255,255,.06);--line2:rgba(255,255,255,.12);
+  --C:#9f00fa;--Cl:#d36eff;--C2:rgba(159,0,250,.1);
+  --G:#4a9e6a;--R:#e05555;--acc:#4a7ab5;
+  --t:#f0edf6;--td:#b09aba;--dim:#666;
+  --mono:'JetBrains Mono',monospace;--jost:'Jost',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t);font-family:var(--mono)}
+
+.layout{display:flex;height:100%}
+
+/* Sidebar */
+.sidebar{width:210px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--line2);display:flex;flex-direction:column;overflow:hidden}
+.sidebar-header{padding:14px 16px 10px;border-bottom:1px solid var(--line2);flex-shrink:0}
+.sidebar-label{font-size:9px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;margin-bottom:4px}
+.sidebar-title{font-family:var(--jost);font-size:13px;font-weight:700;color:var(--C);letter-spacing:.04em}
+.sidebar-nav{flex:1;overflow-y:auto;padding:8px 0}
+.nav-item{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;cursor:pointer;border-left:3px solid transparent;transition:all .15s;user-select:none}
+.nav-item:hover{background:rgba(255,255,255,.03);border-left-color:var(--line2)}
+.nav-item.on{background:var(--C2);border-left-color:var(--C)}
+.nav-num{font-size:9px;color:var(--dim);font-family:var(--mono);padding-top:2px;min-width:20px;flex-shrink:0}
+.nav-item.on .nav-num{color:var(--C)}
+.nav-text{font-size:11px;line-height:1.4;color:var(--td)}
+.nav-item.on .nav-text{color:var(--t)}
+.nav-sub{font-size:9px;color:var(--dim);margin-top:2px;line-height:1.3}
+.sidebar-footer{padding:10px 14px;border-top:1px solid var(--line);font-size:9px;color:var(--dim);letter-spacing:.06em;line-height:1.6}
+
+/* Main content */
+.main{flex:1;overflow-y:auto;overflow-x:hidden}
+.doc-panel{display:none;padding:28px 36px 60px;max-width:860px;margin:0 auto}
+.doc-panel.on{display:block}
+
+/* Doc header */
+.doc-header{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line2)}
+.doc-tag{font-size:9px;letter-spacing:.18em;color:var(--C);text-transform:uppercase;margin-bottom:6px;font-family:var(--mono)}
+.doc-title{font-family:var(--jost);font-size:22px;font-weight:700;color:var(--t);line-height:1.3;margin-bottom:4px}
+.doc-meta{font-size:10px;color:var(--dim);letter-spacing:.06em}
+
+/* Content styles */
+h2{font-family:var(--jost);font-size:17px;font-weight:700;color:var(--t);margin:24px 0 10px;letter-spacing:.02em}
+h3{font-family:var(--jost);font-size:14px;font-weight:600;color:var(--Cl);margin:18px 0 8px;letter-spacing:.02em}
+p{font-size:13px;line-height:1.8;color:var(--td);margin-bottom:10px}
+p strong{color:var(--t);font-weight:500}
+ul,ol{margin:6px 0 12px 0;padding-left:18px}
+li{font-size:13px;line-height:1.75;color:var(--td);margin-bottom:2px}
+li strong{color:var(--t);font-weight:500}
+blockquote{border-left:3px solid var(--C);padding:10px 16px;background:var(--C2);margin:12px 0;font-size:13px;color:var(--t);line-height:1.7;font-style:italic}
+blockquote strong{color:var(--Cl);font-style:normal}
+hr{border:none;border-top:1px solid var(--line2);margin:20px 0}
+
+/* Inline code + fenced */
+code{font-family:var(--mono);font-size:12px;background:var(--C2);border:1px solid rgba(159,0,250,.2);color:var(--Cl);padding:1px 6px;border-radius:3px}
+pre{background:var(--bg2);border:1px solid var(--line2);border-left:3px solid var(--C);border-radius:4px;padding:12px 14px;margin:10px 0 14px;overflow-x:auto}
+pre code{background:transparent;border:none;color:var(--td);padding:0;font-size:12px;line-height:1.7}
+
+/* Tables */
+.tbl-wrap{background:var(--bg2);border:1px solid var(--line2);margin:12px 0 20px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--bg3);color:var(--dim);font-weight:500;letter-spacing:.1em;text-align:left;padding:7px 12px;border-bottom:1px solid var(--line2);font-size:10px;text-transform:uppercase}
+td{padding:7px 12px;border-bottom:1px solid var(--line);color:var(--td);vertical-align:top;line-height:1.6}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.015)}
+td strong{color:var(--t);font-weight:500}
+
+/* Callout */
+.callout{border-left:3px solid var(--C);padding:10px 16px;background:var(--C2);margin:12px 0 16px;font-size:12px;line-height:1.75;color:var(--td)}
+.callout strong{color:var(--Cl)}
+.callout.grn{border-left-color:var(--G);background:rgba(74,158,106,.1)}
+.callout.grn strong{color:var(--G)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ═══ SIDEBAR ═══ -->
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-label">Source</div>
+    <div class="sidebar-title">Docs</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-item on" onclick="show('doc-readme',this)">
+      <div class="nav-num">01</div>
+      <div><div class="nav-text">README.md</div><div class="nav-sub">Project overview &amp; setup</div></div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">Sales AI<br>Apr 2026<br>Internal use only</div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+
+<!-- ══════════════════════ README.md ══════════════════════ -->
+<div class="doc-panel on" id="doc-readme">
+  <div class="doc-header">
+    <div class="doc-tag">01 · Template</div>
+    <div class="doc-title">README.md</div>
+    <div class="doc-meta">Project README template · keep concise · update each release</div>
+  </div>
+
+  <h2>Sales AI</h2>
+  <p>An autonomous outbound caller that recovers stale proposals, follows up with prospects, and warm-transfers live clients to human reps. Voice pipeline runs on a GPU worker; control plane runs on a CPU droplet.</p>
+
+  <blockquote><strong>Status:</strong> SPEC v1.0 · Apr 2026 · pilot batch of 30 proposals staged</blockquote>
+
+  <hr>
+
+  <h2>Stack</h2>
+  <ul>
+    <li><strong>Voice pipeline</strong> — Pipecat (orchestration) · Parakeet RNNT 1.1B (STT) · Inworld TTS (primary) / Kokoro (fallback) · SmartTurn v3 (end-of-turn detection)</li>
+    <li><strong>LLM</strong> — Claude Sonnet 4.6 with prompt caching (~45k tokens pre-call)</li>
+    <li><strong>Telephony</strong> — Telnyx (outbound + inbound SMS/voice)</li>
+    <li><strong>Compute</strong> — RunPod US-CA-2 GPU workers (RTX 4000 Ada, $0.26/hr) · DigitalOcean SFO3 CPU droplet (control plane, PostgreSQL, SalesClaw scheduler)</li>
+    <li><strong>Integrations</strong> — FieldTECH (proposals) · HubSpot (deals + contacts) · Matrix (operator alerts)</li>
+  </ul>
+
+  <h2>Repo Layout</h2>
+  <pre><code>dashboard/            controller UI (HTML + JS, no build step)
+  index.htm           login gate + shell
+  tab_*.html          primary-tab views (analytics, lists, scripts, …)
+  graph_*.html        architecture / flow diagrams
+  cc/                 command &amp; control sub-views
+  design/             design-tab diagrams
+  data/               fake CSV data for list/browser tabs
+  js/                 shared controller JS (env, gate, app shell, widgets)
+  css/                shared CSS (topbar, subtabs, fonts)
+  img/                icons &amp; badges
+
+specs/                numbered specifications (markdown)
+reviews/              security audits &amp; review notes
+docs/                 architecture + runbook docs</code></pre>
+
+  <h2>Run Locally</h2>
+  <p>The controller is static HTML/JS but uses iframes between same-origin pages, so <code>file://</code> will not work. Serve over HTTP:</p>
+  <pre><code>cd plan/web
+python3 -m http.server 8000
+# then open http://localhost:8000/</code></pre>
+
+  <p>Login accepts any non-empty password in demo mode.</p>
+
+  <h2>Environment</h2>
+  <p>Copy <code>.env.example</code> to <code>.env</code> and fill in:</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Variable</th><th>Used by</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>AGENTIC_DEV_API_TOKEN</strong></td><td>Control plane bearer auth</td><td>Demo value in <code>.env.example</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Primary Tabs</h2>
+  <ul>
+    <li><strong>Presentation</strong> — morning briefing slides (v1.0)</li>
+    <li><strong>Analytics</strong> — pipeline overview, rep analysis, client intelligence, 20-stat intel digest</li>
+    <li><strong>Data</strong> — reference tables (certs, providers, licenses, apprenticeships, schools, jobs, salary, demand, employers, industries)</li>
+    <li><strong>Design</strong> — product-level flows: architecture, domain model, user flows, state machines, match engine, data schema, network, API map, deployment, processes</li>
+    <li><strong>Architecture</strong> — system nodes + live graphs (network, pipecat, stateflow, callflow, sequence, transfer, TTS/STT, script select)</li>
+    <li><strong>Project</strong> — TODO (kanban), GANTT, COST EST, Docs, Changelog</li>
+    <li><strong>Lists</strong> — sales people, VIP lists, blacklists</li>
+    <li><strong>Scripts</strong> — call / voicemail / SMS / email templates, T1–T4 tiers</li>
+    <li><strong>C&amp;C</strong> — live command &amp; control (workers, queue, recordings, metrics, logs, chat, debt)</li>
+  </ul>
+
+  <h2>Conventions</h2>
+  <ul>
+    <li><strong>No fallback slop.</strong> Every path is either the real thing or a clearly-labelled placeholder.</li>
+    <li><strong>Fake data only.</strong> Anything in <code>data/</code> or the Lists tab is synthetic. Do not commit real client PII to this repo.</li>
+    <li><strong>Naming.</strong> AI caller = <strong>Sales AI</strong>. Scheduler daemon = <strong>SalesClaw</strong>. External CRM = <strong>FieldTECH</strong>. House sales brand = <strong>Pinnacle Services</strong>. Keep rename consistency across all docs and code.</li>
+    <li><strong>Spec version.</strong> SPEC v1.0 is the current frozen spec. Bump only on material architecture change.</li>
+  </ul>
+
+  <h2>Next Milestone</h2>
+  <p>Run the 30-proposal pilot batch end-to-end with live human warm-transfer. Once it ships, update the Changelog and bump SPEC if anything changed.</p>
+
+  <div class="callout grn"><strong>Note:</strong> This is a template. Replace every section above with your own content, keep it under a page, and link out to longer docs (spec, runbook, design notes) rather than inlining them here.</div>
+
+</div>
+
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+function show(id, el){
+  document.querySelectorAll('.doc-panel').forEach(function(p){ p.classList.remove('on'); });
+  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('on'); });
+  document.getElementById(id).classList.add('on');
+  if (el) el.classList.add('on');
+}
+</script>
+</body>
+</html>

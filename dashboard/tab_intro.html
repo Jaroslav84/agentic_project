@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Norwester';src:url('css/norwester.otf') format('opentype')}
+:root{--bg:#1a1a1a;--bg2:#242424;--bg3:#2a2a2a;--bg4:#323232;--bg5:#2e2e2e;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.05);--C:#9f00fa;--C2:rgba(159,0,250,0.12);--Ch:#7a00c0;--Cl:#d36eff;--O:#a78bfa;--G:#c0c0c0;--R:#7c3aed;--Y:#6b6b6b;--P:#d36eff;--t:#ffffff;--tm:#e0e0e0;--td:#c8c8c8;--dim:#888888;--bdr:#000;--bdr2:#282828;--mono:'JetBrains Mono',monospace;--cond:'Barlow Condensed',sans-serif;--jost:'Jost',sans-serif;--nw:'Norwester','Jost',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--mono);padding:24px;overflow-y:auto}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:var(--bg2);border:1px solid var(--line);padding:20px;margin-bottom:16px}
+.ch{font-size:12px;color:var(--td);letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px}
+.chart-wrap{position:relative;height:260px}
+.chart-wrap.short{height:200px}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.stag{font-size:12px;color:var(--C);background:var(--C2);border:1px solid rgba(159,0,250,.3);padding:3px 8px;letter-spacing:.15em}
+.stit{font-family:var(--cond);font-size:21px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.sl{flex:1;height:1px;background:var(--line)}
+
+/* QUOTE CARDS */
+.quotes-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+.quote-card{background:var(--bg2);border:1px solid var(--line);padding:16px;position:relative;overflow:hidden}
+.quote-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.quote-card.c::before{background:var(--C)}.quote-card.o::before{background:var(--O)}.quote-card.g::before{background:var(--G)}.quote-card.r::before{background:var(--R)}.quote-card.y::before{background:var(--Y)}
+.qstat{font-family:var(--cond);font-size:37px;font-weight:900;line-height:1;margin-bottom:6px}
+.quote-card.c .qstat{color:var(--C)}.quote-card.o .qstat{color:var(--P)}.quote-card.g .qstat{color:var(--tm)}.quote-card.r .qstat{color:var(--td)}.quote-card.y .qstat{color:var(--dim)}
+.qtext{font-size:12px;color:var(--tm);line-height:1.6}
+.qsource{font-size:11px;color:var(--td);margin-top:6px;letter-spacing:.08em}
+
+/* TAB SWITCHER */
+.tab-row{display:flex;gap:0;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.ctab{font-family:var(--jost);font-size:15px;font-weight:500;padding:6px 14px;color:var(--dim);background:transparent;border:none;cursor:pointer;letter-spacing:.02em;transition:color .15s;position:relative}
+.ctab::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:transparent;transition:background .15s}
+.ctab:hover{color:var(--tm)}
+.ctab.on{color:var(--Cl);font-weight:600}
+.ctab.on::after{background:var(--C);box-shadow:0 0 6px rgba(159,0,250,.6)}
+
+/* INSIGHT BOX */
+.insight{background:var(--bg3);border-left:2px solid var(--C);padding:10px 14px;margin-top:14px;color:var(--tm);font-size:12px;line-height:1.7}
+.insight strong{color:var(--Cl)}
+
+/* PRIORITY GRID */
+.pri-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pri-card{background:var(--bg3);border:1px solid var(--line);padding:12px;border-left:3px solid}
+.pri-card.hot{border-left-color:var(--R)}.pri-card.high{border-left-color:var(--O)}.pri-card.med{border-left-color:var(--Y)}.pri-card.low{border-left-color:var(--dim)}
+.pri-icon{font-size:19px;margin-bottom:4px}
+.pri-lbl{font-family:var(--cond);font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px}
+.pri-card.hot .pri-lbl{color:var(--dim)}.pri-card.high .pri-lbl{color:var(--dim)}.pri-card.med .pri-lbl{color:var(--dim)}.pri-card.low .pri-lbl{color:var(--dim)}
+.pri-text{font-size:12px;color:var(--td);line-height:1.5}
+
+/* SEASON BARS */
+.season-wrap{display:flex;gap:4px;align-items:flex-end;height:80px;margin:12px 0 8px}
+.sbar{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;justify-content:flex-end}
+.sbar-fill{width:100%}
+.sbar-lbl{font-size:9px;color:var(--td);letter-spacing:.05em}
+.sbar-val{font-size:9px;color:var(--dim)}
+
+/* PIE LEGEND */
+.pie-legend{margin-top:14px}
+.pl-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.pl-dot{width:8px;height:8px;flex-shrink:0}
+.pl-label{font-size:12px;color:var(--tm);flex:1}
+.pl-val{font-family:var(--cond);font-size:24px;font-weight:700}
+.pl-val.purple{color:var(--C)}.pl-val.muted{color:var(--tm)}
+.pl-dot.bg-muted{background:var(--bg4)}.pl-dot.bg-purple{background:var(--C)}
+.bot-zone{color:var(--Cl)}
+.sh-source{font-size:11px;color:var(--dim);letter-spacing:.12em}
+
+@media(max-width:768px){
+  body{padding:14px;}
+  .quotes-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .qstat{font-size:26px;}
+  .qtext{font-size:11px;}
+  .qsource{font-size:10px;}
+  .g2{grid-template-columns:1fr;gap:12px;}
+  .pri-grid{grid-template-columns:repeat(2,1fr);gap:6px;}
+  .card{padding:14px;}
+  .chart-wrap{height:200px;}
+  .chart-wrap.short{height:160px;}
+  .sh{flex-wrap:wrap;gap:8px;}
+  .stit{font-size:17px;}
+  .sl{display:none;}
+  .sh>span:last-child{display:none;}
+  .tab-row{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;}
+  .ctab{flex-shrink:0;font-size:13px;padding:5px 10px;}
+}
+@media(max-width:480px){
+  body{padding:10px;}
+  .quotes-grid{grid-template-columns:1fr 1fr;gap:6px;}
+  .qstat{font-size:22px;}
+  .pri-grid{grid-template-columns:1fr;gap:6px;}
+  .pri-card{padding:10px;}
+  .chart-wrap{height:180px;}
+  .stit{font-size:15px;}
+  .pl-val{font-size:18px;}
+}
+</style>
+<script defer src="js/env.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script defer src="js/intro.js"></script>
+<script defer src="js/proplink.js"></script>
+</head>
+<body>
+
+<div class="sh">
+  <span class="stag">INTRO</span>
+  <span class="stit">Deal Close Intelligence — The Data Case for Sales AI</span>
+  <div class="sl"></div>
+  <span class="sh-source">ZC_PIPELINE_INTELLIGENCE.md · April 2026</span>
+</div>
+
+<!-- KPI CARDS -->
+<div class="quotes-grid">
+  <div class="quote-card c">
+    <div class="qstat">1,788</div>
+    <div class="qtext">historical deals won — all-time approvals in PS database</div>
+    <div class="qsource">ZC_PIPELINE_INTELLIGENCE.md</div>
+  </div>
+  <div class="quote-card o">
+    <div class="qstat">$27.6M</div>
+    <div class="qtext">total revenue won all time — the base rate Sales AI is working against</div>
+    <div class="qsource">ZC_PIPELINE_INTELLIGENCE.md</div>
+  </div>
+  <div class="quote-card y">
+    <div class="qstat">65.5%</div>
+    <div class="qtext">of deals close within 30 days — rep deserves full credit here</div>
+    <div class="qsource">ZC_PIPELINE_INTELLIGENCE.md</div>
+  </div>
+  <div class="quote-card g">
+    <div class="qstat">34.5%</div>
+    <div class="qtext">close after 30 days — Sales AI's entire hunting ground. Older ≠ dead.</div>
+    <div class="qsource">ZC_PIPELINE_INTELLIGENCE.md</div>
+  </div>
+  <div class="quote-card r">
+    <div class="qstat">$37.5M</div>
+    <div class="qtext">stale sent proposals today — 1,357 clients who went silent and were never followed up</div>
+    <div class="qsource">DATA_PROPOSALS_ALL.csv · April 2026</div>
+  </div>
+</div>
+
+<!-- MAIN CHART -->
+<div class="card">
+  <div class="ch">Deals Won by Days After Sending</div>
+  <div class="tab-row">
+    <button class="ctab on" onclick="switchTab('deals',this)">Deal Count</button>
+    <button class="ctab" onclick="switchTab('value',this)">Total Value</button>
+    <button class="ctab" onclick="switchTab('avg',this)">Avg Deal Size</button>
+    <button class="ctab" onclick="switchTab('pct',this)">% of All Deals</button>
+  </div>
+  <div class="chart-wrap"><canvas id="mainChart"></canvas></div>
+  <div class="insight">
+    <strong>42.5%</strong> of deals close within 3 days — these clients were already sold. The rep deserves full credit.
+    Everything after day 7 is increasingly Sales AI's territory.
+    <strong>Day 7+ = 46.2% of all historical wins</strong> — that's the size of the hunting ground.
+  </div>
+</div>
+
+<!-- BOT OPPORTUNITY + SEASONALITY -->
+<div class="g2">
+  <div class="card">
+    <div class="ch">Bot Opportunity Split</div>
+    <div class="chart-wrap short"><canvas id="pieChart"></canvas></div>
+    <div class="pie-legend">
+      <div class="pl-row">
+        <div class="pl-dot bg-muted"></div>
+        <div class="pl-label">Won ≤30 days — rep territory</div>
+        <div class="pl-val muted">65.5%</div>
+      </div>
+      <div class="pl-row">
+        <div class="pl-dot bg-purple"></div>
+        <div class="pl-label">Won >30 days — <strong class="bot-zone">bot zone</strong></div>
+        <div class="pl-val purple">34.5%</div>
+      </div>
+    </div>
+    <div class="insight">
+      34.5% = <strong>~617 deals</strong> worth <strong>~$9.5M</strong> historically.<br>
+      Applied to $37.5M stale today: <strong>$12.9M recoverable</strong>.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch">Seasonality — Approvals by Month</div>
+    <div class="season-wrap" id="seasonBars"></div>
+    <div class="insight">
+      <strong>Oct = highest volume</strong> (119 deals, $1.9M) · <strong>Apr = highest avg value</strong> ($21,665)<br>
+      Jul–Oct peak: 429 approvals, $6.5M · Jan–Feb slowest<br>
+      Sales AI launching April 2026 — peak avg-value month
+    </div>
+  </div>
+</div>
+
+<!-- AVG VALUE TREND -->
+<div class="card">
+  <div class="ch">Avg Deal Value by Close Window — older proposals = bigger deals</div>
+  <div class="chart-wrap short"><canvas id="avgChart"></canvas></div>
+  <div class="insight">
+    Deals that take longer to close are worth <strong>MORE</strong>, not less.
+    91–365 day bucket averages <strong>$21,234</strong> vs <strong>$11,481</strong> for day 0–3 — 85% larger.
+    365+ day deals average <strong>$23,545</strong>. Sales AI chasing old proposals = chasing bigger commissions.
+  </div>
+</div>
+
+<!-- CALL PRIORITY MATRIX -->
+<div class="card">
+  <div class="ch">Sales AI's Call Priority Matrix</div>
+  <div class="pri-grid">
+    <div class="pri-card hot">
+      <div class="pri-icon">🔥</div>
+      <div class="pri-lbl">Immediate</div>
+      <div class="pri-text">Orphaned rep pipeline (Winters $14.1M, Larson $8.2M, Black $1.2M) — no rep to dispute attribution. Call freely.</div>
+    </div>
+    <div class="pri-card hot">
+      <div class="pri-icon">🔥</div>
+      <div class="pri-lbl">Immediate</div>
+      <div class="pri-text">Multi-location contact (3+ properties, phone available) — portfolio conversation covers all proposals at once.</div>
+    </div>
+    <div class="pri-card high">
+      <div class="pri-icon">⚡</div>
+      <div class="pri-lbl">High</div>
+      <div class="pri-text">91–365 days stale, RAR/ASPH/HDQC treatment codes — high value, prime recovery window, ADA liability angle.</div>
+    </div>
+    <div class="pri-card high">
+      <div class="pri-icon">⚡</div>
+      <div class="pri-lbl">High</div>
+      <div class="pri-text">365+ days, deals $50k+ — repricing angle: "Pricing may have changed, want to make sure this is still current."</div>
+    </div>
+    <div class="pri-card med">
+      <div class="pri-icon">📞</div>
+      <div class="pri-lbl">Medium</div>
+      <div class="pri-text">Active rep stale >90 days (Sarah Mitchell $4.8M) — warm hand-off framing: "following up for the team."</div>
+    </div>
+    <div class="pri-card med">
+      <div class="pri-icon">📞</div>
+      <div class="pri-lbl">Medium</div>
+      <div class="pri-text">31–90 days stale, any treatment — standard sequence. Day 7 call → Day 8 SMS → Day 14 email.</div>
+    </div>
+    <div class="pri-card low">
+      <div class="pri-icon">📧</div>
+      <div class="pri-lbl">Low</div>
+      <div class="pri-text">No phone across all 6 contact resolution tiers — email-only sequence. 317 proposals $10.25M in this bucket.</div>
+    </div>
+    <div class="pri-card low">
+      <div class="pri-icon">⛔</div>
+      <div class="pri-lbl">Never</div>
+      <div class="pri-text">propIDs 10572, 10433, 8793 (Morgan's active BluePine deals) · isVip clients (Alex reviews first) · Blacklisted contacts.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

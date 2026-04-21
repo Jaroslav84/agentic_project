@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Norwester';src:url('css/norwester.otf') format('opentype')}
+:root{--bg:#1a1a1a;--bg2:#242424;--bg3:#2a2a2a;--bg4:#323232;--bg5:#2e2e2e;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.05);--C:#9f00fa;--C2:rgba(159,0,250,0.12);--Ch:#7a00c0;--Cl:#d36eff;--O:#a78bfa;--G:#c0c0c0;--R:#7c3aed;--Y:#6b6b6b;--P:#d36eff;--t:#ffffff;--tm:#e0e0e0;--td:#c8c8c8;--dim:#888888;--bdr:#000;--bdr2:#282828;--mono:'JetBrains Mono',monospace;--cond:'Barlow Condensed',sans-serif;--jost:'Jost',sans-serif;--nw:'Norwester','Jost',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--mono);padding:24px;overflow-y:auto}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:var(--bg2);border:1px solid var(--line);padding:20px;margin-bottom:16px}
+.ch{font-size:12px;color:var(--td);letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px}
+.chart-wrap{position:relative;height:260px}
+.chart-wrap.tall{height:340px}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.stag{font-size:12px;color:var(--C);background:var(--C2);border:1px solid rgba(159,0,250,.3);padding:3px 8px;letter-spacing:.15em}
+.stit{font-family:var(--cond);font-size:21px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.sl{flex:1;height:1px;background:var(--line)}
+
+/* REP TABLE */
+.rep-table{width:100%;border-collapse:collapse;font-size:12px}
+.rep-table th{color:var(--td);letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-bottom:1px solid var(--line2);text-align:left;font-weight:400}
+.rep-table td{padding:10px 12px;border-bottom:1px solid var(--line);color:var(--tm)}
+.rep-table tr:hover td{background:var(--bg3)}
+.rep-name{color:var(--t);font-weight:500}
+.badge{font-size:11px;padding:2px 6px;letter-spacing:.1em;margin-left:6px}
+.badge.gone{background:rgba(150,150,150,.1);color:var(--dim);border:1px solid rgba(150,150,150,.25)}
+.badge.active{background:rgba(159,0,250,.1);color:var(--C);border:1px solid rgba(159,0,250,.3)}
+.badge.transfer{background:rgba(159,0,250,.1);color:var(--C);border:1px solid rgba(159,0,250,.25)}
+.val-bar{height:4px;background:var(--line2);margin-top:6px;position:relative;border-radius:0}
+.val-fill{height:100%;transition:width .8s cubic-bezier(.4,0,.2,1);border-radius:0}
+.val-fill{height:100%;transition:width .6s}
+.hs-dot{color:var(--Cl);text-shadow:0 0 6px rgba(159,0,250,.4)}
+
+/* QUOTES */
+.quotes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.quote-card{background:var(--bg2);border:1px solid var(--line);padding:16px;position:relative;overflow:hidden}
+.quote-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.quote-card.c::before{background:var(--C)}.quote-card.r::before{background:var(--R)}.quote-card.o::before{background:var(--O)}.quote-card.g::before{background:var(--G)}
+.qstat{font-family:var(--cond);font-size:37px;font-weight:900;line-height:1;margin-bottom:6px}
+.quote-card.c .qstat{color:var(--C)}.quote-card.r .qstat{color:var(--td)}.quote-card.o .qstat{color:var(--P)}.quote-card.g .qstat{color:var(--tm)}
+.qtext{font-size:12px;color:var(--tm);line-height:1.6}
+.qsource{font-size:11px;color:var(--td);margin-top:6px}
+
+@media(max-width:768px){
+  body{padding:14px;}
+  .g2{grid-template-columns:1fr;}
+  .g3{grid-template-columns:1fr 1fr;}
+  .quotes-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .qstat{font-size:28px;}
+  .card{padding:14px;}
+  .chart-wrap{height:200px;}
+  .chart-wrap.tall{height:260px;}
+  .sh{flex-wrap:wrap;gap:8px;}
+  .stit{font-size:17px;}
+  .sl{display:none;}
+  .rep-table{font-size:11px;}
+  .rep-table th,.rep-table td{padding:6px 8px;}
+}
+@media(max-width:480px){
+  body{padding:10px;}
+  .quotes-grid{grid-template-columns:1fr;}
+  .qstat{font-size:24px;}
+  .chart-wrap{height:180px;}
+  .rep-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+}
+</style>
+<link rel="stylesheet" href="css/avatars.css">
+<script defer src="js/env.js"></script>
+<script defer src="js/avatars.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script defer src="js/tab-reps.js"></script>
+<script defer src="js/proplink.js"></script>
+</head>
+<body>
+
+<div class="sh"><span class="stag">§03</span><span class="stit">Sales Rep Analysis</span><div class="sl"></div></div>
+
+<!-- QUOTES -->
+<div class="quotes-grid">
+  <div class="quote-card r">
+    <div class="qstat">$22.3M</div>
+    <div class="qtext">Rachel Winters + Mike Larson combined stale pipeline — 2 gone reps, 59% of $37.5M total</div>
+    <div class="qsource">SOURCE: DATA_PROPOSALS_ALL.csv</div>
+  </div>
+  <div class="quote-card c">
+    <div class="qstat">538</div>
+    <div class="qtext">proposals in Rachel Winters's book — single largest queue, Sales AI's primary mission</div>
+    <div class="qsource">SOURCE: DATA_PROPOSALS_RACHELW.csv</div>
+  </div>
+  <div class="quote-card o">
+    <div class="qstat">11x</div>
+    <div class="qtext">Sarah Mitchell has 130 stale proposals but only 35 paid — worst conversion ratio of any active rep</div>
+    <div class="qsource">SOURCE: Live SQL April 2026</div>
+  </div>
+  <div class="quote-card g">
+    <div class="qstat">344</div>
+    <div class="qtext">paid deals from Edward Knox before leaving — highest paid count of any rep, $5.7M collected</div>
+    <div class="qsource">SOURCE: Live SQL April 2026</div>
+  </div>
+</div>
+
+<!-- CHARTS -->
+<div class="g2">
+  <div class="card">
+    <div class="ch">Stale Pipeline by Rep ($M)</div>
+    <div class="chart-wrap tall"><canvas id="repBar"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ch">Rep Pipeline Share</div>
+    <div class="chart-wrap tall"><canvas id="repDonut"></canvas></div>
+  </div>
+</div>
+
+<!-- REP TABLE -->
+<div class="card">
+  <div class="ch">Complete Rep Master Table</div>
+  <table class="rep-table">
+    <thead>
+      <tr>
+        <th>Rep</th>
+        <th>Status</th>
+        <th>Stale Props</th>
+        <th>Stale Value</th>
+        <th>Value Bar</th>
+        <th>Paid $</th>
+        <th>Queue</th>
+        <th>HubSpot</th>
+      </tr>
+    </thead>
+    <tbody id="repTableBody"></tbody>
+  </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Norwester';src:url('css/norwester.otf') format('opentype')}
+:root{--bg:#1a1a1a;--bg2:#242424;--bg3:#2a2a2a;--bg4:#323232;--bg5:#2e2e2e;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.05);--C:#9f00fa;--C2:rgba(159,0,250,0.12);--Ch:#7a00c0;--Cl:#d36eff;--O:#a78bfa;--G:#c0c0c0;--R:#7c3aed;--Y:#6b6b6b;--P:#d36eff;--t:#ffffff;--tm:#e0e0e0;--td:#c8c8c8;--dim:#888888;--bdr:#000;--bdr2:#282828;--mono:'JetBrains Mono',monospace;--cond:'Barlow Condensed',sans-serif;--jost:'Jost',sans-serif;--nw:'Norwester','Jost',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--mono);padding:24px;overflow-y:auto}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:var(--bg2);border:1px solid var(--line);padding:20px;margin-bottom:16px}
+.ch{font-size:12px;color:var(--td);letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px}
+.chart-wrap{position:relative;height:260px}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.stag{font-size:12px;color:var(--C);background:var(--C2);border:1px solid rgba(159,0,250,.3);padding:3px 8px;letter-spacing:.15em}
+.stit{font-family:var(--cond);font-size:21px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.sl{flex:1;height:1px;background:var(--line)}
+.quotes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.quote-card{background:var(--bg2);border:1px solid var(--line);padding:16px;position:relative}
+.quote-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.quote-card.c::before{background:var(--C)}.quote-card.r::before{background:var(--R)}.quote-card.o::before{background:var(--O)}.quote-card.g::before{background:var(--G)}.quote-card.y::before{background:var(--Y)}
+.qstat{font-family:var(--cond);font-size:37px;font-weight:900;line-height:1;margin-bottom:6px}
+.quote-card.c .qstat{color:var(--C)}.quote-card.r .qstat{color:var(--td)}.quote-card.o .qstat{color:var(--P)}.quote-card.g .qstat{color:var(--tm)}.quote-card.y .qstat{color:var(--dim)}
+.qtext{font-size:12px;color:var(--tm);line-height:1.6}
+.qsource{font-size:11px;color:var(--td);margin-top:6px}
+
+/* VIP CARDS */
+.vip-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+.vip-card{background:var(--bg2);border:1px solid var(--line);padding:12px;position:relative;overflow:hidden}
+.vip-card::before{content:'VIP';position:absolute;top:6px;right:8px;font-size:9px;color:var(--P);letter-spacing:.15em;opacity:.6}
+.vip-name{font-size:12px;color:var(--t);font-weight:500;margin-bottom:4px;line-height:1.3}
+.vip-paid{font-family:var(--cond);font-size:24px;font-weight:800;color:var(--C)}
+.vip-count{font-size:11px;color:var(--tm);margin-top:2px}
+
+@media(max-width:768px){
+  body{padding:14px;}
+  .g2{grid-template-columns:1fr;}
+  .g3{grid-template-columns:1fr 1fr;}
+  .quotes-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .qstat{font-size:28px;}
+  .card{padding:14px;}
+  .chart-wrap{height:200px;}
+  .sh{flex-wrap:wrap;gap:8px;}
+  .stit{font-size:17px;}
+  .sl{display:none;}
+  .vip-grid{grid-template-columns:repeat(2,1fr);gap:6px;}
+}
+@media(max-width:480px){
+  body{padding:10px;}
+  .quotes-grid{grid-template-columns:1fr;}
+  .qstat{font-size:24px;}
+  .chart-wrap{height:180px;}
+  .vip-grid{grid-template-columns:1fr;}
+}
+</style>
+<script defer src="js/env.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script defer src="js/clients.js"></script>
+<script defer src="js/proplink.js"></script>
+</head>
+<body>
+
+<div class="sh"><span class="stag">§04</span><span class="stit">Client Intelligence</span><div class="sl"></div></div>
+
+<div class="quotes-grid">
+  <div class="quote-card c">
+    <div class="qstat">$17M</div>
+    <div class="qtext">total paid value from just 10 VIP clients — top 10 account for the majority of all revenue</div>
+    <div class="qsource">SOURCE: DATA_VIP_CLIENTS.csv</div>
+  </div>
+  <div class="quote-card y">
+    <div class="qstat">209</div>
+    <div class="qtext">paid proposals from BluePine alone — the single most valuable client relationship PS has</div>
+    <div class="qsource">SOURCE: DATA_VIP_CLIENTS.csv</div>
+  </div>
+  <div class="quote-card o">
+    <div class="qstat">137</div>
+    <div class="qtext">blacklisted clientIDs — deleted accounts, test clients, and system placeholders never to be dialed</div>
+    <div class="qsource">SOURCE: DATA_BLACKLIST_CLIENTS.csv</div>
+  </div>
+  <div class="quote-card r">
+    <div class="qstat">$5M+</div>
+    <div class="qstat" style="font-size:19px;margin-top:-4px">in stale</div>
+    <div class="qtext">BluePine has the largest stale pipeline of any single client — VIP review before every call</div>
+    <div class="qsource">SOURCE: DATA_PROPOSALS_ALL.csv</div>
+  </div>
+</div>
+
+<!-- VIP CLIENTS -->
+<div class="card">
+  <div class="ch">VIP Clients — Top 10 by Total Paid Value (Alex reviews before Sales AI calls)</div>
+  <div class="vip-grid" id="vipGrid"></div>
+</div>
+
+<!-- CHARTS -->
+<div class="g2">
+  <div class="card">
+    <div class="ch">Top 10 Clients by Stale Value</div>
+    <div class="chart-wrap"><canvas id="clientsBar"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ch">VIP Client Share of Total Paid Revenue</div>
+    <div class="chart-wrap"><canvas id="clientDonut"></canvas></div>
+  </div>
+</div>
+
+</body>
+</html>

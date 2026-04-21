@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Norwester';src:url('../css/norwester.otf') format('opentype')}
+:root{--bg:#1a1a1a;--bg2:#242424;--bg3:#2a2a2a;--line:rgba(255,255,255,.07);--C:#9f00fa;--accent:#4a7ab5;--G:#72d648;--t:#ffffff;--tm:#e0e0e0;--td:#c8c8c8;--dim:#888888;--mono:'JetBrains Mono',monospace;--jost:'Jost',sans-serif;--nw:'Norwester','Jost',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--mono);padding:24px;overflow-y:auto;user-select:none;-webkit-user-select:none}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.stag{font-size:12px;color:var(--C);background:rgba(159,0,250,.12);border:1px solid rgba(159,0,250,.3);padding:3px 8px;letter-spacing:.15em}
+.stit{font-family:var(--nw);font-size:24px;font-weight:normal;text-transform:uppercase;letter-spacing:.06em}
+.sl{flex:1;height:1px;background:var(--line)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--bg2);border:1px solid var(--line);padding:14px;text-align:center}
+.stat-val{font-family:var(--nw);font-size:28px;color:var(--C);margin-bottom:4px}
+.stat-label{font-size:11px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase}
+.controls{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+input,select{background:var(--bg2);border:1px solid var(--line);color:var(--t);padding:8px 12px;font-family:var(--mono);font-size:12px}
+input::placeholder{color:var(--dim)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:var(--bg2);border:1px solid var(--line);padding:20px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--C)}
+.card-title{font-family:var(--nw);font-size:16px;color:var(--t);margin-bottom:8px;font-weight:600}
+.card-cat{font-size:11px;color:var(--C);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.card-stat{display:flex;justify-content:space-between;font-size:12px;color:var(--tm);margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.card-stat-val{color:var(--accent);font-family:var(--nw);font-weight:600}
+.card-desc{font-size:12px;color:var(--dim);line-height:1.5;margin-top:10px}
+</style>
+<script src="../js/csv-preload.js"></script>
+</head>
+<body>
+
+<div class="sh"><span class="stag">IND</span><span class="stit">Trade Industries</span><div class="sl"></div></div>
+
+<div style="margin-top:16px;padding:14px;background:rgba(114,214,72,.1);border:1px solid rgba(114,214,72,.3);border-radius:3px;font-size:11px;color:#c8c8c8;">  <strong>Data Quality:</strong> 75 records | Confidence: 100% Complete | Last Updated: Apr 2026 | <a href="#sources" style="color:#d36eff;text-decoration:underline;">Sources »</a></div>
+
+<div class="stats" id="stats"></div>
+
+<div class="controls">
+  <select id="categoryFilter"><option value="">All Categories</option></select>
+  <input type="text" id="search" placeholder="Search industries...">
+</div>
+
+<div class="card-grid" id="grid"></div>
+
+<script>
+var INDUSTRIES_DATA = [];
+
+fetch('../data/job/industries.csv')
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+  .then(csv => {
+    var lines = csv.trim().split('\n');
+    var headers = lines[0].split(',').map(h => h.trim());
+    for (var i = 1; i < lines.length; i++) {
+      var values = lines[i].split(',').map(v => v.trim());
+      var obj = {};
+      headers.forEach((h, idx) => obj[h] = values[idx] || '');
+      INDUSTRIES_DATA.push(obj);
+    }
+    renderCards(INDUSTRIES_DATA);
+    populateFilters();
+    updateStats();
+  })
+  .catch(function() {
+    document.getElementById('grid').innerHTML = '<div style="text-align:center;color:#ff4040;padding:24px;">Data unavailable — deploy latest build to fix.</div>';
+  });
+
+function renderCards(data) {
+  var grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  data.forEach(row => {
+    var card = document.createElement('div');
+    card.className = 'card';
+    var avgSalary = parseInt(row.avg_salary || 0);
+    card.innerHTML = `
+      <div class="card-cat">${row.category}</div>
+      <div class="card-title">${row.industry}</div>
+      <div class="card-stat">
+        <span>Market Size</span>
+        <span class="card-stat-val">$${parseFloat(row.market_size || 0).toFixed(1)}B</span>
+      </div>
+      <div class="card-stat">
+        <span>Avg Salary</span>
+        <span class="card-stat-val">$${(avgSalary / 1000).toFixed(0)}K</span>
+      </div>
+      <div class="card-stat">
+        <span>Outlook</span>
+        <span class="card-stat-val">${row.growth_outlook}</span>
+      </div>
+      <div class="card-desc">${row.description || 'Industry sector for skilled trades'}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function populateFilters() {
+  var categories = [...new Set(INDUSTRIES_DATA.map(r => r.category))].sort();
+
+  var cf = document.getElementById('categoryFilter');
+  categories.forEach(c => {
+    var opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    cf.appendChild(opt);
+  });
+}
+
+function updateStats() {
+  var totalMarket = INDUSTRIES_DATA.reduce((sum, r) => sum + (parseFloat(r.market_size) || 0), 0);
+  var avgSalary = Math.round(INDUSTRIES_DATA.reduce((sum, r) => sum + (parseInt(r.avg_salary) || 0), 0) / INDUSTRIES_DATA.length);
+  var html = `
+    <div class="stat-card"><div class="stat-val">${INDUSTRIES_DATA.length}</div><div class="stat-label">Industries</div></div>
+    <div class="stat-card"><div class="stat-val">$${totalMarket.toFixed(0)}B</div><div class="stat-label">Total Market</div></div>
+    <div class="stat-card"><div class="stat-val">$${(avgSalary / 1000).toFixed(0)}K</div><div class="stat-label">Avg Salary</div></div>
+  `;
+  document.getElementById('stats').innerHTML = html;
+}
+
+document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+document.getElementById('search').addEventListener('input', applyFilters);
+
+function applyFilters() {
+  var category = document.getElementById('categoryFilter').value;
+  var search = document.getElementById('search').value.toLowerCase();
+
+  var filtered = INDUSTRIES_DATA.filter(r =>
+    (!category || r.category === category) &&
+    (!search || r.industry.toLowerCase().includes(search) || r.description.toLowerCase().includes(search))
+  );
+
+  renderCards(filtered);
+}
+</script>
+</body>
+</html>

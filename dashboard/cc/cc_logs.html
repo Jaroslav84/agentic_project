@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Norwester';src:url('../css/norwester.otf') format('opentype')}
+:root{
+  --bg:#1a1a1a;--bg2:#242424;--bg3:#2a2a2a;--bg4:#323232;
+  --C:#9f00fa;--Cl:#d36eff;--O:#ff6a1a;--G:#72d648;--R:#ff4040;--Y:#ffb020;
+  --t:#ffffff;--tm:#e0e0e0;--dim:#888888;
+  --mono:'JetBrains Mono',monospace;--jost:'Jost',sans-serif;--nw:'Norwester','Jost',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg3)}
+body{color:var(--t);font-family:var(--jost);display:flex;flex-direction:column}
+
+/* FILTER BAR */
+.filterbar{
+  display:flex;align-items:center;gap:12px;padding:12px 20px;
+  background:var(--bg2);border-bottom:1px solid rgba(0,0,0,.5);flex-shrink:0;
+}
+.fb-label{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.fb-select{
+  background:var(--bg3);border:1px solid rgba(255,255,255,.1);color:var(--tm);
+  font-family:var(--mono);font-size:13px;padding:5px 10px;outline:none;
+}
+.fb-input{
+  background:var(--bg3);border:1px solid rgba(255,255,255,.1);color:var(--t);
+  font-family:var(--mono);font-size:13px;padding:5px 14px;outline:none;width:220px;
+}
+.fb-input::placeholder{color:var(--dim)}
+.fb-input:focus{border-color:rgba(159,0,250,.4)}
+.fb-spacer{flex:1}
+.fb-count{font-family:var(--mono);font-size:13px;color:var(--dim)}
+.fb-count span{color:var(--Cl)}
+
+/* SPLIT LAYOUT */
+.split{flex:1;display:flex;overflow:hidden}
+.table-col{flex:1;overflow-y:auto}
+.replay-col{
+  width:420px;border-left:1px solid rgba(0,0,0,.5);
+  background:var(--bg2);display:flex;flex-direction:column;overflow:hidden;
+  flex-shrink:0;
+}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead th{
+  position:sticky;top:0;z-index:5;
+  padding:10px 14px;text-align:left;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--dim);background:var(--bg3);
+  border-bottom:2px solid rgba(0,0,0,.6);white-space:nowrap;
+}
+tbody tr{border-bottom:1px solid rgba(0,0,0,.28);cursor:pointer;transition:background .1s}
+tbody tr:hover td{background:rgba(159,0,250,.07)}
+tbody tr.selected td{background:rgba(159,0,250,.12)}
+td{padding:10px 14px;white-space:nowrap;color:var(--tm)}
+td.name{color:var(--t);font-weight:500;font-family:var(--jost);font-size:15px}
+td.mono{font-family:var(--mono)}
+
+.outcome-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:12px;font-weight:700;
+  padding:3px 9px;border-radius:3px;
+}
+.outcome-pill.A{background:rgba(96,190,53,.18);color:var(--G);border:1px solid rgba(96,190,53,.35)}
+.outcome-pill.B{background:rgba(255,64,64,.15);color:var(--R);border:1px solid rgba(255,64,64,.3)}
+.outcome-pill.C{background:rgba(103,102,102,.15);color:var(--dim);border:1px solid rgba(103,102,102,.3)}
+.outcome-pill.D{background:rgba(238,150,18,.15);color:var(--Y);border:1px solid rgba(238,150,18,.3)}
+.outcome-pill.F{background:rgba(255,64,64,.25);color:var(--R);border:1px solid var(--R)}
+.outcome-pill.G2{background:rgba(159,0,250,.15);color:var(--Cl);border:1px solid rgba(159,0,250,.3)}
+.outcome-pill.VM{background:rgba(159,0,250,.1);color:var(--Cl);border:1px solid rgba(159,0,250,.2)}
+
+.rep-tag{font-family:var(--mono);font-size:12px;padding:2px 7px;background:rgba(96,190,53,.12);color:var(--G);border-radius:3px}
+.rep-tag.none{background:rgba(103,102,102,.1);color:var(--dim)}
+
+.replay-btn{
+  padding:4px 12px;background:var(--bg3);border:1px solid rgba(159,0,250,.25);
+  color:var(--Cl);font-family:var(--mono);font-size:12px;cursor:pointer;
+  transition:background .12s;
+}
+.replay-btn:hover{background:rgba(159,0,250,.12)}
+.replay-btn.active{background:rgba(159,0,250,.2);border-color:var(--C)}
+
+/* REPLAY PANEL */
+.rp-hdr{
+  padding:14px 18px;background:var(--bg3);border-bottom:1px solid rgba(0,0,0,.5);
+  flex-shrink:0;
+}
+.rp-title{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.rp-name{font-size:16px;font-weight:700;color:var(--t)}
+.rp-sub{font-family:var(--mono);font-size:13px;color:var(--Cl);margin-top:2px}
+.rp-stats{display:flex;gap:0;margin-top:10px}
+.rp-stat{flex:1;text-align:center;padding:8px 0;border-right:1px solid rgba(0,0,0,.4)}
+.rp-stat:last-child{border-right:none}
+.rp-sv{font-family:var(--nw);font-size:22px;color:var(--t);line-height:1}
+.rp-sv.G{color:var(--G)}.rp-sv.O{color:var(--O)}.rp-sv.Y{color:var(--Y)}
+.rp-sl{font-family:var(--mono);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-top:3px}
+
+.rp-controls{
+  display:flex;gap:8px;padding:12px 18px;border-bottom:1px solid rgba(0,0,0,.4);
+  flex-shrink:0;
+}
+.rpc-btn{
+  padding:6px 14px;background:var(--bg3);border:1px solid rgba(255,255,255,.1);
+  color:var(--tm);font-family:var(--mono);font-size:13px;cursor:pointer;
+  transition:background .12s;
+}
+.rpc-btn:hover{background:var(--bg4)}
+.rpc-btn.primary{background:rgba(159,0,250,.18);border-color:rgba(159,0,250,.35);color:var(--Cl)}
+.rp-time{font-family:var(--mono);font-size:22px;color:var(--t);margin-left:auto;display:flex;align-items:center}
+
+.rp-transcript{flex:1;overflow-y:auto;padding:16px 18px}
+.rt-turn{margin-bottom:16px}
+.rt-meta{display:flex;align-items:center;gap:10px;margin-bottom:5px}
+.rt-who{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.rt-who.R{color:var(--Cl)}.rt-who.C{color:var(--G)}.rt-who.S{color:var(--dim)}
+.rt-time{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.rt-text{
+  font-size:14px;line-height:1.65;color:var(--tm);
+  padding:9px 12px;
+  border-left:2px solid var(--dim);
+}
+.rt-text.R{border-left-color:var(--C);background:rgba(159,0,250,.04)}
+.rt-text.C{border-left-color:var(--G);background:rgba(96,190,53,.03)}
+.rt-text.S{border-left-color:var(--O);background:rgba(233,84,0,.04);font-family:var(--mono);font-size:12px;color:var(--O)}
+
+.no-replay{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:12px;color:var(--dim);
+}
+
+@media(max-width:768px){
+  table{font-size:11px;}
+  thead th,tbody td{padding:6px 8px;}
+}
+</style>
+<script defer src="../js/env.js"></script>
+<script defer src="../js/proplink.js"></script>
+</head>
+<body>
+
+<!-- FILTERS -->
+<div class="filterbar">
+  <span class="fb-label">Date</span>
+  <select class="fb-select">
+    <option>All Time</option>
+    <option selected>Apr 2026</option>
+    <option>Mar 2026</option>
+    <option>Last 7 days</option>
+  </select>
+  <span class="fb-label">Outcome</span>
+  <select class="fb-select">
+    <option>All Outcomes</option>
+    <option>A — Warm Transfer</option>
+    <option>B — Declined</option>
+    <option>C — No Answer</option>
+    <option>D — Callback</option>
+    <option>F — Escalated</option>
+    <option>Voicemail</option>
+  </select>
+  <span class="fb-label">Rep</span>
+  <select class="fb-select">
+    <option>All Reps</option>
+    <option>Marco Diaz</option>
+    <option>Sarah Mitchell</option>
+    <option>Ruben Santos</option>
+    <option>No Transfer</option>
+  </select>
+  <input type="text" class="fb-input" placeholder="Search contact, company, propID...">
+  <div class="fb-spacer"></div>
+  <span class="fb-count"><span>47</span> calls logged &nbsp;·&nbsp; <span>3</span> won &nbsp;·&nbsp; Click row to replay</span>
+</div>
+
+<div class="split">
+  <!-- LOG TABLE -->
+  <div class="table-col">
+    <table>
+      <thead>
+        <tr>
+          <th>Date / Time</th>
+          <th>Contact</th>
+          <th>Client / Location</th>
+          <th>propID</th>
+          <th>Value</th>
+          <th>Outcome</th>
+          <th>Rep</th>
+          <th>Duration</th>
+          <th>Replay</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="selected" onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 10 · 11:42 AM</td>
+          <td class="name">Michelle Forkas</td>
+          <td class="mono" style="font-size:13px">Summit Mgmt Mgmt / Sunrise Commons</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=7856" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#7856</a></td>
+          <td class="mono" style="color:var(--O);font-weight:600">$127,400</td>
+          <td><span class="outcome-pill A">A · Transfer</span></td>
+          <td><span class="rep-tag">Marco</span></td>
+          <td class="mono">1m 03s</td>
+          <td><button class="replay-btn active">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 10 · 10:31 AM</td>
+          <td class="name">Brandon Lee</td>
+          <td class="mono" style="font-size:13px">Arroyo Park HOA</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=6823" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#6823</a></td>
+          <td class="mono">$51,200</td>
+          <td><span class="outcome-pill D">D · Callback</span></td>
+          <td><span class="rep-tag none">—</span></td>
+          <td class="mono">2m 18s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 10 · 10:30 AM</td>
+          <td class="name">Brandon Lee</td>
+          <td class="mono" style="font-size:13px">Arroyo Park HOA</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=6823" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#6823</a></td>
+          <td class="mono">$51,200</td>
+          <td><span class="outcome-pill C">C · No Answer</span></td>
+          <td><span class="rep-tag none">—</span></td>
+          <td class="mono">0m 30s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 9 · 3:31 PM</td>
+          <td class="name">Rick Daniel</td>
+          <td class="mono" style="font-size:13px">Windward Companies / Loma Linda</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=8201" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#8201</a></td>
+          <td class="mono">$94,200</td>
+          <td><span class="outcome-pill B">B · Declined</span></td>
+          <td><span class="rep-tag none">—</span></td>
+          <td class="mono">3m 45s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 9 · 1:02 PM</td>
+          <td class="name">Sally Brown</td>
+          <td class="mono" style="font-size:13px">Waldman Group / Highland Oaks</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=5981" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#5981</a></td>
+          <td class="mono" style="color:var(--O);font-weight:600">$78,500</td>
+          <td><span class="outcome-pill A">A · Transfer</span></td>
+          <td><span class="rep-tag">Sarah</span></td>
+          <td class="mono">4m 12s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 9 · 10:33 AM</td>
+          <td class="name">Horacio Esparza</td>
+          <td class="mono" style="font-size:13px">Summit Mgmt Mgmt / Alderwood Park</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=7234" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#7234</a></td>
+          <td class="mono">$32,100</td>
+          <td><span class="outcome-pill VM">VM · Voicemail</span></td>
+          <td><span class="rep-tag none">—</span></td>
+          <td class="mono">0m 48s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 8 · 3:29 PM</td>
+          <td class="name">Stacie Roebuck</td>
+          <td class="mono" style="font-size:13px">Prometheus / Oakwood Commons</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=7412" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#7412</a></td>
+          <td class="mono">$45,600</td>
+          <td><span class="outcome-pill A">A · Transfer</span></td>
+          <td><span class="rep-tag">Ruben</span></td>
+          <td class="mono">5m 02s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 8 · 1:04 PM</td>
+          <td class="name">Emmanuel Quinonez</td>
+          <td class="mono" style="font-size:13px">MG Properties / Vista Del Mar</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=9012" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#9012</a></td>
+          <td class="mono">$38,900</td>
+          <td><span class="outcome-pill C">C · No Answer</span></td>
+          <td><span class="rep-tag none">—</span></td>
+          <td class="mono">0m 30s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 7 · 3:30 PM</td>
+          <td class="name">Lydia Nemechek</td>
+          <td class="mono" style="font-size:13px">Kendal Inc / Garden Walk</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=8456" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#8456</a></td>
+          <td class="mono">$24,700</td>
+          <td><span class="outcome-pill G2">G · Already Done</span></td>
+          <td><span class="rep-tag none">—</span></td>
+          <td class="mono">1m 52s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 7 · 1:01 PM</td>
+          <td class="name">Jill Ramsey</td>
+          <td class="mono" style="font-size:13px">BluePine / 3939 Marlton Ave</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=7789" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#7789</a></td>
+          <td class="mono">$28,400</td>
+          <td><span class="outcome-pill C">C · No Answer</span></td>
+          <td><span class="rep-tag none">—</span></td>
+          <td class="mono">0m 30s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 4 · 2:15 PM</td>
+          <td class="name">Tasha Williams</td>
+          <td class="mono" style="font-size:13px">Harbor Horizon HOAtes / Seabreeze II</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=9233" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#9233</a></td>
+          <td class="mono">$21,400</td>
+          <td><span class="outcome-pill B">B · Declined</span></td>
+          <td><span class="rep-tag none">—</span></td>
+          <td class="mono">2m 07s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+        <tr onclick="document.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('selected'));this.classList.add('selected')">
+          <td class="mono" style="font-size:13px">Apr 3 · 10:48 AM</td>
+          <td class="name">Nina Higgins</td>
+          <td class="mono" style="font-size:13px">EAH Housing / Cypress Ridge</td>
+          <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=8934" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#8934</a></td>
+          <td class="mono">$67,800</td>
+          <td><span class="outcome-pill F">F · Escalated</span></td>
+          <td><span class="rep-tag none">— Alex notified</span></td>
+          <td class="mono">1m 29s</td>
+          <td><button class="replay-btn">▶ Replay</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- REPLAY PANEL -->
+  <div class="replay-col">
+    <div class="rp-hdr">
+      <div class="rp-title">Replay · propID #7856 · Apr 10, 2026</div>
+      <div class="rp-name">Michelle Forkas</div>
+      <div class="rp-sub">Summit Mgmt Management · Sunrise Commons · Property Manager</div>
+      <div class="rp-stats">
+        <div class="rp-stat"><div class="rp-sv O">$127,400</div><div class="rp-sl">Value</div></div>
+        <div class="rp-stat"><div class="rp-sv">487d</div><div class="rp-sl">Stale</div></div>
+        <div class="rp-stat"><div class="rp-sv G">T1-C</div><div class="rp-sl">Script</div></div>
+        <div class="rp-stat"><div class="rp-sv G">1m 03s</div><div class="rp-sl">Duration</div></div>
+      </div>
+    </div>
+    <div class="rp-controls">
+      <button class="rpc-btn primary">▶ Play</button>
+      <button class="rpc-btn">⏸ Pause</button>
+      <button class="rpc-btn">⏮ Restart</button>
+      <button class="rpc-btn">⬇ Export</button>
+      <div class="rp-time">00:00</div>
+    </div>
+    <div class="rp-transcript">
+      <div class="rt-turn">
+        <div class="rt-meta"><span class="rt-who S">SYSTEM</span><span class="rt-time">00:00</span></div>
+        <div class="rt-text S">Recording started. Script: T1-C. claude-sonnet-4-6 preheated. Context: 4,821 tokens.</div>
+      </div>
+      <div class="rt-turn">
+        <div class="rt-meta"><span class="rt-who R">PHIL</span><span class="rt-time">00:03</span></div>
+        <div class="rt-text R">Hi Michelle, this is Sales calling from Pinnacle Services. I wanted to reach out about proposal #7856 for Sunrise Commons — I know you'd mentioned back in 2024 that you were working on getting it into the 2025 budget. Now that we're into 2026, I wanted to check in and see where things stand.</div>
+      </div>
+      <div class="rt-turn">
+        <div class="rt-meta"><span class="rt-who C">CLIENT</span><span class="rt-time">00:19</span></div>
+        <div class="rt-text C">Oh yes! We actually did get budget approval in January, but I keep meaning to circle back and just haven't gotten to it. I'm glad you called. What's the process to move forward?</div>
+      </div>
+      <div class="rt-turn">
+        <div class="rt-meta"><span class="rt-who R">PHIL</span><span class="rt-time">00:31</span></div>
+        <div class="rt-text R">That's great news. Before I connect you with the scheduling team — are there any other properties in your Summit Mgmt portfolio we have open proposals for? I want to make sure we don't miss anything while we have you.</div>
+      </div>
+      <div class="rt-turn">
+        <div class="rt-meta"><span class="rt-who C">CLIENT</span><span class="rt-time">00:43</span></div>
+        <div class="rt-text C">I think there might be one for Alderwood Park too? But let's start with Sunrise Commons — that one is definitely approved.</div>
+      </div>
+      <div class="rt-turn">
+        <div class="rt-meta"><span class="rt-who R">PHIL</span><span class="rt-time">00:52</span></div>
+        <div class="rt-text R">Perfect. Let me connect you with our scheduling team right now — they'll get everything set up.</div>
+      </div>
+      <div class="rt-turn">
+        <div class="rt-meta"><span class="rt-who S">SYSTEM</span><span class="rt-time">00:56</span></div>
+        <div class="rt-text S">⚡ WARM TRANSFER → Marco Diaz. manager_userID=7225 written. HubSpot updated. FieldTECH note logged. Call ended 01:03. Outcome A confirmed.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

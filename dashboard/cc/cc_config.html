@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Norwester';src:url('../css/norwester.otf') format('opentype')}
+:root{
+  --bg:#1a1a1a;--bg2:#242424;--bg3:#2a2a2a;--bg4:#323232;
+  --C:#9f00fa;--Cl:#d36eff;--O:#ff6a1a;--G:#72d648;--R:#ff4040;--Y:#ffb020;
+  --t:#ffffff;--tm:#e0e0e0;--dim:#888888;
+  --mono:'JetBrains Mono',monospace;--jost:'Jost',sans-serif;--nw:'Norwester','Jost',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg3)}
+body{color:var(--t);font-family:var(--jost);display:flex;flex-direction:column}
+.scroll{flex:1;overflow-y:auto;padding:20px 24px}
+
+/* LAYOUT */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;align-items:start}
+
+/* SECTION */
+.section{margin-bottom:20px}
+.sec-hdr{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sec-tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--C);background:rgba(159,0,250,.1);border:1px solid rgba(159,0,250,.25);padding:3px 9px}
+.sec-title{font-size:17px;font-weight:700;color:var(--t);text-transform:uppercase;letter-spacing:.04em}
+.sec-line{flex:1;height:1px;background:rgba(255,255,255,.06)}
+
+/* CARD */
+.card{background:var(--bg2);border:1px solid rgba(0,0,0,.5);padding:20px;margin-bottom:16px}
+.card-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(0,0,0,.4);
+}
+.card-title{font-size:16px;font-weight:600;color:var(--t)}
+.card-badge{font-family:var(--mono);font-size:12px;padding:3px 10px;background:rgba(159,0,250,.12);color:var(--Cl);border:1px solid rgba(159,0,250,.25)}
+
+/* SLIDER PARAM */
+.param{margin-bottom:22px}
+.param-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px}
+.param-name{font-size:15px;font-weight:600;color:var(--t)}
+.param-desc{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:2px;margin-bottom:10px}
+.param-val-display{
+  font-family:var(--nw);font-size:32px;color:var(--C);letter-spacing:.03em;line-height:1;
+}
+.param-unit{font-family:var(--mono);font-size:14px;color:var(--dim);margin-left:3px}
+.slider-wrap{position:relative}
+input[type=range]{
+  -webkit-appearance:none;
+  width:100%;height:5px;
+  background:var(--bg3);border-radius:3px;outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--C);cursor:pointer;
+  box-shadow:0 0 10px rgba(159,0,250,.55);
+  transition:transform .12s;
+}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+input[type=range].O::-webkit-slider-thumb{background:var(--O);box-shadow:0 0 10px rgba(233,84,0,.55)}
+input[type=range].G::-webkit-slider-thumb{background:var(--G);box-shadow:0 0 10px rgba(96,190,53,.55)}
+input[type=range].Y::-webkit-slider-thumb{background:var(--Y);box-shadow:0 0 10px rgba(238,150,18,.55)}
+.slider-minmax{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:5px}
+
+/* COMMISSION PREVIEW BOX */
+.comm-preview{
+  background:var(--bg3);border:1px solid rgba(159,0,250,.2);
+  border-left:3px solid var(--C);padding:16px;margin-top:16px;
+}
+.cp-title{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--Cl);margin-bottom:10px}
+.cp-deal-size{margin-bottom:12px}
+.cp-deal-label{font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:4px}
+.cp-deal-val{font-family:var(--nw);font-size:28px;color:var(--O)}
+.cp-breakdown{display:flex;flex-direction:column;gap:0}
+.cp-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.3);font-family:var(--mono);font-size:14px}
+.cp-row:last-child{border-bottom:none}
+.cpk{color:var(--dim)}.cpv{color:var(--tm)}
+.cpv.G{color:var(--G);font-weight:700}
+.cpv.C{color:var(--Cl);font-weight:600}
+.cp-total-row{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid rgba(159,0,250,.2);margin-top:4px}
+.cp-total-k{font-size:15px;font-weight:600;color:var(--tm)}
+.cp-total-v{font-family:var(--nw);font-size:36px;color:var(--G)}
+
+/* TOGGLE */
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 0;border-bottom:1px solid rgba(0,0,0,.3);
+}
+.toggle-row:last-child{border-bottom:none}
+.tg-left{flex:1}
+.tg-name{font-size:15px;font-weight:500;color:var(--t)}
+.tg-desc{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:2px}
+.toggle{
+  position:relative;width:42px;height:22px;flex-shrink:0;margin-left:16px;cursor:pointer;
+}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-track{
+  position:absolute;inset:0;border-radius:11px;
+  background:var(--bg3);border:1px solid rgba(255,255,255,.12);
+  transition:background .2s;
+}
+.toggle input:checked + .toggle-track{background:var(--C);border-color:var(--C)}
+.toggle-thumb{
+  position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;
+  background:#fff;transition:transform .2s;
+}
+.toggle input:checked ~ .toggle-thumb{transform:translateX(20px)}
+
+/* CALL WINDOW DISPLAY */
+.window-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.window-item{background:var(--bg3);border:1px solid rgba(0,0,0,.4);padding:12px;text-align:center}
+.wl{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
+.wv{font-size:14px;font-weight:600;color:var(--tm)}
+.window-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px}
+.cal-day{
+  font-family:var(--mono);font-size:12px;padding:6px 4px;text-align:center;
+  border:1px solid rgba(0,0,0,.4);
+}
+.cal-day.on{background:rgba(96,190,53,.15);border-color:rgba(96,190,53,.3);color:var(--G)}
+.cal-day.off{background:rgba(255,64,64,.08);border-color:rgba(255,64,64,.2);color:var(--dim)}
+
+/* SEQUENCE TIMELINE */
+.sequence-timeline{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:8px}
+.seq-item{flex-shrink:0;text-align:center;position:relative;width:90px}
+.seq-item:not(:last-child)::after{
+  content:'';position:absolute;top:17px;left:50%;right:-50%;
+  height:2px;background:rgba(255,255,255,.08);z-index:0;
+}
+.seq-dot{
+  width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 6px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--dim);
+  background:var(--bg3);position:relative;z-index:1;
+}
+.seq-dot.call{border-color:var(--C);color:var(--Cl);background:rgba(159,0,250,.12)}
+.seq-dot.sms{border-color:var(--G);color:var(--G);background:rgba(96,190,53,.1)}
+.seq-dot.email{border-color:var(--Y);color:var(--Y);background:rgba(238,150,18,.1)}
+.seq-day{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--t);margin-bottom:2px}
+.seq-ch{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.seq-note{font-size:11px;color:var(--dim);margin-top:3px;line-height:1.3}
+
+/* INFO ROW */
+.info-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;background:var(--bg3);border:1px solid rgba(0,0,0,.4);margin-bottom:8px;
+}
+.ir-key{font-family:var(--mono);font-size:14px;color:var(--dim)}
+.ir-val{font-family:var(--mono);font-size:14px;color:var(--tm);font-weight:600}
+.ir-val.G{color:var(--G)}.ir-val.Y{color:var(--Y)}.ir-val.R{color:var(--R)}
+
+@media(max-width:768px){
+  .scroll{padding:14px;}
+  .cols,.cols3{grid-template-columns:1fr;}
+  .info-row{flex-wrap:wrap;gap:6px;}
+}
+</style>
+<script defer src="../js/env.js"></script>
+<script defer src="../js/config.js"></script>
+<script defer src="../js/proplink.js"></script>
+</head>
+<body>
+<div class="scroll">
+
+<div class="cols">
+<!-- LEFT COLUMN -->
+<div>
+
+<!-- QUEUE PARAMETERS -->
+<div class="section">
+  <div class="sec-hdr"><span class="sec-tag">§16</span><span class="sec-title">Queue Parameters</span><div class="sec-line"></div></div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-title">Proposal Eligibility</span><span class="card-badge">Auto-Dial Rules</span></div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Minimum Proposal Value</div>
+          <div class="param-desc">Proposals below this value are excluded from the queue</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-minprice">$5</span></div>
+      </div>
+      <input type="range" class="O" min="0" max="1000" value="5" step="5" oninput="this.previousElementSibling.previousElementSibling.querySelector('.param-val-display').textContent='$'+this.value">
+      <div class="slider-minmax"><span>$0 (all)</span><span>$500</span><span>$1,000</span></div>
+    </div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Staleness Threshold</div>
+          <div class="param-desc">Minimum days since tstamp_sent before proposal enters queue</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-stale">7</span><span class="param-unit">days</span></div>
+      </div>
+      <input type="range" min="1" max="30" value="7" oninput="document.getElementById('v-stale').textContent=this.value">
+      <div class="slider-minmax"><span>1d</span><span>14d</span><span>30d</span></div>
+    </div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Max Batch Size</div>
+          <div class="param-desc">Maximum calls per batch before requiring new Alex approval</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-batch">50</span><span class="param-unit">calls</span></div>
+      </div>
+      <input type="range" min="5" max="100" value="50" step="5" oninput="document.getElementById('v-batch').textContent=this.value">
+      <div class="slider-minmax"><span>5</span><span>50</span><span>100</span></div>
+    </div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Alex Review Threshold</div>
+          <div class="param-desc">Proposals above this value get hard-flagged for individual review</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-review">$200K</span></div>
+      </div>
+      <input type="range" class="Y" min="50000" max="500000" value="200000" step="10000"
+        oninput="document.getElementById('v-review').textContent='$'+(this.value/1000)+'K'">
+      <div class="slider-minmax"><span>$50K</span><span>$200K</span><span>$500K</span></div>
+    </div>
+
+    <div class="param" style="margin-bottom:0">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Max Call Attempts per Day</div>
+          <div class="param-desc">Per contact per scheduled call day (Day 7 / 10 / 21)</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-attempts">3</span></div>
+      </div>
+      <input type="range" min="1" max="5" value="3" oninput="document.getElementById('v-attempts').textContent=this.value">
+      <div class="slider-minmax"><span>1</span><span>3 (default)</span><span>5</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SEQUENCE TIMING -->
+<div class="section">
+  <div class="sec-hdr"><span class="sec-tag">§17</span><span class="sec-title">Outreach Sequence</span><div class="sec-line"></div></div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-title">Touch Schedule</span><span class="card-badge">Day counters</span></div>
+    <div class="sequence-timeline">
+      <div class="seq-item"><div class="seq-dot call">☎</div><div class="seq-day">7</div><div class="seq-ch">CALL×3</div><div class="seq-note">Voicemail on 3rd</div></div>
+      <div class="seq-item"><div class="seq-dot sms">✉</div><div class="seq-day">8</div><div class="seq-ch">SMS</div><div class="seq-note">VM follow-up</div></div>
+      <div class="seq-item"><div class="seq-dot call">☎</div><div class="seq-day">10</div><div class="seq-ch">CALL×3</div><div class="seq-note">No voicemail</div></div>
+      <div class="seq-item"><div class="seq-dot email">⊠</div><div class="seq-day">14</div><div class="seq-ch">EMAIL</div><div class="seq-note">Postmark</div></div>
+      <div class="seq-item"><div class="seq-dot sms">✉</div><div class="seq-day">18</div><div class="seq-ch">SMS</div><div class="seq-note">Nudge</div></div>
+      <div class="seq-item"><div class="seq-dot call">☎</div><div class="seq-day">21</div><div class="seq-ch">CALL×3</div><div class="seq-note">VM if never engaged</div></div>
+      <div class="seq-item"><div class="seq-dot sms">✉</div><div class="seq-day">30</div><div class="seq-ch">SMS</div><div class="seq-note">Light check-in</div></div>
+      <div class="seq-item"><div class="seq-dot email">⊠</div><div class="seq-day">44</div><div class="seq-ch">EMAIL</div><div class="seq-note">Final — stop</div></div>
+    </div>
+
+    <div style="margin-top:16px;display:flex;gap:8px">
+      <div class="toggle-row" style="border:none;padding:0;flex:1">
+        <div class="tg-left"><div class="tg-name">Recency Guard</div><div class="tg-desc">Skip touch if human rep emailed contact in last 7d</div></div>
+        <label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CALL WINDOW -->
+<div class="section">
+  <div class="sec-hdr"><span class="sec-tag">§18</span><span class="sec-title">Call Window</span><div class="sec-line"></div></div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-title">Outbound Dial Window</span><span class="card-badge">America/Los_Angeles</span></div>
+    <div class="window-grid">
+      <div class="window-item"><div class="wl">Hours</div><div class="wv">10:30 AM – 4:30 PM</div></div>
+      <div class="window-item"><div class="wl">Days</div><div class="wv">Tue – Fri</div></div>
+      <div class="window-item"><div class="wl">Monday</div><div class="wv" style="color:var(--R)">Excluded</div></div>
+      <div class="window-item"><div class="wl">Holidays</div><div class="wv" style="color:var(--Y)">Shift forward</div></div>
+    </div>
+    <div class="window-cal" style="margin-top:12px">
+      <div class="cal-day off">MON</div>
+      <div class="cal-day on">TUE</div>
+      <div class="cal-day on">WED</div>
+      <div class="cal-day on">THU</div>
+      <div class="cal-day on">FRI</div>
+      <div class="cal-day off">SAT</div>
+      <div class="cal-day off">SUN</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end left column -->
+
+<!-- RIGHT COLUMN -->
+<div>
+
+<!-- COMMISSION PANEL -->
+<div class="section">
+  <div class="sec-hdr"><span class="sec-tag">§15</span><span class="sec-title">Commission</span><div class="sec-line"></div></div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-title">Commission Parameters</span><span class="card-badge">Morgan to confirm</span></div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Sales AI CSM %</div>
+          <div class="param-desc">Sales AI's cut of each recovered deal</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-csm">3.5</span><span class="param-unit">%</span></div>
+      </div>
+      <input type="range" min="0" max="10" value="3.5" step="0.5" oninput="document.getElementById('v-csm').textContent=this.value;updatePreview()">
+      <div class="slider-minmax"><span>0%</span><span>5%</span><span>10%</span></div>
+    </div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Sales Rep Commission %</div>
+          <div class="param-desc">Rep's standard commission (separate pool)</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-rep">8.0</span><span class="param-unit">%</span></div>
+      </div>
+      <input type="range" class="G" min="0" max="15" value="8" step="0.5" oninput="document.getElementById('v-rep').textContent=parseFloat(this.value).toFixed(1)">
+      <div class="slider-minmax"><span>0%</span><span>8%</span><span>15%</span></div>
+    </div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Orphaned Rep Bonus</div>
+          <div class="param-desc">Extra % for deals from departed/disabled reps</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-orphan">+1.5</span><span class="param-unit">%</span></div>
+      </div>
+      <input type="range" class="O" min="0" max="5" value="1.5" step="0.5" oninput="document.getElementById('v-orphan').textContent='+'+this.value;updatePreview()">
+      <div class="slider-minmax"><span>0%</span><span>+2.5%</span><span>+5%</span></div>
+    </div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Attribution Window</div>
+          <div class="param-desc">Days after transfer within which approval counts as Sales AI's win</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-window">30</span><span class="param-unit">days</span></div>
+      </div>
+      <input type="range" class="Y" min="7" max="90" value="30" oninput="document.getElementById('v-window').textContent=this.value">
+      <div class="slider-minmax"><span>7d</span><span>30d</span><span>90d</span></div>
+    </div>
+
+    <div class="param" style="margin-bottom:0">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Min Deal for Commission</div>
+          <div class="param-desc">Deals below this value don't trigger commission</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-mindeal">$500</span></div>
+      </div>
+      <input type="range" min="0" max="5000" value="500" step="100" oninput="document.getElementById('v-mindeal').textContent='$'+this.value">
+      <div class="slider-minmax"><span>$0</span><span>$2,500</span><span>$5,000</span></div>
+    </div>
+
+    <!-- LIVE PREVIEW -->
+    <div class="comm-preview">
+      <div class="cp-title">Live Preview — Sample Deal</div>
+      <div class="cp-deal-size">
+        <div class="cp-deal-label">Sample deal value (drag to adjust)</div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="cp-deal-val" id="pv-deal">$50,000</div>
+          <input type="range" style="flex:1" min="5000" max="500000" value="50000" step="1000"
+            oninput="document.getElementById('pv-deal').textContent='$'+parseInt(this.value).toLocaleString();updatePreview()">
+        </div>
+      </div>
+      <div class="cp-breakdown">
+        <div class="cp-row"><span class="cpk">Deal value</span><span class="cpv" id="pv-val">$50,000</span></div>
+        <div class="cp-row"><span class="cpk">Sales AI CSM @ <span id="pv-csm-pct">3.5</span>%</span><span class="cpv C" id="pv-csm">$1,750</span></div>
+        <div class="cp-row"><span class="cpk">Orphaned bonus @ <span id="pv-ob-pct">1.5</span>%</span><span class="cpv" id="pv-ob">$750</span></div>
+        <div class="cp-row"><span class="cpk">Sales rep @ 8.0%</span><span class="cpv" id="pv-rep">$4,000</span></div>
+      </div>
+      <div class="cp-total-row">
+        <span class="cp-total-k">Sales AI earns</span>
+        <span class="cp-total-v" id="pv-total">$2,500</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURE TOGGLES -->
+<div class="section">
+  <div class="sec-hdr"><span class="sec-tag">Settings</span><span class="sec-title">Feature Flags</span><div class="sec-line"></div></div>
+  <div class="card">
+    <div class="toggle-row">
+      <div class="tg-left"><div class="tg-name">VIP Gate</div><div class="tg-desc">Block VIP clients from auto-dial (requires isVip column)</div></div>
+      <label class="toggle"><input type="checkbox"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="toggle-row">
+      <div class="tg-left"><div class="tg-name">Recency Guard</div><div class="tg-desc">Skip if human rep emailed in last 7 days</div></div>
+      <label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="toggle-row">
+      <div class="tg-left"><div class="tg-name">Cross-Sell Detection</div><div class="tg-desc">Sales AI asks about other services before transferring</div></div>
+      <label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="toggle-row">
+      <div class="tg-left"><div class="tg-name">CC Contact Extraction</div><div class="tg-desc">Extract and add CC'd contacts from HubSpot email threads</div></div>
+      <label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="toggle-row">
+      <div class="tg-left"><div class="tg-name">Worker Auto-Destroy</div><div class="tg-desc">Destroy ephemeral worker immediately after batch completes</div></div>
+      <label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="toggle-row">
+      <div class="tg-left"><div class="tg-name">HubSpot Sync</div><div class="tg-desc">Write deal_outreach_status + follow_up_status after each touch</div></div>
+      <label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="toggle-row">
+      <div class="tg-left"><div class="tg-name">Auto-Redial on Crash</div><div class="tg-desc">If worker dies mid-call, auto-redial with prior transcript context (OFF for initial weeks)</div></div>
+      <label class="toggle"><input type="checkbox"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="toggle-row">
+      <div class="tg-left"><div class="tg-name">Force Kokoro Fallback</div><div class="tg-desc">Override Inworld TTS and use Kokoro as primary TTS (emergency fallback)</div></div>
+      <label class="toggle"><input type="checkbox"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="toggle-row">
+      <div class="tg-left"><div class="tg-name">Pipecat Flows Debug Mode</div><div class="tg-desc">Log all Pipecat Flows state transitions to console and event log</div></div>
+      <label class="toggle"><input type="checkbox"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="toggle-row" style="border-bottom:none">
+      <div class="tg-left">
+        <div class="tg-name" style="color:var(--dim)">Mission 2 Prospecting</div>
+        <div class="tg-desc">New client outreach — v2 feature, not built</div>
+      </div>
+      <label class="toggle"><input type="checkbox" disabled><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+  </div>
+</div>
+
+<!-- VOICE PIPELINE TUNING -->
+<div class="section">
+  <div class="sec-hdr"><span class="sec-tag">§12</span><span class="sec-title">Voice Pipeline</span><div class="sec-line"></div></div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-title">Pipeline Thresholds</span><span class="card-badge">v1.9</span></div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">VAD stop_secs</div>
+          <div class="param-desc">Silero VAD + SmartTurn v3 — lower = faster response, more false triggers</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-vad">200</span><span class="param-unit">ms</span></div>
+      </div>
+      <input type="range" min="100" max="1000" value="200" step="50" oninput="document.getElementById('v-vad').textContent=this.value">
+      <div class="slider-minmax"><span>100ms (aggressive)</span><span>200ms (default)</span><span>1000ms (conservative)</span></div>
+    </div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Barge-in Threshold</div>
+          <div class="param-desc">Client speech duration before Sales stops talking. &lt;500ms = backchannel noise</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-barge">500</span><span class="param-unit">ms</span></div>
+      </div>
+      <input type="range" class="O" min="100" max="1000" value="500" step="50" oninput="document.getElementById('v-barge').textContent=this.value">
+      <div class="slider-minmax"><span>100ms</span><span>500ms (default)</span><span>1000ms</span></div>
+    </div>
+
+    <div class="param" style="margin-bottom:0">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Worker Keep-Alive Interval</div>
+          <div class="param-desc">sales-app → Worker WebSocket heartbeat. Worker self-terminates if stopped</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-keepalive">5</span><span class="param-unit">sec</span></div>
+      </div>
+      <input type="range" min="2" max="30" value="5" oninput="document.getElementById('v-keepalive').textContent=this.value">
+      <div class="slider-minmax"><span>2s</span><span>5s (default)</span><span>30s</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- HEALTH CHECK THRESHOLDS -->
+<div class="section">
+  <div class="sec-hdr"><span class="sec-tag">§13</span><span class="sec-title">Health Check</span><div class="sec-line"></div></div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-title">Pre-Batch Health Check Thresholds</span><span class="card-badge">Pass / Fail</span></div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">STT Latency Ceiling</div>
+          <div class="param-desc">Parakeet RNNT marginal latency — fail if exceeds</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-hc-stt">50</span><span class="param-unit">ms</span></div>
+      </div>
+      <input type="range" class="G" min="20" max="200" value="50" step="10" oninput="document.getElementById('v-hc-stt').textContent=this.value">
+      <div class="slider-minmax"><span>20ms</span><span>50ms (target)</span><span>200ms</span></div>
+    </div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">LLM First-Token Ceiling</div>
+          <div class="param-desc">Claude Sonnet first token latency — fail if exceeds</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-hc-llm">400</span><span class="param-unit">ms</span></div>
+      </div>
+      <input type="range" min="100" max="1000" value="400" step="50" oninput="document.getElementById('v-hc-llm').textContent=this.value">
+      <div class="slider-minmax"><span>100ms</span><span>400ms (p95 target)</span><span>1000ms</span></div>
+    </div>
+
+    <div class="param">
+      <div class="param-row">
+        <div>
+          <div class="param-name">TTS TTFA Ceiling</div>
+          <div class="param-desc">Inworld TTS Mini time-to-first-audio — fail if exceeds</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-hc-tts">150</span><span class="param-unit">ms</span></div>
+      </div>
+      <input type="range" class="Y" min="50" max="500" value="150" step="10" oninput="document.getElementById('v-hc-tts').textContent=this.value">
+      <div class="slider-minmax"><span>50ms</span><span>150ms (p50 target)</span><span>500ms</span></div>
+    </div>
+
+    <div class="param" style="margin-bottom:0">
+      <div class="param-row">
+        <div>
+          <div class="param-name">Recording Retention</div>
+          <div class="param-desc">Dual-channel call recordings in DO Spaces</div>
+        </div>
+        <div style="text-align:right"><span class="param-val-display" id="v-retention">∞</span></div>
+      </div>
+      <input type="range" min="0" max="365" value="365" step="30" oninput="document.getElementById('v-retention').textContent=this.value==365?'∞':this.value+'d'">
+      <div class="slider-minmax"><span>30d</span><span>180d</span><span>∞ (keep all)</span></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end right column -->
+</div><!-- end cols -->
+
+</div><!-- scroll -->
+</body>
+</html>

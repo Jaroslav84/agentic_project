@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/graph.css">
+<style>
+/* page-specific canvas dimensions + background */
+.canvas{
+  width:1920px;height:900px;
+  background:
+    radial-gradient(ellipse 900px 700px at 50% 45%,rgba(159,0,250,.04) 0%,transparent 70%),
+    var(--bg);
+}
+/* page-specific: tooltip width override */
+#tt{width:420px}
+/* page-specific: legend diamond */
+.li-diamond{width:8px;height:8px;flex-shrink:0;transform:rotate(45deg);border:1.5px solid #ee9612;background:transparent}
+/* pulse animation for active bars */
+@keyframes barPulse{0%,100%{opacity:1}50%{opacity:.7}}
+.gantt-bar-active{animation:barPulse 3s ease-in-out infinite}
+</style>
+<script defer src="../js/env.js"></script>
+<script defer src="../js/graph-core.js"></script>
+<script defer src="../js/gantt.js"></script>
+<script defer src="../js/proplink.js"></script>
+</head>
+<body>
+<div class="shell">
+<div class="top-bar">
+  <span class="stit">Project Timeline &mdash; Sales AI Gantt</span>
+  <span class="meta">7 phases &middot; 21 tasks &middot; 10 milestones</span>
+  <span class="hint">HOVER FOR DETAILS</span>
+  <button class="fs-btn" id="fsBtn" onclick="toggleFS()" title="Fullscreen">&#x26F6;</button>
+</div>
+
+<div class="graph-wrap" id="graphWrap">
+  <div class="canvas" id="cnv">
+    <svg id="ganttSvg" style="position:absolute;inset:0;width:1920px;height:900px;overflow:visible;z-index:2"></svg>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="sb-item">
+    <div class="pdot" style="background:var(--G);box-shadow:0 0 6px var(--G);animation:blink 2s infinite"></div>
+    <span style="color:var(--G)">SPECIFICATION COMPLETE</span>
+  </div>
+  <div class="sb-item">
+    <span>PHASE 2 IN PROGRESS &middot; ALPHA</span>
+  </div>
+  <div class="sb-item" style="margin-left:auto">
+    <span style="color:var(--C)">TODAY: APR 11, 2026</span>
+  </div>
+</div>
+<div class="legend-row">
+  <div class="li"><div class="li-dot" style="background:#60be35;box-shadow:0 0 5px #60be35"></div>Complete</div>
+  <div class="li"><div class="li-dot" style="background:#9f00fa;box-shadow:0 0 5px #9f00fa"></div>In Progress</div>
+  <div class="li"><div class="li-dot" style="background:#3a3a3a;box-shadow:0 0 4px #3a3a3a"></div>Planned</div>
+  <div class="li"><div class="li-dot" style="background:#ff4040;box-shadow:0 0 5px #ff4040"></div>Blocked</div>
+  <div class="li"><div class="li-diamond"></div>Milestone</div>
+</div>
+</div><!-- /shell -->
+
+<!-- Floating tooltip -->
+<div id="tt">
+  <div class="tt-head">
+    <div class="tt-head-text">
+      <div class="tt-name" id="tt-name">Task</div>
+      <div class="tt-role" id="tt-role">Phase</div>
+      <div class="tt-status" id="tt-status">
+        <span class="tt-sdot" id="tt-sdot"></span>
+        <span id="tt-sv"></span>
+      </div>
+    </div>
+  </div>
+  <div class="tt-metrics" id="tt-metrics"></div>
+  <div class="tt-conns" id="tt-conns" style="display:none"></div>
+  <div class="tt-note" id="tt-note"></div>
+</div>
+
+</body>
+</html>

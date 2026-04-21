@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/cc-shared.css">
+<style>
+/* ── Queue-specific overrides & additions ── */
+
+/* Toolbar padding override */
+.toolbar{padding:12px 20px;background:var(--bg2);border-bottom:1px solid rgba(0,0,0,.5)}
+.sel-count{font-family:var(--mono);font-size:13px;color:var(--dim)}
+.sel-count span{color:var(--Cl);font-weight:600}
+
+/* Table: queue-specific row states */
+thead th.sort-asc::after{content:' \2191';color:var(--Cl)}
+thead th.sort-desc::after{content:' \2193';color:var(--Cl)}
+tbody tr:hover td{background:rgba(159,0,250,.06)}
+tbody tr.excluded td{opacity:.4;background:rgba(255,64,64,.04)}
+tbody tr.excluded td:first-child::before{content:'\2715 '}
+tbody tr.vip-flag td:first-child{border-left:3px solid var(--Y)}
+tbody tr.high-val td:first-child{border-left:3px solid var(--Cl)}
+tbody tr.orphaned td{background:rgba(159,0,250,.03)}
+tr.active-row td{background:rgba(159,0,250,.10)}
+.detail-row td{border-bottom:2px solid rgba(159,0,250,.25)}
+td:first-child{padding-left:12px}
+td.mono{font-family:var(--mono)}
+
+/* Checkbox */
+.chk{width:16px;height:16px;accent-color:var(--C);cursor:pointer}
+
+/* Value cell */
+.val-cell{color:var(--t);font-weight:600}
+.val-cell.high{color:var(--Cl)}
+
+/* Role badge */
+.role-badge{
+  display:inline-block;font-size:11px;padding:2px 7px;
+  background:rgba(255,255,255,.07);border-radius:3px;color:var(--td);
+  font-family:var(--mono);white-space:nowrap;
+}
+
+/* Flags: queue extras */
+.flag.O{background:rgba(159,0,250,.15);color:var(--Cl);border:1px solid rgba(159,0,250,.3)}
+.flag.C{background:rgba(159,0,250,.15);color:var(--Cl);border:1px solid rgba(159,0,250,.3)}
+
+/* Script tier pill */
+.tier{display:inline-block;font-size:12px;padding:2px 8px;border-radius:3px;font-weight:600;font-family:var(--mono)}
+.tier.t1{background:rgba(96,190,53,.2);color:var(--G);border:1px solid rgba(96,190,53,.35)}
+.tier.t2a{background:rgba(159,0,250,.15);color:var(--Cl);border:1px solid rgba(159,0,250,.3)}
+.tier.t2b{background:rgba(159,0,250,.12);color:var(--Cl);border:1px solid rgba(159,0,250,.25)}
+.tier.t2c{background:rgba(238,150,18,.15);color:var(--Y);border:1px solid rgba(238,150,18,.3)}
+.tier.t3{background:rgba(255,255,255,.07);color:var(--tm);border:1px solid rgba(255,255,255,.12)}
+.tier.t4{background:rgba(159,0,250,.12);color:var(--Cl);border:1px solid rgba(159,0,250,.25)}
+
+/* Days stale coloring */
+.days.fresh{color:var(--G)}.days.warm{color:var(--Cl)}.days.cold{color:var(--Y)}.days.ancient{color:var(--R)}
+
+/* Queue badge */
+.queue-badge{font-size:12px;padding:2px 7px;border-radius:3px;font-family:var(--mono)}
+.queue-badge.rachelm{background:rgba(159,0,250,.18);color:var(--Cl)}
+.queue-badge.larson{background:rgba(159,0,250,.12);color:var(--Cl)}
+.queue-badge.andrea{background:rgba(238,150,18,.15);color:var(--Y)}
+.queue-badge.knox{background:rgba(255,255,255,.07);color:var(--tm)}
+.queue-badge.morgan{background:rgba(255,64,64,.12);color:#ff8080}
+.queue-badge.active{background:rgba(96,190,53,.12);color:var(--G)}
+
+/* Detail panel: queue-specific heads + widgets */
+.dp-col.wide{flex:1.6}
+.dp-row .v.warn{color:var(--Y)}.dp-row .v.good{color:var(--G)}.dp-row .v.bad{color:var(--R)}.dp-row .v.purple{color:var(--Cl)}
+.dp-head.brief::before{background:var(--C)}.dp-head.prop::before{background:var(--Cl)}.dp-head.next::before{background:var(--G)}.dp-head.rating::before{background:var(--Y)}.dp-head.transcript::before{background:var(--tm)}
+.dp-text em{color:var(--t);font-style:normal;font-weight:500}
+.dp-opening{margin-top:10px;padding:8px 12px;background:rgba(159,0,250,.08);border-left:3px solid var(--C);font-size:13px;color:var(--Cl);line-height:1.5;font-family:var(--jost);font-style:italic}
+.dp-signal{display:inline-block;font-size:11px;padding:2px 7px;border-radius:3px;font-family:var(--mono);margin:2px}
+.dp-signal.pos{background:rgba(96,190,53,.15);color:var(--G);border:1px solid rgba(96,190,53,.3)}
+.dp-signal.neg{background:rgba(255,64,64,.12);color:var(--R);border:1px solid rgba(255,64,64,.25)}
+.dp-signal.neu{background:rgba(255,255,255,.06);color:var(--dim);border:1px solid rgba(255,255,255,.1)}
+.dp-stars{display:flex;gap:2px;justify-content:flex-end}
+.dp-stars .star{font-size:16px}
+.dp-stars .star.on{color:var(--Y)}.dp-stars .star.off{color:rgba(255,255,255,.12)}
+.dp-meter{height:6px;background:rgba(255,255,255,.07);border-radius:3px;margin-top:3px;overflow:hidden}
+.dp-meter .fill{height:100%;border-radius:3px}
+.dp-transcript{font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--dim);margin-top:6px;max-height:120px;overflow-y:auto;padding-right:8px}
+.dp-transcript .turn{margin-bottom:4px}
+.dp-transcript .turn .who{font-weight:600;margin-right:4px}
+.dp-transcript .who.phil{color:var(--Cl)}.dp-transcript .who.client{color:var(--G)}
+.dp-transcript .no-calls{color:var(--dim);font-style:italic;font-family:var(--jost);font-size:13px}
+.dp-next-action{margin-top:8px;padding:10px 14px;background:rgba(96,190,53,.08);border:1px solid rgba(96,190,53,.2);border-radius:4px;font-size:13px;color:var(--G);font-family:var(--mono)}
+.dp-next-action .label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.dp-hs-anchor{color:var(--Cl);text-decoration:none;font-family:var(--mono);font-size:12px}
+.dp-briefing-section{margin-top:10px}
+.dp-signals-wrap{margin-top:4px}
+.dp-text-tight{margin-top:2px}
+.dp-hs-link{margin-top:10px}
+.dp-action-rows{margin-top:10px}
+.dp-rating-section{margin-top:16px}
+.dp-transcript-section{margin-top:16px}
+
+/* Footer: queue height + go button */
+.footer{height:60px}
+.foot-stat .fv{font-size:22px}
+.go-btn{
+  padding:0 36px;height:38px;
+  background:var(--C);color:#fff;border:none;
+  font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  cursor:pointer;box-shadow:0 0 24px rgba(159,0,250,.4);
+  transition:background .15s,box-shadow .15s;
+  display:flex;align-items:center;gap:12px;
+}
+.go-btn:hover{background:#b030ff;box-shadow:0 0 32px rgba(159,0,250,.6)}
+.go-btn::before{content:'\25b6\25b6';font-size:11px;opacity:.8}
+
+@media(max-width:768px){
+  .go-btn{padding:0 16px;font-size:12px;letter-spacing:.14em;}
+}
+</style>
+<script defer src="../js/env.js"></script>
+<script defer src="../js/cc-shared.js"></script>
+<script defer src="../js/queue.js"></script>
+<script defer src="../js/queue-detail.js"></script>
+<script defer src="../js/proplink.js"></script>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <span class="tb-label">Sort</span>
+  <select class="tb-select">
+    <option>Value ↓ (highest first)</option>
+    <option>Staleness ↓ (oldest first)</option>
+    <option>Script Tier</option>
+    <option>Queue (orphaned first)</option>
+  </select>
+  <div class="tb-sep"></div>
+  <span class="tb-label">Filter</span>
+  <select class="tb-select">
+    <option>All Proposals</option>
+    <option>Orphaned Only</option>
+    <option>VIP Flagged</option>
+    <option>T1 (Client Replied)</option>
+    <option>No Phone</option>
+  </select>
+  <div class="tb-sep"></div>
+  <button class="tb-btn">Select All</button>
+  <button class="tb-btn">Deselect VIP</button>
+  <button class="tb-btn danger">Remove Selected</button>
+  <button class="tb-btn">Regenerate</button>
+  <div class="tb-spacer"></div>
+  <span class="sel-count"><span>10</span> of 10 selected &nbsp;·&nbsp; <span>$909,603</span> in batch</span>
+</div>
+
+<!-- TABLE -->
+<div class="tbl-wrap">
+<table>
+<thead>
+<tr>
+  <th style="width:38px">#</th>
+  <th style="width:32px"></th>
+  <th>propID</th>
+  <th>Contact</th>
+  <th>Client / Location</th>
+  <th>Value</th>
+  <th>Stale</th>
+  <th>Script</th>
+  <th>Queue</th>
+  <th>Flags</th>
+  <th style="width:70px">Action</th>
+</tr>
+</thead>
+<tbody>
+
+<tr class="high-val">
+  <td class="mono" style="color:var(--dim)">1</td>
+  <td><input type="checkbox" class="chk" checked></td>
+  <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=9399" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#9399</a></td>
+  <td class="name">Dennis Loor<br><span class="role-badge">Construction Mgr</span></td>
+  <td class="mono" style="font-size:13px">HighRise Mgmt / Hazel Ranch<br><span style="color:var(--dim)">Fair Oaks, CA</span></td>
+  <td class="val-cell high">$345,503</td>
+  <td class="days cold mono">322d</td>
+  <td><span class="tier t2c">T2-C</span></td>
+  <td><span class="queue-badge rachelm">RACHELM</span></td>
+  <td>
+    <span class="flag O">HIGH-VALUE</span>
+    <span class="flag Y">ALEX REVIEW</span>
+  </td>
+  <td><button class="tb-btn danger" style="padding:3px 10px;font-size:11px">Remove</button></td>
+</tr>
+
+<tr class="vip-flag">
+  <td class="mono" style="color:var(--dim)">2</td>
+  <td><input type="checkbox" class="chk" checked></td>
+  <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=7856" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#7856</a></td>
+  <td class="name">Michelle Forkas<br><span class="role-badge">Property Manager</span></td>
+  <td class="mono" style="font-size:13px">Summit Mgmt Management / Sunrise Commons<br><span style="color:var(--dim)">Roseville, CA</span></td>
+  <td class="val-cell">$127,400</td>
+  <td class="days ancient mono">487d</td>
+  <td><span class="tier t1">T1-C</span></td>
+  <td><span class="queue-badge rachelm">RACHELM</span></td>
+  <td>
+    <span class="flag G">CLIENT REPLIED</span>
+    <span class="flag Y">VIP CLIENT</span>
+  </td>
+  <td><button class="tb-btn danger" style="padding:3px 10px;font-size:11px">Remove</button></td>
+</tr>
+
+<tr class="orphaned">
+  <td class="mono" style="color:var(--dim)">3</td>
+  <td><input type="checkbox" class="chk" checked></td>
+  <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=8201" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#8201</a></td>
+  <td class="name">Rick Daniel<br><span class="role-badge">VP Operations</span></td>
+  <td class="mono" style="font-size:13px">Windward Companies / Loma Linda Commons<br><span style="color:var(--dim)">Loma Linda, CA</span></td>
+  <td class="val-cell">$94,200</td>
+  <td class="days cold mono">156d</td>
+  <td><span class="tier t2b">T2-B</span></td>
+  <td><span class="queue-badge larson">LARSON</span></td>
+  <td>
+    <span class="flag C">MULTI-PROP ×3</span>
+  </td>
+  <td><button class="tb-btn danger" style="padding:3px 10px;font-size:11px">Remove</button></td>
+</tr>
+
+<tr>
+  <td class="mono" style="color:var(--dim)">4</td>
+  <td><input type="checkbox" class="chk" checked></td>
+  <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=5981" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#5981</a></td>
+  <td class="name">Sally Brown<br><span class="role-badge">Const. &amp; Facilities Mgr</span></td>
+  <td class="mono" style="font-size:13px">Waldman Group / Highland Oaks<br><span style="color:var(--dim)">Sacramento, CA</span></td>
+  <td class="val-cell">$78,500</td>
+  <td class="days fresh mono">14d</td>
+  <td><span class="tier t2a">T2-A</span></td>
+  <td><span class="queue-badge rachelm">RACHELM</span></td>
+  <td>
+    <span class="flag G">FRESH</span>
+  </td>
+  <td><button class="tb-btn danger" style="padding:3px 10px;font-size:11px">Remove</button></td>
+</tr>
+
+<tr class="vip-flag">
+  <td class="mono" style="color:var(--dim)">5</td>
+  <td><input type="checkbox" class="chk" checked></td>
+  <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=8934" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#8934</a></td>
+  <td class="name">Nina Higgins<br><span class="role-badge">Asset Manager</span></td>
+  <td class="mono" style="font-size:13px">EAH Housing / Cypress Ridge Apts<br><span style="color:var(--dim)">Oakland, CA</span></td>
+  <td class="val-cell">$67,800</td>
+  <td class="days cold mono">201d</td>
+  <td><span class="tier t2b">T2-B</span></td>
+  <td><span class="queue-badge andrea">ANDREA</span></td>
+  <td>
+    <span class="flag Y">VIP CLIENT</span>
+    <span class="flag Y">ALEX REVIEW</span>
+  </td>
+  <td><button class="tb-btn danger" style="padding:3px 10px;font-size:11px">Remove</button></td>
+</tr>
+
+<tr class="orphaned">
+  <td class="mono" style="color:var(--dim)">6</td>
+  <td><input type="checkbox" class="chk" checked></td>
+  <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=6823" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#6823</a></td>
+  <td class="name">Brandon Lee<br><span class="role-badge">HOA Board Member</span></td>
+  <td class="mono" style="font-size:13px">Arroyo Park HOA<br><span style="color:var(--dim)">Rocklin, CA</span></td>
+  <td class="val-cell">$51,200</td>
+  <td class="days warm mono">48d</td>
+  <td><span class="tier t1">T1-A</span></td>
+  <td><span class="queue-badge rachelm">RACHELM</span></td>
+  <td>
+    <span class="flag G">HOA BOARD PENDING</span>
+  </td>
+  <td><button class="tb-btn danger" style="padding:3px 10px;font-size:11px">Remove</button></td>
+</tr>
+
+<tr>
+  <td class="mono" style="color:var(--dim)">7</td>
+  <td><input type="checkbox" class="chk" checked></td>
+  <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=7412" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#7412</a></td>
+  <td class="name">Stacie Roebuck<br><span class="role-badge">Regional Manager</span></td>
+  <td class="mono" style="font-size:13px">Prometheus Group / Oakwood Commons<br><span style="color:var(--dim)">Walnut Creek, CA</span></td>
+  <td class="val-cell">$45,600</td>
+  <td class="days cold mono">91d</td>
+  <td><span class="tier t2b">T2-B</span></td>
+  <td><span class="queue-badge larson">LARSON</span></td>
+  <td>
+    <span class="flag dim">ORPHANED</span>
+  </td>
+  <td><button class="tb-btn danger" style="padding:3px 10px;font-size:11px">Remove</button></td>
+</tr>
+
+<tr>
+  <td class="mono" style="color:var(--dim)">8</td>
+  <td><input type="checkbox" class="chk" checked></td>
+  <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=9012" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#9012</a></td>
+  <td class="name">Emmanuel Quinonez<br><span class="role-badge">Regional Manager</span></td>
+  <td class="mono" style="font-size:13px">MG Properties / Vista Del Mar<br><span style="color:var(--dim)">Fairfield, CA</span></td>
+  <td class="val-cell">$38,900</td>
+  <td class="days cold mono">267d</td>
+  <td><span class="tier t2c">T2-C</span></td>
+  <td><span class="queue-badge knox">KNOX</span></td>
+  <td>
+    <span class="flag C">CC: R.MORGAN</span>
+  </td>
+  <td><button class="tb-btn danger" style="padding:3px 10px;font-size:11px">Remove</button></td>
+</tr>
+
+<tr class="orphaned">
+  <td class="mono" style="color:var(--dim)">9</td>
+  <td><input type="checkbox" class="chk" checked></td>
+  <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=7234" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#7234</a></td>
+  <td class="name">Horacio Esparza<br><span class="role-badge">Community Director</span></td>
+  <td class="mono" style="font-size:13px">Summit Mgmt Management / Alderwood Park<br><span style="color:var(--dim)">Vallejo, CA</span></td>
+  <td class="val-cell">$32,100</td>
+  <td class="days cold mono">144d</td>
+  <td><span class="tier t2b">T2-B</span></td>
+  <td><span class="queue-badge rachelm">RACHELM</span></td>
+  <td>
+    <span class="flag G">T6 ENGAGED</span>
+  </td>
+  <td><button class="tb-btn danger" style="padding:3px 10px;font-size:11px">Remove</button></td>
+</tr>
+
+<tr>
+  <td class="mono" style="color:var(--dim)">10</td>
+  <td><input type="checkbox" class="chk" checked></td>
+  <td class="mono"><a href="https://app.fieldtech.example/#/pins?propID=7789" target="_blank" style="color:var(--Cl,#d36eff);text-decoration:none" title="Open in FieldTECH">#7789</a></td>
+  <td class="name">Jill Ramsey<br><span class="role-badge">VP Facilities</span></td>
+  <td class="mono" style="font-size:13px">BluePine / 3939 Marlton Ave<br><span style="color:var(--dim)">Los Angeles, CA</span></td>
+  <td class="val-cell">$28,400</td>
+  <td class="days cold mono">334d</td>
+  <td><span class="tier t2c">T2-C</span></td>
+  <td><span class="queue-badge larson">LARSON</span></td>
+  <td>
+    <span class="flag dim">ORPHANED</span>
+  </td>
+  <td><button class="tb-btn danger" style="padding:3px 10px;font-size:11px">Remove</button></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="foot-stat">
+    <div class="fl">Calls in Batch</div>
+    <div class="fv C">10</div>
+  </div>
+  <div class="foot-stat">
+    <div class="fl">Total Value</div>
+    <div class="fv O">$909,603</div>
+  </div>
+  <div class="foot-stat">
+    <div class="fl">Avg Stale</div>
+    <div class="fv" style="font-size:20px">206d</div>
+  </div>
+  <div class="foot-stat">
+    <div class="fl">VIP Flagged</div>
+    <div class="fv Y">2</div>
+  </div>
+  <div class="foot-stat">
+    <div class="fl">Orphaned</div>
+    <div class="fv G">3</div>
+  </div>
+  <div class="foot-stat">
+    <div class="fl">Est. GPU Time</div>
+    <div class="fv" style="font-size:20px">~3.2h</div>
+  </div>
+  <div class="foot-stat">
+    <div class="fl">Est. GPU Cost</div>
+    <div class="fv" style="font-size:20px">~$0.83</div>
+  </div>
+  <div class="foot-actions">
+    <button class="foot-btn">Save Draft</button>
+    <button class="foot-btn danger">Reject All</button>
+    <button class="go-btn">GO — RUN BATCH #12</button>
+  </div>
+</div>
+
+</body>
+</html>

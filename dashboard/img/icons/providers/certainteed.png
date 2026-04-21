@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="html__utility--find-a-pro" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<style>.hidden{display:none}@media(min-width: 768px){.mds-hidden{display:none}}@media(min-width: 960px){.md-hidden{display:none}}@media(min-width: 1280px){.lg-hidden{display:none}}@media(min-width: 1440px){.xl-hidden{display:none}}.inline{display:inline}@media(min-width: 768px){.mds-inline{display:inline}}@media(min-width: 960px){.md-inline{display:inline}}@media(min-width: 1280px){.lg-inline{display:inline}}@media(min-width: 1440px){.xl-inline{display:inline}}.inline-block{display:inline-block}@media(min-width: 768px){.mds-inline-block{display:inline-block}}@media(min-width: 960px){.md-inline-block{display:inline-block}}@media(min-width: 1280px){.lg-inline-block{display:inline-block}}@media(min-width: 1440px){.xl-inline-block{display:inline-block}}.block{display:block}@media(min-width: 768px){.mds-block{display:block}}@media(min-width: 960px){.md-block{display:block}}@media(min-width: 1280px){.lg-block{display:block}}@media(min-width: 1440px){.xl-block{display:block}}.inline-flex{display:inline-flex}@media(min-width: 768px){.mds-inline-flex{display:inline-flex}}@media(min-width: 960px){.md-inline-flex{display:inline-flex}}@media(min-width: 1280px){.lg-inline-flex{display:inline-flex}}@media(min-width: 1440px){.xl-inline-flex{display:inline-flex}}.flex{display:flex}@media(min-width: 768px){.mds-flex{display:flex}}@media(min-width: 960px){.md-flex{display:flex}}@media(min-width: 1280px){.lg-flex{display:flex}}@media(min-width: 1440px){.xl-flex{display:flex}}.grid{display:grid}@media(min-width: 768px){.mds-grid{display:grid}}@media(min-width: 960px){.md-grid{display:grid}}@media(min-width: 1280px){.lg-grid{display:grid}}@media(min-width: 1440px){.xl-grid{display:grid}}.static{position:static}@media(min-width: 768px){.mds-static{position:static}}@media(min-width: 960px){.md-static{position:static}}@media(min-width: 1280px){.lg-static{position:static}}@media(min-width: 1440px){.xl-static{position:static}}.relative{position:relative}@media(min-width: 768px){.mds-relative{position:relative}}@media(min-width: 960px){.md-relative{position:relative}}@media(min-width: 1280px){.lg-relative{position:relative}}@media(min-width: 1440px){.xl-relative{position:relative}}.absolute{position:absolute}@media(min-width: 768px){.mds-absolute{position:absolute}}@media(min-width: 960px){.md-absolute{position:absolute}}@media(min-width: 1280px){.lg-absolute{position:absolute}}@media(min-width: 1440px){.xl-absolute{position:absolute}}.fixed{position:fixed}@media(min-width: 768px){.mds-fixed{position:fixed}}@media(min-width: 960px){.md-fixed{position:fixed}}@media(min-width: 1280px){.lg-fixed{position:fixed}}@media(min-width: 1440px){.xl-fixed{position:fixed}}.justify-start{justify-content:flex-start}@media(min-width: 768px){.mds-justify-start{justify-content:flex-start}}@media(min-width: 960px){.md-justify-start{justify-content:flex-start}}@media(min-width: 1280px){.lg-justify-start{justify-content:flex-start}}@media(min-width: 1440px){.xl-justify-start{justify-content:flex-start}}.justify-end{justify-content:flex-end}@media(min-width: 768px){.mds-justify-end{justify-content:flex-end}}@media(min-width: 960px){.md-justify-end{justify-content:flex-end}}@media(min-width: 1280px){.lg-justify-end{justify-content:flex-end}}@media(min-width: 1440px){.xl-justify-end{justify-content:flex-end}}.justify-center{justify-content:center}@media(min-width: 768px){.mds-justify-center{justify-content:center}}@media(min-width: 960px){.md-justify-center{justify-content:center}}@media(min-width: 1280px){.lg-justify-center{justify-content:center}}@media(min-width: 1440px){.xl-justify-center{justify-content:center}}.justify-between{justify-content:space-between}@media(min-width: 768px){.mds-justify-between{justify-content:space-between}}@media(min-width: 960px){.md-justify-between{justify-content:space-between}}@media(min-width: 1280px){.lg-justify-between{justify-content:space-between}}@media(min-width: 1440px){.xl-justify-between{justify-content:space-between}}.justify-around{justify-content:space-around}@media(min-width: 768px){.mds-justify-around{justify-content:space-around}}@media(min-width: 960px){.md-justify-around{justify-content:space-around}}@media(min-width: 1280px){.lg-justify-around{justify-content:space-around}}@media(min-width: 1440px){.xl-justify-around{justify-content:space-around}}.items-start{align-items:flex-start}@media(min-width: 768px){.mds-items-start{align-items:flex-start}}@media(min-width: 960px){.md-items-start{align-items:flex-start}}@media(min-width: 1280px){.lg-items-start{align-items:flex-start}}@media(min-width: 1440px){.xl-items-start{align-items:flex-start}}.items-end{align-items:flex-end}@media(min-width: 768px){.mds-items-end{align-items:flex-end}}@media(min-width: 960px){.md-items-end{align-items:flex-end}}@media(min-width: 1280px){.lg-items-end{align-items:flex-end}}@media(min-width: 1440px){.xl-items-end{align-items:flex-end}}.items-center{align-items:center}@media(min-width: 768px){.mds-items-center{align-items:center}}@media(min-width: 960px){.md-items-center{align-items:center}}@media(min-width: 1280px){.lg-items-center{align-items:center}}@media(min-width: 1440px){.xl-items-center{align-items:center}}.flex-col{flex-direction:column}@media(min-width: 768px){.mds-flex-col{flex-direction:column}}@media(min-width: 960px){.md-flex-col{flex-direction:column}}@media(min-width: 1280px){.lg-flex-col{flex-direction:column}}@media(min-width: 1440px){.xl-flex-col{flex-direction:column}}.flex-row{flex-direction:row}@media(min-width: 768px){.mds-flex-row{flex-direction:row}}@media(min-width: 960px){.md-flex-row{flex-direction:row}}@media(min-width: 1280px){.lg-flex-row{flex-direction:row}}@media(min-width: 1440px){.xl-flex-row{flex-direction:row}}.flex-col-rev{flex-direction:column-reverse}@media(min-width: 768px){.mds-flex-col-rev{flex-direction:column-reverse}}@media(min-width: 960px){.md-flex-col-rev{flex-direction:column-reverse}}@media(min-width: 1280px){.lg-flex-col-rev{flex-direction:column-reverse}}@media(min-width: 1440px){.xl-flex-col-rev{flex-direction:column-reverse}}.flex-row-rev{flex-direction:row-reverse}@media(min-width: 768px){.mds-flex-row-rev{flex-direction:row-reverse}}@media(min-width: 960px){.md-flex-row-rev{flex-direction:row-reverse}}@media(min-width: 1280px){.lg-flex-row-rev{flex-direction:row-reverse}}@media(min-width: 1440px){.xl-flex-row-rev{flex-direction:row-reverse}}.flex-wrap{flex-wrap:wrap}@media(min-width: 768px){.mds-flex-wrap{flex-wrap:wrap}}@media(min-width: 960px){.md-flex-wrap{flex-wrap:wrap}}@media(min-width: 1280px){.lg-flex-wrap{flex-wrap:wrap}}@media(min-width: 1440px){.xl-flex-wrap{flex-wrap:wrap}}.flex-nowrap{flex-wrap:nowrap}@media(min-width: 768px){.mds-flex-nowrap{flex-wrap:nowrap}}@media(min-width: 960px){.md-flex-nowrap{flex-wrap:nowrap}}@media(min-width: 1280px){.lg-flex-nowrap{flex-wrap:nowrap}}@media(min-width: 1440px){.xl-flex-nowrap{flex-wrap:nowrap}}.container{padding-right:1.5rem;padding-left:1.5rem;max-width:100rem;margin-right:auto;margin-left:auto}@media(min-width: 60rem){.container{padding-right:2.5rem;padding-left:2.5rem}}@media(min-width: 80rem){.container{padding-right:4rem;padding-left:4rem}}.container--no-padding{padding-right:0;padding-left:0}.container--full{max-width:none}.w-full{width:100%}.h-full{height:100%}.visually-hidden.focusable:active,.visually-hidden.focusable:focus{position:static !important;overflow:visible;clip:auto;width:auto;height:auto}.invisible{visibility:hidden}.section{display:flex;flex-direction:column}@media(min-width: 60rem){.layout-container{padding-top:6.25rem}}@media(min-width: 80rem){.layout-container{padding-top:7.875rem}}
+</style>
+<script type="text/javascript">function OptanonWrapper() {
+  Object.entries(window.drupalSettings.jsScripts).forEach(([script, category]) => {
+    // Exclude scripts that contain "sharethis.com".
+    if (!script.includes('sharethis.com')) {
+      OneTrust.InsertScript(script, 'body', null, null, category);
+    }
+  });
+}</script>
+<style>/* @see https://github.com/aFarkas/lazysizes#broken-image-symbol */.js img.lazyload:not([src]) { visibility: hidden; }/* @see https://github.com/aFarkas/lazysizes#automatically-setting-the-sizes-attribute */.js img.lazyloaded[data-sizes=auto] { display: block; width: 100%; }</style>
+<link rel="canonical" href="https://www.certainteed.com/404" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.certainteed.com/404" />
+<meta property="og:title" content="404" />
+<meta property="og:image" content="https://www.certainteed.com/sites/drupalvm.dev/themes/certainteed/ct_bootstrap/images/CTOGImage1_1200x630.jpg" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" data-document-language="true" type="text/javascript" charset="UTF-8" data-domain-script="b43ffbf6-e6a1-4577-a186-9db0120bec4d"></script>
+<script></script>
+<link rel="icon" href="/sites/default/files/favicon-48x48.png" type="image/png" />
+
+      <!-- Start Google Site Verification code -->
+      <meta name="google-site-verification" content="uZb_3mdhAFVVbO2lU1cHa5wdQXInO6sab9wgWwPIPYc" />
+      <!-- End Google Site Verification code -->
+      <!--UserWay Accessibility script -->
+      <script>
+        (function(d){
+          var s = d.createElement("script");
+          s.setAttribute("data-account", "klq7KbDiT8");
+          s.setAttribute("src", "https://accessibilityserver.org/widget.js");
+          (d.body || d.head).appendChild(s);
+        })(document)
+      </script>
+      <noscript>
+        Please ensure Javascript is enabled for purposes of <a href="https://accessibilityserver.org"website> accessibility</a>
+      </noscript>
+      <!-- End UserWay Accessibility script -->
+      <!-- Start VWO Async SmartCode -->
+      <link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />
+      <script type='text/javascript' id='vwoCode'>
+      window._vwo_code || (function() {
+      var account_id=1012219,
+      version=2.1,
+      settings_tolerance=2000,
+      hide_element='body',
+      hide_element_style = 'opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;transition:none !important;',
+      /* DO NOT EDIT BELOW THIS LINE */
+      f=false,w=window,d=document,v=d.querySelector('#vwoCode'),cK='vwo'+account_id+'_settings',cc={};try{var c=JSON.parse(localStorage.getItem('vwo'+account_id+'_config'));cc=c&&typeof c==='object'?c:{}}catch(e){}var stT=cc.stT==='session'?w.sessionStorage:w.localStorage;code={nonce:v&&v.nonce,use_existing_jquery:function(){return typeof use_existing_jquery!=='undefined'?use_existing_jquery:undefined},library_tolerance:function(){return typeof library_tolerance!=='undefined'?library_tolerance:undefined},settings_tolerance:function(){return cc.sT||settings_tolerance},hide_element_style:function(){return'{'+(cc.hES||hide_element_style)+'}'},hide_element:function(){if(performance.getEntriesByName('first-contentful-paint')[0]){return''}return typeof cc.hE==='string'?cc.hE:hide_element},getVersion:function(){return version},finish:function(e){if(!f){f=true;var t=d.getElementById('_vis_opt_path_hides');if(t)t.parentNode.removeChild(t);if(e)(new Image).src='https://dev.visualwebsiteoptimizer.com/ee.gif?a='+account_id+e}},finished:function(){return f},addScript:function(e){var t=d.createElement('script');t.type='text/javascript';if(e.src){t.src=e.src}else{t.text=e.text}v&&t.setAttribute('nonce',v.nonce);d.getElementsByTagName('head')[0].appendChild(t)},load:function(e,t){var n=this.getSettings(),i=d.createElement('script'),r=this;t=t||{};if(n){i.textContent=n;d.getElementsByTagName('head')[0].appendChild(i);if(!w.VWO||VWO.caE){stT.removeItem(cK);r.load(e)}}else{var o=new XMLHttpRequest;o.open('GET',e,true);o.withCredentials=!t.dSC;o.responseType=t.responseType||'text';o.onload=function(){if(t.onloadCb){return t.onloadCb(o,e)}if(o.status===200||o.status===304){_vwo_code.addScript({text:o.responseText})}else{_vwo_code.finish('&e=loading_failure:'+e)}};o.onerror=function(){if(t.onerrorCb){return t.onerrorCb(e)}_vwo_code.finish('&e=loading_failure:'+e)};o.send()}},getSettings:function(){try{var e=stT.getItem(cK);if(!e){return}e=JSON.parse(e);if(Date.now()>e.e){stT.removeItem(cK);return}return e.s}catch(e){return}},init:function(){if(d.URL.indexOf('vwo_disable')>-1)return;var e=this.settings_tolerance();w._vwo_settings_timer=setTimeout(function(){_vwo_code.finish();stT.removeItem(cK)},e);var t;if(this.hide_element()!=='body'){t=d.createElement('style');var n=this.hide_element(),i=n?n+this.hide_element_style():'',r=d.getElementsByTagName('head')[0];t.setAttribute('id','_vis_opt_path_hides');v&&t.setAttribute('nonce',v.nonce);t.setAttribute('type','text/css');if(t.styleSheet)t.styleSheet.cssText=i;else t.appendChild(d.createTextNode(i));r.appendChild(t)}else{t=d.getElementsByTagName('head')[0];var i=d.createElement('div');i.style.cssText='z-index: 2147483647 !important;position: fixed !important;left: 0 !important;top: 0 !important;width: 100% !important;height: 100% !important;background: white !important;display: block !important;';i.setAttribute('id','_vis_opt_path_hides');i.classList.add('_vis_hide_layer');t.parentNode.insertBefore(i,t.nextSibling)}var o=window._vis_opt_url||d.URL,s='https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(o)+'&vn='+version;if(w.location.search.indexOf('_vwo_xhr')!==-1){this.addScript({src:s})}else{this.load(s+'&x=true')}}};w._vwo_code=code;code.init();})();
+      </script>
+      <!-- End VWO Async SmartCode -->
+      <title>404</title>
+      <link rel="apple-touch-icon" sizes="180x180" href="/themes/custom/certainteed/favicon/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/themes/custom/certainteed/favicon/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="/themes/custom/certainteed/favicon/favicon-16x16.png">
+      <link rel="manifest" href="/themes/custom/certainteed/favicon/site.webmanifest">
+      <link rel="mask-icon" href="/themes/custom/certainteed/favicon/safari-pinned-tab.svg" color="#5bbad5">
+      <link rel="shortcut icon" type="image/png" sizes="48x48" href="/themes/custom/certainteed/favicon-48x48.png">
+      <meta name="msapplication-TileColor" content="#da532c">
+      <meta name="theme-color" content="#ffffff">
+      <link rel="stylesheet" media="all" href="/sites/default/files/css/css_2QpX1cIiZ6p4o91CGVOp7QniQLfxD10-slTalH7tBXA.css?delta=0&amp;language=en&amp;theme=certainteed&amp;include=eJxlzlFuxCAMBNALwaYfe5_IAYt162BkTAi3b1Q1amk__cYjTUA1oGyIcdkUIQZt-1Zd-OVRQtsxW_VRoaNOYWLZgGcSSYy-MASsHppJkL0wGk5vu8Q_xQIJ_fPtOWElw04RPfClU2R4mu-jUh9pCpoRkw2f4XBBFJeorQA_4B1Od5WY8sdt36djGNJsjVSDHKhjkYxB2BVQSArlVe_GjzxaLm1jqi-M7h66fg1dKJO5g7DXNYLBimeRi__JJ5Lslz0" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_VndM6UNtIb07HPeGyGpeabII8b6KamS13P4OYEObNB4.css?delta=1&amp;language=en&amp;theme=certainteed&amp;include=eJxlzlFuxCAMBNALwaYfe5_IAYt162BkTAi3b1Q1amk__cYjTUA1oGyIcdkUIQZt-1Zd-OVRQtsxW_VRoaNOYWLZgGcSSYy-MASsHppJkL0wGk5vu8Q_xQIJ_fPtOWElw04RPfClU2R4mu-jUh9pCpoRkw2f4XBBFJeorQA_4B1Od5WY8sdt36djGNJsjVSDHKhjkYxB2BVQSArlVe_GjzxaLm1jqi-M7h66fg1dKJO5g7DXNYLBimeRi__JJ5Lslz0" />
+<link rel="stylesheet" media="print" href="/sites/default/files/css/css_ZtHq-ulZYG0s0v1ItAgK59ADgIk1Dr7QRKNZUs4NXUo.css?delta=2&amp;language=en&amp;theme=certainteed&amp;include=eJxlzlFuxCAMBNALwaYfe5_IAYt162BkTAi3b1Q1amk__cYjTUA1oGyIcdkUIQZt-1Zd-OVRQtsxW_VRoaNOYWLZgGcSSYy-MASsHppJkL0wGk5vu8Q_xQIJ_fPtOWElw04RPfClU2R4mu-jUh9pCpoRkw2f4XBBFJeorQA_4B1Od5WY8sdt36djGNJsjVSDHKhjkYxB2BVQSArlVe_GjzxaLm1jqi-M7h66fg1dKJO5g7DXNYLBimeRi__JJ5Lslz0" />
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_M5X3iP1dWYv6IRHQ9XJUzrvdJmc3FeDMZ6X5v6ACoPs.css?delta=4&amp;language=en&amp;theme=certainteed&amp;include=eJxlzlFuxCAMBNALwaYfe5_IAYt162BkTAi3b1Q1amk__cYjTUA1oGyIcdkUIQZt-1Zd-OVRQtsxW_VRoaNOYWLZgGcSSYy-MASsHppJkL0wGk5vu8Q_xQIJ_fPtOWElw04RPfClU2R4mu-jUh9pCpoRkw2f4XBBFJeorQA_4B1Od5WY8sdt36djGNJsjVSDHKhjkYxB2BVQSArlVe_GjzxaLm1jqi-M7h66fg1dKJO5g7DXNYLBimeRi__JJ5Lslz0" />
+
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"gtag":{"tagId":"","consentMode":false,"otherIds":[],"events":[],"additionalConfigInfo":[]},"ajaxPageState":{"libraries":"eJxlkFFywzAIRC8kR_3ofTRYojKJLFRATtzT126bpG5_GHjLsLNEFAOqhpj8KAgpSp9HdfEXTxz7jNV0SAJXlIOYC49Qjog5FxxagYg6QDeOPLeChoe1BhmH15fXAzS82XBdla5rPgjdqJCtQ4XFRQuRBX0i3UzW8N4pXoJO1B7SRAlD1CWM3Yzrg3ebgwnEyx7DQgKD7QLKI4eFN6opQBBs_jCFs-5yRi4cwYirvzc754omXc3fG_c8PuIEC7Go2-IVqhefpDcop5_Rfb8sGGSft_J3PsEZbkc4u-009y0CaeQFZd2NI5eNf6x-L66BQBZok979nuTUa-tjIZ0wOV3VcPYjKLqF8Kpfjwl4ayzm_5FP6f3dfg","theme":"certainteed","theme_token":null},"ajaxTrustedUrl":[],"gtm":{"tagId":null,"settings":{"data_layer":"dataLayer","include_environment":false},"tagIds":["GTM-KVG6F2P"]},"algoliaSearch":{"globalSearch":["{\u0022algolia_index\u0022:\u0022prod_ctd_search\u0022,\u0022replicas\u0022:[\u0022prod_ctd_search_replica_recent\u0022,\u0022prod_ctd_search_replica_A-Z\u0022,\u0022prod_ctd_search_replica_Z-A\u0022]}"],"facet":{"facetKey":["field_rating","certifications","field_agent_services","field_number_of_reviews","field_region_tid","field_region_name","field_application_name","field_project_type_name","field_building_type_name","field_product_category_name","color","title","usage","value","width","design","finish","height","length","country","profile","material","region_id","thickness","appearance","quick_ship","accessories","application","perforation","performance","edge_profile","l1_hierarchy","l2_hierarchy","product_type","baluster_type","material_type","certifications","document_region","document_category","document_language","l3_product_family","application_method","system_performance","joint_compound_type","performance_drywall","field_product_category","impact_resistant_rating","field_is_specialty_ceiling","sustainability_certifications","field_role","field_style","field_topic","field_region","field_country","ct_bundle_label","field_application","field_localization","field_project_type","media_field_region","field_building_type","field_resource_type","field_product_category","media_field_doc_category","media_field_region_top_abbreviation"]}},"dataLayer":{"defaultLang":"en","languages":{"en":{"id":"en","name":"English","direction":"ltr","weight":0}}},"lazy":{"lazysizes":{"lazyClass":"lazyload","loadedClass":"lazyloaded","loadingClass":"lazyloading","preloadClass":"lazypreload","errorClass":"lazyerror","autosizesClass":"lazyautosizes","srcAttr":"data-src","srcsetAttr":"data-srcset","sizesAttr":"data-sizes","minSize":40,"customMedia":[],"init":true,"expFactor":1.5,"hFac":0.80000000000000004,"loadMode":2,"loadHidden":true,"ricTimeout":0,"throttleDelay":125,"plugins":[]},"placeholderSrc":"","preferNative":true,"minified":true,"libraryPath":"\/libraries\/lazysizes"},"responsive":{"breakpoints":{"certainteed.mobile":"all and (max-width: 59.999em)","certainteed.small-mobile":"all and (max-width: 30em)","certainteed.tablet":"all and (min-width: 60em)","certainteed.desktop":"all and (min-width: 80em)"}},"submittal_NA":{"title":"Some of your documents cannot be added to a Submittal","body":"\u003Cp\u003EWe recommend downloading or sharing these documents now.\u0026nbsp;\u003C\/p\u003E\u003Cp\u003EThey\u2019ll remain in your Documents List.\u003C\/p\u003E"},"empty":{"title":"Your Document List is Currently Empty","body":"\u003Cp\u003E\u003Cspan style=\u0022white-space:pre-wrap;\u0022\u003EDocuments added to your list can be downloaded or turned into a Submittal.\u003C\/span\u003E\u003C\/p\u003E\u003Cp\u003E\u003Ca href=\u0022\/inspiration\/how-tos\/build-a-submittal\u0022\u003E\u003Cspan style=\u0022white-space:pre-wrap;\u0022\u003EHow to Build a Submittal\u003C\/span\u003E\u003C\/a\u003E\u003C\/p\u003E","icon":"\/themes\/custom\/certainteed\/images\/icons\/add.svg"},"context":{"page_title":"404","page_url":"\/404","page_url_clean":"www.certainteed.com\/404","product_name":"undefined","date_launched":"03172023","date_last_updated":"04102023","business_unit":"undefined","digital_tool_name":"undefined","page_type":"undefined","product_category":"undefined","website_country":"undefined"},"ctGeolocation":{"pageExistOnAllDomains":true,"alertsData":{"notice":{"header":"Update Location","message":"Enter your Postal\/Zip Code to provide the most accurate product availability and information.","cta":{"text":"Enter Postal\/Zip Code"}},"product_not_available":{"header":"Product not available","message":"This product isn\u2019t available in the project location you entered. Please edit your location or \u003Ca href=\u0022#\u0022\u003Econtact us for support\u003C\/a\u003E.","cta":{"text":"Edit location"}},"error":{"header":"ZIP error alert header","message":"ZIP error alert message"},"zip_prompt":{"message":"The code entered does not match the currently selected country. Would you like to browse the COUNTRY, LANGUAGE site instead?","cta_yes":{"text":"Yes, take me to the COUNTRY, LANGUAGE site"},"cta_no":{"text":"No, stay on the CURRENT_CONTRY, CURRENT_LANG site"}},"locale_prompt":{"message":"Your detected country and language do not match the currently selected values. Would you like to browse the COUNTRY, LANGUAGE site instead?","cta_yes":{"text":"Yes, take me to the COUNTRY, LANGUAGE site"},"cta_no":{"text":"No, stay on the current site"}}},"siteLocale":{"server":"prod","country":"US","language":"en","ctbuRegionsCountryMapping":{"us":"USA","ca":"Canada"}},"domains":{"us":{"en_us":"https:\/\/www.certainteed.com","es_us":"https:\/\/es.certainteed.com"},"ca":{"en_ca":"https:\/\/www.certainteed.ca","fr_ca":"https:\/\/fr.certainteed.ca"}},"supportedLocales":{"US":["en","es"],"CA":["en","fr"]},"countryFullNames":{"us":"United States","ca":"Canada"},"languageFullNames":{"en":"English","fr":"French","es":"Spanish"},"defaultSearchablePlaceTypes":["locality","country","postal_code","administrative_area_level_1"],"googleMapApiKey":"QUl6YVN5QTl2UEtNZDFHa2M2UVh6QWRWWWphM29jWU1QTEhWdE4w"},"api":{"mega-menu":"\/api\/mega-menu\/mega-menu","footer":"\/api\/footer\/1"},"quick_ship":null,"utmParams":[],"oktaCustomer":{"isAuthenticated":false},"environment":"Prod","jsScripts":{"https:\/\/ws.sharethis.com\/button\/buttons.js":"C0004"},"algolia":{"app_id":"V0tYM1gwS1BOMQ==","api_key":"ZTUxZjc0YWVlNWY0YWI1YTdiMjRjMzVjNzQ2ZTlmZmE="},"ct_find_a_rep":{"find_a_rep":false},"productComparison":{"ignoreCategories":["1","66","706"]},"submittalTool":{"initialStepUrl":"\/submittal-builder"},"savedSubmittals":{"empty_state_text":"Your List is Currently Empty","cta_text":"Build New Submittal"},"keyDocumentsLanguageSelectorTooltip":"Based on your site settings, we\u0027re showing you documents in US - English. You can also view the documents in multiple languages.","user":{"uid":0,"permissionsHash":"cc5ab8c911b87e3262924adfa55e9adbac76189e6d4def0e5387feb02905fea3"}}</script>
+<script src="/sites/default/files/js/js_6Sp4RBU2xZ7Yl2MpIWkBd1BuXVhjPhtVJgSjLsV7wlU.js?scope=header&amp;delta=0&amp;language=en&amp;theme=certainteed&amp;include=eJxlkGtywzAIhC8kR0disERlYlmoEvKjp4_dJk7d_mHYb5kdwFFR5KRE3oYoPUbjfiOREKnLER3VDpuKkylHUrqMKa3aLVvlZQsXoylH1q1LOBun4KSQ9Vz3vA0-G7sR6sD5tAb2BK7O0DdVSSdvOoEWdCOVg3lU3BOonCsrfHDygFAo24uCez3sQBLFobIk-2oOLom0tKr21Zh3eE8Dziylmv28yGm0vrSM8faU5uc7oBhs2MtffcM7rlc4mYhfmz2KmZmW-n0L0JqlqP1HHvgpouY"></script>
+<script src="/modules/contrib/google_tag/js/gtag.js?tdffse"></script>
+<script src="/modules/contrib/google_tag/js/gtm.js?tdffse"></script>
+
+  </head>
+  <body class="page-404">
+        <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVG6F2P"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    
+
+
+
+<div  class="layout-container layout-container--path--__-media-project-certainteed-images-logo-certainteedsvg">
+
+      
+
+
+<header  class="header relative">
+    
+
+
+
+
+
+<div  class="utility-nav utility-nav-- bg__grey-light js-utility-nav">
+  <div class="container">
+    <div  class="utility-nav__list utility-nav__list-- flex">
+      
+
+<div  class="dropdown dropdown--zip bg__grey-light js-utility-nav js-utility-drop__wrapper utility-drop__wrapper" data-analytic='{&quot;link_text&quot;: &quot;zip_code&quot;}'>
+  <button class="js-utility-drop__trigger utility-drop__trigger">
+          
+
+
+<svg  class="utility__icon utility__icon--pin"
+
+  
+  
+  
+    
+  >
+      <use xlink:href="/themes/custom/certainteed/dist/icons.svg#pin"></use>
+</svg>
+                      <span aria-hidden="true" class="js-utility-drop-title">Add location</span>
+        <span class="visually-hidden">Select location</span>
+                    
+
+
+<svg  class="utility__icon utility__icon--chevron"
+
+  
+  
+  
+    
+  >
+      <use xlink:href="/themes/custom/certainteed/dist/icons.svg#chevron"></use>
+</svg>
+      </button>
+  <div class="utility-nav__content bg__white">
+          <div id="utility-nav-loc-autocomplete"></div>
+      </div>
+</div>
+
+      
+      
+
+<div  class="dropdown dropdown--country bg__grey-light js-utility-nav js-utility-drop__wrapper utility-drop__wrapper" data-analytic='{&quot;link_text&quot;: &quot;country_selector&quot;}'>
+  <button class="js-utility-drop__trigger utility-drop__trigger">
+          
+
+
+<svg  class="utility__icon utility__icon--country"
+
+  
+  
+  
+    
+  >
+      <use xlink:href="/themes/custom/certainteed/dist/icons.svg#icon-US"></use>
+</svg>
+                      <span aria-hidden="true" class="js-utility-drop-title">US<span class="utility-drop__country-divider">|</span>EN</span>
+        <span class="visually-hidden">Select site language</span>
+                    
+
+
+<svg  class="utility__icon utility__icon--chevron"
+
+  
+  
+  
+    
+  >
+      <use xlink:href="/themes/custom/certainteed/dist/icons.svg#chevron"></use>
+</svg>
+      </button>
+  <div class="utility-nav__content bg__white">
+                          <ul class="menu" data-utility-nav-component-name="locale">
+                      <li class="menu__item menu__item--country">
+              <a
+                class="menu__link"
+                href="https://www.certainteed.com/-/media/project/certainteed/images/logo-certainteed.svg"
+                data-analytics-key="US-EN"
+              >
+                
+
+
+<svg  class="utility__icon utility__icon--country"
+
+  
+  
+  
+    
+  >
+      <use xlink:href="/themes/custom/certainteed/dist/icons.svg#icon-US"></use>
+</svg>
+                United States
+              </a>
+            </li>
+                          <li class="menu__item menu__item--language">
+                <a
+                  class="menu__link"
+                  href="https://www.certainteed.com/-/media/project/certainteed/images/logo-certainteed.svg"
+                  data-analytics-key="US-EN"
+                >
+                  <span class="visually-hidden">United States</span>
+                  English (EN)
+                </a>
+              </li>
+                          <li class="menu__item menu__item--language">
+                <a
+                  class="menu__link"
+                  href="https://es.certainteed.com/-/media/project/certainteed/images/logo-certainteed.svg"
+                  data-analytics-key="US-ES"
+                >
+                  <span class="visually-hidden">United States</span>
+                  Spanish (ES)
+                </a>
+              </li>
+                                  <li class="menu__item menu__item--country">
+              <a
+                class="menu__link"
+                href="https://www.certainteed.ca/-/media/project/certainteed/images/logo-certainteed.svg"
+                data-analytics-key="CA-EN"
+              >
+                
+
+
+<svg  class="utility__icon utility__icon--country"
+
+  
+  
+  
+    
+  >
+      <use xlink:href="/themes/custom/certainteed/dist/icons.svg#icon-CA"></use>
+</svg>
+                Canada
+              </a>
+            </li>
+                          <li class="menu__item menu__item--language">
+                <a
+                  class="menu__link"
+                  href="https://www.certainteed.ca/-/media/project/certainteed/images/logo-certainteed.svg"
+                  data-analytics-key="CA-EN"
+                >
+                  <span class="visually-hidden">Canada</span>
+                  English (EN)
+                </a>
+              </li>
+                          <li class="menu__item menu__item--language">
+                <a
+                  class="menu__link"
+                  href="https://fr.certainteed.ca/-/media/project/certainteed/images/logo-certainteed.svg"
+                  data-analytics-key="CA-FR"
+                >
+                  <span class="visually-hidden">Canada</span>
+                  French (FR)
+                </a>
+              </li>
+                              </ul>
+      
+            </div>
+</div>
+
+      <div class="utility-menu__wrapper">
+                  <nav role="navigation" aria-labelledby="block-utilitynavigation-menu" id="block-utilitynavigation">
+            
+  <h2 class="visually-hidden" id="block-utilitynavigation-menu">Utility Navigation</h2>
+  
+
+        
+
+
+
+    
+                          
+    
+<ul  data-region="header" class="utility__menu">
+            
+<li  class="menu__item">
+                <a href="/where-to-buy" class="btn btn--s btn--secondary menu__link" data-drupal-link-system-path="node/207311">Where To Buy</a>
+          </li>
+          
+<li  class="menu__item menu__item--find-a-pro">
+                <a href="/find-a-pro" class="btn btn--s btn--primary btn--find-a-pro menu__link menu__link--find-a-pro" data-drupal-link-system-path="node/204851">Find A Pro</a>
+          </li>
+          
+<li  class="menu__item menu__item--find-a-rep">
+                <a href="/find-a-rep" class="btn btn--s btn--primary btn--find-a-rep menu__link menu__link--find-a-rep" data-drupal-link-system-path="node/207321">Find A Rep</a>
+          </li>
+      </ul>
+  
+
+  </nav>
+
+              </div>
+
+          </div>
+  </div>
+</div>
+
+
+
+
+  <div  class="header__primary container relative">
+    
+<a
+   class="logo-link"
+      href="/"
+>
+        <img
+        src="/themes/custom/certainteed/images/logo.svg"
+        alt="Logo" class="logo__image hidden md-block"
+        width="286"
+        height="66"
+      />
+      <img
+        src="/themes/custom/certainteed/images/logo-m.svg"
+        alt="Logo"
+        class="logo-m__image md-hidden"
+        width="40"
+        height="40"
+      />
+  </a>
+    
+                                                                                
+            
+  <h2 class="visually-hidden" id="block-megamenu-menu">Mega Menu</h2>
+  
+
+        <nav class="mega-menu relative flex justify-end" id="mega-menu" data-react-settings="{&quot;megaMenu&quot;:[{&quot;title&quot;:&quot;Products&quot;,&quot;url&quot;:&quot;\/products&quot;,&quot;description&quot;:&quot;&quot;,&quot;cta&quot;:[],&quot;subtree&quot;:[],&quot;components&quot;:[],&quot;icon&quot;:&quot;&quot;,&quot;attributes&quot;:[]},{&quot;title&quot;:&quot;Inspiration&quot;,&quot;url&quot;:&quot;\/inspiration&quot;,&quot;description&quot;:&quot;&quot;,&quot;cta&quot;:[],&quot;subtree&quot;:[],&quot;components&quot;:[],&quot;icon&quot;:&quot;&quot;,&quot;attributes&quot;:[]},{&quot;title&quot;:&quot;Documents&quot;,&quot;url&quot;:&quot;\/products\/documents-downloads&quot;,&quot;description&quot;:&quot;&quot;,&quot;cta&quot;:[],&quot;subtree&quot;:[],&quot;components&quot;:[],&quot;icon&quot;:&quot;&quot;,&quot;attributes&quot;:[]},{&quot;title&quot;:&quot;About Us&quot;,&quot;url&quot;:&quot;\/about-us&quot;,&quot;description&quot;:&quot;&quot;,&quot;cta&quot;:[],&quot;subtree&quot;:[],&quot;components&quot;:[],&quot;icon&quot;:&quot;&quot;,&quot;attributes&quot;:[]},{&quot;title&quot;:&quot;For Professionals&quot;,&quot;url&quot;:&quot;\/for-professionals&quot;,&quot;description&quot;:&quot;&quot;,&quot;cta&quot;:[],&quot;subtree&quot;:[],&quot;components&quot;:[],&quot;icon&quot;:&quot;&quot;,&quot;attributes&quot;:[]}],&quot;utilityMenu&quot;:[{&quot;title&quot;:&quot;Where To Buy&quot;,&quot;url&quot;:&quot;\/where-to-buy&quot;,&quot;description&quot;:&quot;&quot;,&quot;cta&quot;:[],&quot;components&quot;:[],&quot;icon&quot;:&quot;&quot;,&quot;attributes&quot;:{&quot;class&quot;:[&quot;btn btn--s btn--secondary&quot;]}},{&quot;title&quot;:&quot;Find A Pro&quot;,&quot;url&quot;:&quot;\/find-a-pro&quot;,&quot;description&quot;:&quot;&quot;,&quot;cta&quot;:[],&quot;components&quot;:[],&quot;icon&quot;:&quot;&quot;,&quot;attributes&quot;:{&quot;class&quot;:[&quot;btn btn--s btn--primary btn--find-a-pro&quot;]}},{&quot;title&quot;:&quot;Find A Rep&quot;,&quot;url&quot;:&quot;\/find-a-rep&quot;,&quot;description&quot;:&quot;&quot;,&quot;cta&quot;:[],&quot;components&quot;:[],&quot;icon&quot;:&quot;&quot;,&quot;attributes&quot;:{&quot;class&quot;:[&quot;btn btn--s btn--primary btn--find-a-rep&quot;]}}],&quot;analytic&quot;:{&quot;navOpened&quot;:{&quot;event&quot;:&quot;nav_opened&quot;,&quot;element_location&quot;:&quot;mega_menu&quot;},&quot;navClicked&quot;:{&quot;event&quot;:&quot;nav_click&quot;,&quot;location&quot;:&quot;header&quot;}}}"></nav>
+
+  
+
+
+                                        
+                                                        <div id="global-search-mega-menu"></div>
+                        </div>
+</header>
+  
+      <div class="region--message container bg__white">
+              
+        
+        
+        
+          <div>
+    <div  id="block-breadcrumbs-ct" class="block">
+  
+    
+      
+
+
+
+
+  </div>
+
+  </div>
+
+          </div>
+  
+  <div  class="main">
+    <a id="main-content" tabindex="-1"></a>
+    <main role="main"  class="main-content">
+                <div>
+    <div data-drupal-messages-fallback class="hidden"></div>
+<article  class="node">
+
+  
+    
+
+  
+  <div>
+    
+              
+<div  class="section container container--no-padding bg- section-pt-default section-pb-default section-cc-">
+              <div class="layout layout--onecol">
+    <div  class="layout__region layout__region--content">
+        
+
+
+<div  class="text-wysiwyg" data-component-name="[B55] Text (WYSIWYG)">
+
+  
+      <div  class="text-wysiwyg__body">
+      
+
+            <div class="text-long"><p class="page-404__headline">404</p><h3 class="page-404__title">Something went wrong</h3><p class="page-404__message">The page you are looking for was moved, removed, renamed or might never existed!</p><p class="page-404__link-wrap"><a class="btn btn--primary" href="/">Go back to home</a></p></div>
+      
+    </div>
+  </div>
+
+    </div>
+  </div>
+
+      </div>
+
+      
+  </div>
+    </article>
+
+
+  </div>
+
+          </main>
+  </div>
+
+            
+<footer  class="footer">
+  <div  id="ct-footer-menu-placeholder"></div>
+
+<div  id="ct-documents-drawer"></div>
+
+</footer>
+
+        <div  class="legal-footer ct-footer">
+  <div class="container">
+    <div  id="block-certainteed-legalfooter" class="block">
+  
+    
+      
+      <div>
+              <div>
+
+  <div class="block-section">
+      <div class="layout layout--onecol">
+    <div  class="layout__region layout__region--content">
+        
+
+
+<div  class="text-wysiwyg" data-component-name="[B55] Text (WYSIWYG)">
+
+  
+      <div  class="text-wysiwyg__body">
+      
+
+            <div class="text-long"><ul class="ct-copyright flex flex-col md-flex-row"><li><a href="/privacy-policy">Privacy Policy</a></li><li><a href="/legal-terms-use">Terms of Use</a></li><li><a href="/california-privacy-policy">California Privacy Rights Statement</a></li><li><a href="https://www.certainteed.com/privacy-policy#state_specific">Do Not Sell or Share My Personal Information</a></li><li>© <span class="js-copyright-year">2025</span> CertainTeed, LLC. All rights reserved.</li></ul></div>
+      
+    </div>
+  </div>
+
+    </div>
+  </div>
+
+  </div>
+</div>
+          </div>
+  
+  </div>
+
+  </div>
+</div>
+
+  </div>
+
+  </div>
+
+    <script>window.dataLayer = window.dataLayer || []; window.dataLayer.push({"contentType":"landing_page","id":"236","page_url_clean":"www.certainteed.com\/404","page_title":"404","page_url":"\/404","product_name":"undefined","date_launched":"03172023","date_last_updated":"04102023","business_unit":"undefined","digital_tool_name":"undefined","page_type":"undefined","product_category":"undefined","website_country":"undefined"});</script>
+
+    <div id="react-app"></div>
+    <script src="/sites/default/files/js/js_dhsaMrTglOt1df4MLeMk57VwxrHEPcWn7wZaFYxMqfo.js?scope=footer&amp;delta=0&amp;language=en&amp;theme=certainteed&amp;include=eJxlkGtywzAIhC8kR0disERlYlmoEvKjp4_dJk7d_mHYb5kdwFFR5KRE3oYoPUbjfiOREKnLER3VDpuKkylHUrqMKa3aLVvlZQsXoylH1q1LOBun4KSQ9Vz3vA0-G7sR6sD5tAb2BK7O0DdVSSdvOoEWdCOVg3lU3BOonCsrfHDygFAo24uCez3sQBLFobIk-2oOLom0tKr21Zh3eE8Dziylmv28yGm0vrSM8faU5uc7oBhs2MtffcM7rlc4mYhfmz2KmZmW-n0L0JqlqP1HHvgpouY"></script>
+<script src="/themes/custom/certainteed/react-app/build/static/js/main.js?tdffse"></script>
+<script src="/themes/custom/certainteed/components/00-base/common/heading-ids.js?tdffse" type="module"></script>
+<script src="https://certainteed--full.sandbox.my.site.com/ESWCertainTeedWebChat1764624761932/assets/js/bootstrap.min.js"></script>
+<script src="https://certainteed.my.site.com/ESWCertainTeedWebChat1771561301787/assets/js/bootstrap.min.js"></script>
+<script src="/sites/default/files/js/js_ZjRDLfrDIryj9REP3bVL2PsvaTBZCvvkvXzS_P4Zggc.js?scope=footer&amp;delta=5&amp;language=en&amp;theme=certainteed&amp;include=eJxlkGtywzAIhC8kR0disERlYlmoEvKjp4_dJk7d_mHYb5kdwFFR5KRE3oYoPUbjfiOREKnLER3VDpuKkylHUrqMKa3aLVvlZQsXoylH1q1LOBun4KSQ9Vz3vA0-G7sR6sD5tAb2BK7O0DdVSSdvOoEWdCOVg3lU3BOonCsrfHDygFAo24uCez3sQBLFobIk-2oOLom0tKr21Zh3eE8Dziylmv28yGm0vrSM8faU5uc7oBhs2MtffcM7rlc4mYhfmz2KmZmW-n0L0JqlqP1HHvgpouY"></script>
+<script src="/themes/custom/certainteed/util/YTAutoplay.js?tdffse" type="module"></script>
+<script src="/sites/default/files/js/js_RGuXlFnuStWEgkdYubA4MSPnLiepelgp1cn526CZqeQ.js?scope=footer&amp;delta=7&amp;language=en&amp;theme=certainteed&amp;include=eJxlkGtywzAIhC8kR0disERlYlmoEvKjp4_dJk7d_mHYb5kdwFFR5KRE3oYoPUbjfiOREKnLER3VDpuKkylHUrqMKa3aLVvlZQsXoylH1q1LOBun4KSQ9Vz3vA0-G7sR6sD5tAb2BK7O0DdVSSdvOoEWdCOVg3lU3BOonCsrfHDygFAo24uCez3sQBLFobIk-2oOLom0tKr21Zh3eE8Dziylmv28yGm0vrSM8faU5uc7oBhs2MtffcM7rlc4mYhfmz2KmZmW-n0L0JqlqP1HHvgpouY"></script>
+<script src="/themes/custom/certainteed/components/02-molecules/modal/modal.js?tdffse" type="module"></script>
+<script src="/sites/default/files/js/js_CzMhPwht6U1VdpWBMNXIXq1BcBzFxAAMhcgC--7CrpM.js?scope=footer&amp;delta=9&amp;language=en&amp;theme=certainteed&amp;include=eJxlkGtywzAIhC8kR0disERlYlmoEvKjp4_dJk7d_mHYb5kdwFFR5KRE3oYoPUbjfiOREKnLER3VDpuKkylHUrqMKa3aLVvlZQsXoylH1q1LOBun4KSQ9Vz3vA0-G7sR6sD5tAb2BK7O0DdVSSdvOoEWdCOVg3lU3BOonCsrfHDygFAo24uCez3sQBLFobIk-2oOLom0tKr21Zh3eE8Dziylmv28yGm0vrSM8faU5uc7oBhs2MtffcM7rlc4mYhfmz2KmZmW-n0L0JqlqP1HHvgpouY"></script>
+<script src="/extlink/settings.js"></script>
+<script src="/sites/default/files/js/js_BPeckb80wAER9my1IFn-IxPcS2X3lY9DnCR46x5Baro.js?scope=footer&amp;delta=11&amp;language=en&amp;theme=certainteed&amp;include=eJxlkGtywzAIhC8kR0disERlYlmoEvKjp4_dJk7d_mHYb5kdwFFR5KRE3oYoPUbjfiOREKnLER3VDpuKkylHUrqMKa3aLVvlZQsXoylH1q1LOBun4KSQ9Vz3vA0-G7sR6sD5tAb2BK7O0DdVSSdvOoEWdCOVg3lU3BOonCsrfHDygFAo24uCez3sQBLFobIk-2oOLom0tKr21Zh3eE8Dziylmv28yGm0vrSM8faU5uc7oBhs2MtffcM7rlc4mYhfmz2KmZmW-n0L0JqlqP1HHvgpouY"></script>
+
+  </body>
+</html>

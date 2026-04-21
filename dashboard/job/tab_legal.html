@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css">
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js?nomap"></script>
+<style>
+@font-face{font-family:'Norwester';src:url('../css/norwester.otf') format('opentype')}
+:root{--bg:#1a1a1a;--bg2:#242424;--bg3:#2a2a2a;--bg4:#323232;--bg5:#2e2e2e;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--C:#9f00fa;--C2:rgba(159,0,250,0.12);--Ch:#7a00c0;--Cl:#d36eff;--accent:#4a7ab5;--O:#ff6a1a;--G:#72d648;--R:#ff4040;--Y:#ffb020;--P:#d36eff;--t:#ffffff;--tm:#e0e0e0;--td:#c8c8c8;--dim:#888888;--mono:'JetBrains Mono',monospace;--jost:'Jost',sans-serif;--nw:'Norwester','Jost',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--mono);padding:24px;overflow-y:auto;user-select:none;-webkit-user-select:none}
+
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.stag{font-size:12px;color:var(--C);background:var(--C2);border:1px solid rgba(159,0,250,.3);padding:3px 8px;letter-spacing:.15em}
+.stit{font-family:var(--nw);font-size:24px;font-weight:normal;text-transform:uppercase;letter-spacing:.06em}
+.sl{flex:1;height:1px;background:var(--line)}
+
+/* Filter bar */
+.filter-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;align-items:center}
+.filter-bar select,.filter-bar input{background:var(--bg2);color:var(--t);border:1px solid var(--line2);padding:8px 12px;font-family:var(--mono);font-size:12px;outline:none;min-width:140px}
+.filter-bar select:focus,.filter-bar input:focus{border-color:var(--C)}
+.filter-bar input{flex:1;min-width:200px}
+.filter-count{font-size:11px;color:var(--dim);margin-left:auto;letter-spacing:.1em}
+
+/* Quick filter chips */
+.chip-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.chip{font-size:11px;padding:4px 10px;border:1px solid var(--line2);background:var(--bg2);color:var(--td);cursor:pointer;transition:all .2s;letter-spacing:.05em}
+.chip:hover{border-color:var(--C);color:var(--C)}
+.chip.active{background:var(--C2);border-color:var(--C);color:var(--C)}
+
+/* Stats summary bar */
+.stats-bar{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.stat-box{background:var(--bg2);border:1px solid var(--line);padding:12px 16px;min-width:120px;text-align:center}
+.stat-num{font-family:var(--nw);font-size:28px;color:var(--C)}
+.stat-label{font-size:10px;color:var(--dim);letter-spacing:.12em;margin-top:4px}
+
+/* License cards */
+.license-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:14px}
+.lic-card{background:var(--bg2);border:1px solid var(--line);padding:18px;position:relative;overflow:hidden;transition:border-color .2s,transform .15s;cursor:pointer}
+.lic-card:hover{border-color:var(--line2);transform:translateY(-1px)}
+.lic-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+
+/* Color by license requirement */
+.lic-card[data-req="Yes"]::before{background:var(--G)}
+.lic-card[data-req="Local Only"]::before{background:var(--Y)}
+.lic-card[data-req="No"]::before{background:var(--R)}
+
+.lic-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.lic-name{font-family:var(--jost);font-size:13px;font-weight:600;color:var(--t);line-height:1.3;flex:1}
+.lic-state-badge{font-size:11px;padding:2px 8px;letter-spacing:.1em;font-weight:700;margin-left:8px;white-space:nowrap}
+.lic-state-badge.ca{background:rgba(74,122,181,.15);color:var(--accent);border:1px solid rgba(74,122,181,.3)}
+.lic-state-badge.fl{background:rgba(159,0,250,.15);color:var(--C);border:1px solid rgba(159,0,250,.3)}
+.lic-state-badge.tx{background:rgba(255,106,26,.15);color:var(--O);border:1px solid rgba(255,106,26,.3)}
+.lic-state-badge.default{background:rgba(255,255,255,.06);color:var(--td);border:1px solid var(--line)}
+
+.lic-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.lic-tag{font-size:10px;padding:2px 6px;letter-spacing:.08em}
+.lic-tag.trade{background:rgba(159,0,250,.12);color:var(--C);border:1px solid rgba(159,0,250,.2)}
+.lic-tag.type{background:rgba(255,255,255,.06);color:var(--td);border:1px solid var(--line)}
+.lic-tag.req-yes{background:rgba(114,214,72,.1);color:var(--G);border:1px solid rgba(114,214,72,.2)}
+.lic-tag.req-local{background:rgba(255,176,32,.1);color:var(--Y);border:1px solid rgba(255,176,32,.2)}
+.lic-tag.req-no{background:rgba(255,64,64,.1);color:var(--R);border:1px solid rgba(255,64,64,.2)}
+
+.lic-details{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.lic-card.expanded .lic-details{display:block}
+
+.lic-row{display:flex;gap:16px;margin-bottom:6px;font-size:11px}
+.lic-row .label{color:var(--dim);min-width:100px;flex-shrink:0}
+.lic-row .val{color:var(--td)}
+.lic-row .val.highlight{color:var(--Cl)}
+
+.lic-fees{display:flex;gap:16px;margin-bottom:10px;font-size:11px;color:var(--dim)}
+.lic-fees span{display:flex;align-items:center;gap:4px}
+.lic-fees .val{color:var(--Cl);font-weight:500}
+
+.lic-notes{font-family:var(--jost);font-size:11px;color:var(--dim);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lic-card.expanded .lic-notes{-webkit-line-clamp:unset}
+
+.lic-authority{font-size:10px;color:var(--dim);margin-top:8px;padding-top:6px;border-top:1px solid var(--line);letter-spacing:.08em}
+
+/* Reciprocity badge */
+.recip{display:inline-flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.recip-st{font-size:9px;padding:1px 4px;background:rgba(159,0,250,.08);color:var(--Cl);border:1px solid rgba(159,0,250,.15)}
+
+/* No results */
+.no-results{text-align:center;padding:60px 20px;color:var(--dim);font-family:var(--jost)}
+.no-results h3{font-family:var(--nw);font-size:20px;color:var(--td);margin-bottom:8px}
+
+/* Legend */
+.legend{display:flex;gap:16px;margin-bottom:16px;font-size:10px;color:var(--dim)}
+.legend-item{display:flex;align-items:center;gap:6px}
+.legend-dot{width:12px;height:3px}
+.legend-dot.green{background:var(--G)}
+.legend-dot.yellow{background:var(--Y)}
+.legend-dot.red{background:var(--R)}
+
+/* Interactive Map */
+.map-wrap{position:relative;margin-bottom:20px;border:1px solid var(--line);overflow:hidden}
+#usMap{height:380px;background:var(--bg2);z-index:1}
+.map-overlay{position:absolute;top:12px;right:12px;z-index:1000;background:rgba(26,26,26,.92);border:1px solid var(--line2);padding:12px 14px;pointer-events:auto;backdrop-filter:blur(6px)}
+.map-overlay h4{font-family:var(--nw);font-size:12px;color:var(--C);letter-spacing:.15em;margin-bottom:8px;text-transform:uppercase}
+.map-legend-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:10px;color:var(--td)}
+.map-legend-swatch{width:14px;height:10px;border:1px solid rgba(255,255,255,.1)}
+.map-info{position:absolute;bottom:12px;left:12px;z-index:1000;background:rgba(26,26,26,.92);border:1px solid var(--line2);padding:10px 14px;pointer-events:none;backdrop-filter:blur(6px);font-size:11px;color:var(--td);opacity:0;transition:opacity .2s}
+.map-info.visible{opacity:1}
+.map-info .mi-state{font-family:var(--nw);font-size:16px;color:var(--C);margin-bottom:4px}
+.map-info .mi-row{display:flex;gap:8px;font-size:10px;color:var(--dim);margin-top:2px}
+.map-info .mi-row .mi-v{color:var(--Cl)}
+.map-selected-label{position:absolute;top:12px;left:12px;z-index:1000;background:rgba(159,0,250,.15);border:1px solid rgba(159,0,250,.4);color:var(--C);font-size:11px;padding:5px 12px;display:none;cursor:pointer;transition:all .2s;letter-spacing:.08em}
+.map-selected-label:hover{background:rgba(159,0,250,.25)}
+.map-selected-label .x{margin-left:8px;color:var(--dim)}
+
+/* State badge markers */
+.state-badge-icon{background:transparent;border:none;box-shadow:none;pointer-events:none}
+.state-badge-icon img{display:block;opacity:.85;filter:drop-shadow(0 1px 3px rgba(0,0,0,.9))}
+
+/* Leaflet overrides for dark theme */
+.leaflet-container{background:var(--bg2);font-family:var(--mono)}
+.leaflet-control-zoom a{background:var(--bg3);color:var(--t);border-color:var(--line2)}
+.leaflet-control-zoom a:hover{background:var(--bg4)}
+.leaflet-control-attribution{background:rgba(26,26,26,.7);color:var(--dim);font-size:9px}
+.leaflet-control-attribution a{color:var(--dim)}
+.leaflet-popup-content-wrapper{background:var(--bg2);color:var(--t);border:1px solid var(--line2);border-radius:0;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.leaflet-popup-tip{background:var(--bg2)}
+.leaflet-popup-content{font-family:var(--mono);font-size:11px;margin:10px 14px}
+
+@media(max-width:768px){
+  body{padding:14px}
+  .license-grid{grid-template-columns:1fr}
+  .filter-bar{flex-direction:column}
+  .filter-bar select,.filter-bar input{min-width:100%;width:100%}
+  .stats-bar{gap:8px}
+  .stat-box{min-width:80px;padding:8px 10px}
+  .stat-num{font-size:22px}
+  .stit{font-size:18px}
+  #usMap{height:260px}
+  .map-overlay{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="sh"><span class="stag">LEGAL</span><span class="stit">State Licensing Browser</span><div class="sl"></div></div>
+
+<div style="margin-top:16px;padding:14px;background:rgba(114,214,72,.1);border:1px solid rgba(114,214,72,.3);border-radius:3px;font-size:11px;color:#c8c8c8;">  <strong>Data Quality:</strong> 120 records | Confidence: 97% Complete | Last Updated: Apr 2026 | <a href="#sources" style="color:#d36eff;text-decoration:underline;">Sources »</a></div>
+
+<div class="map-wrap">
+  <div id="usMap"></div>
+  <div class="map-overlay">
+    <h4>Jurisdiction</h4>
+    <div class="map-legend-row"><div class="map-legend-swatch" style="background:#72d648"></div>Many licenses (15+)</div>
+    <div class="map-legend-row"><div class="map-legend-swatch" style="background:#4a7ab5"></div>Moderate (8-14)</div>
+    <div class="map-legend-row"><div class="map-legend-swatch" style="background:#9f00fa"></div>Some (3-7)</div>
+    <div class="map-legend-row"><div class="map-legend-swatch" style="background:#ff6a1a"></div>Few (1-2)</div>
+    <div class="map-legend-row"><div class="map-legend-swatch" style="background:rgba(255,255,255,.08)"></div>No data</div>
+  </div>
+  <div class="map-info" id="mapInfo">
+    <div class="mi-state" id="miState"></div>
+    <div class="mi-row">Licenses: <span class="mi-v" id="miTotal">0</span></div>
+    <div class="mi-row">State Req: <span class="mi-v" id="miReq">0</span> &middot; Local: <span class="mi-v" id="miLocal">0</span></div>
+    <div class="mi-row">Avg Fee: <span class="mi-v" id="miFee">$0</span> &middot; Click to filter</div>
+  </div>
+  <div class="map-selected-label" id="mapSelectedLabel">Showing: <span id="mapSelectedState"></span><span class="x">&times;</span></div>
+</div>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat-box"><div class="stat-num" id="totalLic">0</div><div class="stat-label">LICENSES</div></div>
+  <div class="stat-box"><div class="stat-num" id="statesCount">0</div><div class="stat-label">STATES</div></div>
+  <div class="stat-box"><div class="stat-num" id="reqCount">0</div><div class="stat-label">STATE REQ'D</div></div>
+  <div class="stat-box"><div class="stat-num" id="localCount">0</div><div class="stat-label">LOCAL ONLY</div></div>
+  <div class="stat-box"><div class="stat-num" id="noReqCount">0</div><div class="stat-label">NOT REQ'D</div></div>
+  <div class="stat-box"><div class="stat-num" id="avgFee">$0</div><div class="stat-label">AVG APP FEE</div></div>
+</div>
+
+<div class="filter-bar">
+  <select id="filterState"><option value="">All States</option></select>
+  <select id="filterTrade"><option value="">All Trades</option></select>
+  <select id="filterReq"><option value="">All Requirements</option><option value="Yes">State License Required</option><option value="Local Only">Local Only</option><option value="No">Not Required</option></select>
+  <input type="text" id="filterSearch" placeholder="Search licenses, trades, authorities...">
+  <span class="filter-count" id="filterCount"></span>
+</div>
+
+<div class="chip-bar" id="chipBar">
+  <span class="chip" data-filter="state" data-val="FL">Florida</span>
+  <span class="chip" data-filter="state" data-val="CA">California</span>
+  <span class="chip" data-filter="state" data-val="TX">Texas</span>
+  <span class="chip" data-filter="state" data-val="NY">New York</span>
+  <span class="chip" data-filter="state" data-val="AZ">Arizona</span>
+  <span class="chip" data-filter="state" data-val="NV">Nevada</span>
+  <span class="chip" data-filter="trade" data-val="Electrical">Electrical</span>
+  <span class="chip" data-filter="trade" data-val="HVAC">HVAC</span>
+  <span class="chip" data-filter="trade" data-val="Plumbing">Plumbing</span>
+  <span class="chip" data-filter="trade" data-val="General Contractor">General Contractor</span>
+  <span class="chip" data-filter="trade" data-val="Solar">Solar</span>
+  <span class="chip" data-filter="trade" data-val="Roofing">Roofing</span>
+  <span class="chip" data-filter="trade" data-val="Tree Care">Tree Care</span>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot green"></div>State License Required</div>
+  <div class="legend-item"><div class="legend-dot yellow"></div>Local Permits Only</div>
+  <div class="legend-item"><div class="legend-dot red"></div>No License Required</div>
+</div>
+
+<div class="license-grid" id="licGrid"></div>
+
+<script>
+var LICENSES = [
+{id:1,state:"California",abbr:"CA",trade:"General Engineering",industry:"Construction",req:"Yes",type:"State License",name:"A General Engineering Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Fixed works: irrigation, power plants, tunnels, bridges, dams, pipelines, highways"},
+{id:2,state:"California",abbr:"CA",trade:"General Building",industry:"Construction",req:"Yes",type:"State License",name:"B General Building Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Requires 2+ unrelated building trades; cannot self-perform >50% specialty work without C license"},
+{id:3,state:"California",abbr:"CA",trade:"Insulation",industry:"Construction",req:"Yes",type:"State License",name:"C-2 Insulation and Acoustical Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Thermal, acoustical, and fire-resistive insulation"},
+{id:4,state:"California",abbr:"CA",trade:"Boiler and Steam Fitting",industry:"Construction",req:"Yes",type:"State License",name:"C-4 Boiler Hot Water Heating and Steam Fitting",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Boilers, hot water heating, steam fitting"},
+{id:5,state:"California",abbr:"CA",trade:"Framing",industry:"Construction",req:"Yes",type:"State License",name:"C-5 Framing and Rough Carpentry",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Structural framing, form work, rough carpentry"},
+{id:6,state:"California",abbr:"CA",trade:"Cabinet and Finish Carpentry",industry:"Construction",req:"Yes",type:"State License",name:"C-6 Cabinet Millwork and Finish Carpentry",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Cabinets, countertops, trim, finish carpentry"},
+{id:7,state:"California",abbr:"CA",trade:"Low Voltage",industry:"Construction",req:"Yes",type:"State License",name:"C-7 Low Voltage Systems Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Fire/life safety, communication systems, access control, low-voltage wiring"},
+{id:8,state:"California",abbr:"CA",trade:"Concrete",industry:"Construction",req:"Yes",type:"State License",name:"C-8 Concrete Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Concrete foundations, flatwork, reinforcing, post-tension, shotcrete"},
+{id:9,state:"California",abbr:"CA",trade:"Drywall",industry:"Construction",req:"Yes",type:"State License",name:"C-9 Drywall Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Drywall, plaster, stucco installation"},
+{id:10,state:"California",abbr:"CA",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"C-10 Electrical Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Electrical systems, wiring, fixtures; required for projects over $1000"},
+{id:11,state:"California",abbr:"CA",trade:"Elevator",industry:"Construction",req:"Yes",type:"State License",name:"C-11 Elevator Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Elevators, escalators, moving walks"},
+{id:12,state:"California",abbr:"CA",trade:"Earthwork and Paving",industry:"Construction",req:"Yes",type:"State License",name:"C-12 Earthwork and Paving Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Grading, trenching, paving, surfacing"},
+{id:13,state:"California",abbr:"CA",trade:"Fencing",industry:"Construction",req:"Yes",type:"State License",name:"C-13 Fencing Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Fencing of all types"},
+{id:14,state:"California",abbr:"CA",trade:"Flooring",industry:"Construction",req:"Yes",type:"State License",name:"C-15 Flooring and Floor Covering",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Wood, tile, carpet, vinyl flooring installation"},
+{id:15,state:"California",abbr:"CA",trade:"Fire Protection",industry:"Construction",req:"Yes",type:"State License",name:"C-16 Fire Protection Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Fire sprinkler systems; NICET Level II minimum for fire alarm designers"},
+{id:16,state:"California",abbr:"CA",trade:"Glazing",industry:"Construction",req:"Yes",type:"State License",name:"C-17 Glazing Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Glass, mirrors, curtain walls"},
+{id:17,state:"California",abbr:"CA",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"C-20 Warm-Air Heating Ventilating and AC",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"HVAC installation, maintenance, repair; Title 24 heat pump requirements"},
+{id:18,state:"California",abbr:"CA",trade:"Demolition",industry:"Construction",req:"Yes",type:"State License",name:"C-21 Building Moving/Demolition",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Structural moving, demolition, dismantling"},
+{id:19,state:"California",abbr:"CA",trade:"Asbestos Abatement",industry:"Construction",req:"Yes",type:"State License",name:"C-22 Asbestos Abatement Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Asbestos removal; Cal/OSHA specific HAZWOPER requirements"},
+{id:20,state:"California",abbr:"CA",trade:"Ornamental Metal",industry:"Construction",req:"Yes",type:"State License",name:"C-23 Ornamental Metal Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Ornamental metal, wrought iron"},
+{id:21,state:"California",abbr:"CA",trade:"Landscaping",industry:"Landscaping",req:"Yes",type:"State License",name:"C-27 Landscaping Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Landscape construction, irrigation, planting"},
+{id:22,state:"California",abbr:"CA",trade:"Lock and Security",industry:"Construction",req:"Yes",type:"State License",name:"C-28 Lock and Security Equipment",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Locks, safes, security systems"},
+{id:23,state:"California",abbr:"CA",trade:"Masonry",industry:"Construction",req:"Yes",type:"State License",name:"C-29 Masonry Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Brick, block, stone, tile masonry"},
+{id:24,state:"California",abbr:"CA",trade:"Painting",industry:"Construction",req:"Yes",type:"State License",name:"C-33 Painting and Decorating",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Painting, wallpaper, coatings; EPA RRP cert for pre-1978 buildings"},
+{id:25,state:"California",abbr:"CA",trade:"Pipeline",industry:"Construction",req:"Yes",type:"State License",name:"C-34 Pipeline Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Pipelines for water, gas, oil, industrial use"},
+{id:26,state:"California",abbr:"CA",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"C-36 Plumbing Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Plumbing systems, water heaters, gas piping; Title 24 heat pump water heater requirements"},
+{id:27,state:"California",abbr:"CA",trade:"Refrigeration",industry:"Construction",req:"Yes",type:"State License",name:"C-38 Refrigeration Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Refrigeration equipment, controls; EPA 608 Universal also required"},
+{id:28,state:"California",abbr:"CA",trade:"Roofing",industry:"Construction",req:"Yes",type:"State License",name:"C-39 Roofing Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Roof coverings, waterproofing; workers comp ~$15 per $100 payroll"},
+{id:29,state:"California",abbr:"CA",trade:"Sheet Metal",industry:"Construction",req:"Yes",type:"State License",name:"C-43 Sheet Metal Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Sheet metal fabrication, ductwork, flashing, gutters"},
+{id:30,state:"California",abbr:"CA",trade:"Solar",industry:"Energy",req:"Yes",type:"State License",name:"C-46 Solar Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Solar PV and thermal; NABCEP cert preferred; solar mandate since 2020"},
+{id:31,state:"California",abbr:"CA",trade:"Reinforcing Steel",industry:"Construction",req:"Yes",type:"State License",name:"C-50 Reinforcing Steel Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Rebar installation, post-tensioning"},
+{id:32,state:"California",abbr:"CA",trade:"Structural Steel",industry:"Construction",req:"Yes",type:"State License",name:"C-51 Structural Steel Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Structural steel erection"},
+{id:33,state:"California",abbr:"CA",trade:"Swimming Pool",industry:"Construction",req:"Yes",type:"State License",name:"C-53 Swimming Pool Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Swimming pools, spas, hot tubs"},
+{id:34,state:"California",abbr:"CA",trade:"Tile",industry:"Construction",req:"Yes",type:"State License",name:"C-54 Ceramic and Mosaic Tile",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Ceramic, mosaic, stone tile installation"},
+{id:35,state:"California",abbr:"CA",trade:"Well Drilling",industry:"Construction",req:"Yes",type:"State License",name:"C-57 Well Drilling Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Water well drilling, monitoring wells"},
+{id:36,state:"California",abbr:"CA",trade:"Welding",industry:"Construction",req:"Yes",type:"State License",name:"C-60 Welding Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Structural and miscellaneous welding; AWS CW also recommended"},
+{id:37,state:"California",abbr:"CA",trade:"Limited Specialty",industry:"Construction",req:"Yes",type:"State License",name:"C-61 Limited Specialty Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Subcategories include D-49 Tree Service, D-3 Awning, D-41 Siding/Decking, D-56 Trenching"},
+{id:38,state:"California",abbr:"CA",trade:"Tree Care",industry:"Landscaping",req:"Yes",type:"State License",name:"C-61/D-49 Tree Service Contractor",auth:"CSLB",exp:4,exam:true,appFee:450,renewFee:450,renewYrs:2,recip:"AZ|LA|NV",bond:true,bondAmt:25000,ins:true,notes:"Tree service specialty under C-61; ISA Certified Arborist also recommended"},
+{id:39,state:"Florida",abbr:"FL",trade:"General Contractor",industry:"Construction",req:"Yes",type:"State License",name:"Certified General Contractor (CGC)",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"MS|NC|LA",bond:true,bondAmt:20000,ins:true,notes:"Unlimited scope; any type/size project; net worth $100K required; 14 hrs CE per cycle"},
+{id:40,state:"Florida",abbr:"FL",trade:"Building Contractor",industry:"Construction",req:"Yes",type:"State License",name:"Certified Building Contractor (CBC)",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"MS|NC|LA",bond:true,bondAmt:20000,ins:true,notes:"Commercial up to 3 stories; single/multi-family residential; net worth $50K"},
+{id:41,state:"Florida",abbr:"FL",trade:"Residential Contractor",industry:"Construction",req:"Yes",type:"State License",name:"Certified Residential Contractor (CRC)",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"MS|NC|LA",bond:true,bondAmt:10000,ins:true,notes:"Single-family homes, duplexes, townhomes up to 4 units; net worth $25K"},
+{id:42,state:"Florida",abbr:"FL",trade:"General Contractor",industry:"Construction",req:"Yes",type:"State Registration",name:"Registered General Contractor",auth:"DBPR/CILB (local)",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"Local competency exam; limited to issuing jurisdiction only"},
+{id:43,state:"Florida",abbr:"FL",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"Certified Electrical Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"Electrical systems statewide; NEC + FL amendments on exam; 14 hrs CE"},
+{id:44,state:"Florida",abbr:"FL",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"Certified Mechanical Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"HVAC, refrigeration, heating, ventilation, ductwork; FMC on exam"},
+{id:45,state:"Florida",abbr:"FL",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"Class A Air Conditioning Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"Unlimited AC work including mechanical systems"},
+{id:46,state:"Florida",abbr:"FL",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"Class B Air Conditioning Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"Residential AC up to 25 tons"},
+{id:47,state:"Florida",abbr:"FL",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"Certified Plumbing Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"Plumbing, water/sewer, gas piping; FPC on exam"},
+{id:48,state:"Florida",abbr:"FL",trade:"Roofing",industry:"Construction",req:"Yes",type:"State License",name:"Certified Roofing Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"FBC Chapter 15; hurricane hardening for HVHZ areas"},
+{id:49,state:"Florida",abbr:"FL",trade:"Sheet Metal",industry:"Construction",req:"Yes",type:"State License",name:"Certified Sheet Metal Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"Sheet metal fabrication, ductwork"},
+{id:50,state:"Florida",abbr:"FL",trade:"Swimming Pool",industry:"Construction",req:"Yes",type:"State License",name:"Swimming Pool/Spa Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"Pools, spas, hot tubs, related mechanical/plumbing"},
+{id:51,state:"Florida",abbr:"FL",trade:"Solar",industry:"Energy",req:"Yes",type:"State License",name:"Certified Solar Energy Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"Solar PV and thermal; NABCEP cert increasingly preferred"},
+{id:52,state:"Florida",abbr:"FL",trade:"Underground Utility",industry:"Construction",req:"Yes",type:"State License",name:"Underground Utility Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"Underground utility installation"},
+{id:53,state:"Florida",abbr:"FL",trade:"Carpentry",industry:"Construction",req:"Yes",type:"State License",name:"Certified Carpentry Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"New specialty effective July 1 2025 under SB 1142; structural carpentry"},
+{id:54,state:"Florida",abbr:"FL",trade:"Masonry",industry:"Construction",req:"Yes",type:"State License",name:"Certified Masonry Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"New specialty effective July 1 2025; HVHZ structural requirements"},
+{id:55,state:"Florida",abbr:"FL",trade:"Marine Construction",industry:"Construction",req:"Yes",type:"State License",name:"Marine/Seawall Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"New specialty effective July 1 2025; seawalls, bulkheads, docks, pile driving"},
+{id:56,state:"Florida",abbr:"FL",trade:"Hurricane Protection",industry:"Construction",req:"Yes",type:"State License",name:"Hurricane Protection Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"New specialty effective July 1 2025; shutters, impact-resistant products"},
+{id:57,state:"Florida",abbr:"FL",trade:"Electrician (Journeyman)",industry:"Construction",req:"Yes",type:"Local Permit",name:"Journeyman Electrician",auth:"Local Trades Board",exp:4,exam:true,appFee:150,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:false,notes:"Local-level license; 8000 hrs documented experience + 144 hrs/yr classroom"},
+{id:58,state:"Florida",abbr:"FL",trade:"Electrician (Master)",industry:"Construction",req:"Yes",type:"Local Permit",name:"Master Electrician",auth:"Local Trades Board",exp:5,exam:true,appFee:200,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:false,notes:"Local-level license; additional experience beyond journeyman required"},
+{id:59,state:"Florida",abbr:"FL",trade:"Fire Protection",industry:"Construction",req:"Yes",type:"State License",name:"Fire Protection Contractor",auth:"DBPR/CILB",exp:4,exam:true,appFee:249,renewFee:209,renewYrs:2,recip:"",bond:true,bondAmt:10000,ins:true,notes:"NICET certification recognized; depends on local jurisdiction"},
+{id:60,state:"Florida",abbr:"FL",trade:"Low Voltage",industry:"Construction",req:"Yes",type:"Local Permit",name:"Low Voltage Alarm System Contractor",auth:"FL DECLB",exp:2,exam:true,appFee:200,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:true,notes:"Licensed through Dept of Electrical and Communications Licensing Board"},
+{id:61,state:"Florida",abbr:"FL",trade:"Tree Care",industry:"Landscaping",req:"No",type:"None",name:"No State License Required",auth:"N/A",exp:0,exam:false,appFee:0,renewFee:0,renewYrs:0,recip:"",bond:false,bondAmt:0,ins:false,notes:"No state tree care license; ISA Certified Arborist recommended; local permits may apply"},
+{id:62,state:"Florida",abbr:"FL",trade:"Welding",industry:"Construction",req:"No",type:"None",name:"No State License Required",auth:"N/A",exp:0,exam:false,appFee:0,renewFee:0,renewYrs:0,recip:"",bond:false,bondAmt:0,ins:false,notes:"No state welder license; AWS certifications are industry standard; local permits may apply"},
+{id:63,state:"Texas",abbr:"TX",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"Master Electrician License",auth:"TDLR",exp:4,exam:true,appFee:150,renewFee:100,renewYrs:1,recip:"",bond:false,bondAmt:0,ins:false,notes:"11 license types; 4 hrs CE per renewal; NEC knowledge required"},
+{id:64,state:"Texas",abbr:"TX",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"Journeyman Electrician License",auth:"TDLR",exp:4,exam:true,appFee:100,renewFee:75,renewYrs:1,recip:"",bond:false,bondAmt:0,ins:false,notes:"8000 hrs OJT required; 4 hrs CE per renewal"},
+{id:65,state:"Texas",abbr:"TX",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"Responsible Master Plumber",auth:"TSBPE",exp:4,exam:true,appFee:200,renewFee:150,renewYrs:1,recip:"",bond:false,bondAmt:0,ins:false,notes:"Must pass business and trade exams; responsible for all work under license"},
+{id:66,state:"Texas",abbr:"TX",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"Journeyman Plumber License",auth:"TSBPE",exp:4,exam:true,appFee:100,renewFee:75,renewYrs:1,recip:"",bond:false,bondAmt:0,ins:false,notes:"8000 hrs OJT required; IPC knowledge required"},
+{id:67,state:"Texas",abbr:"TX",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"ACR Contractor License",auth:"TDLR",exp:4,exam:true,appFee:150,renewFee:100,renewYrs:1,recip:"",bond:false,bondAmt:0,ins:false,notes:"8 hrs CE per renewal incl 1 hr state law"},
+{id:68,state:"Texas",abbr:"TX",trade:"General Contractor",industry:"Construction",req:"No",type:"None",name:"No State License Required",auth:"N/A",exp:0,exam:false,appFee:0,renewFee:0,renewYrs:0,recip:"",bond:false,bondAmt:0,ins:false,notes:"No statewide GC license; some cities require local registration"},
+{id:69,state:"Texas",abbr:"TX",trade:"Fire Protection",industry:"Construction",req:"Yes",type:"State License",name:"Fire Sprinkler Contractor License",auth:"TX Fire Marshal",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:1,recip:"",bond:false,bondAmt:0,ins:true,notes:"NICET certification recommended"},
+{id:70,state:"Texas",abbr:"TX",trade:"Roofing",industry:"Construction",req:"No",type:"None",name:"No State License Required",auth:"N/A",exp:0,exam:false,appFee:0,renewFee:0,renewYrs:0,recip:"",bond:false,bondAmt:0,ins:false,notes:"No statewide roofing license; some cities require local registration"},
+{id:71,state:"Texas",abbr:"TX",trade:"Welding",industry:"Construction",req:"No",type:"None",name:"No State License Required",auth:"N/A",exp:0,exam:false,appFee:0,renewFee:0,renewYrs:0,recip:"",bond:false,bondAmt:0,ins:false,notes:"AWS CW/CWI certifications are industry standard"},
+{id:72,state:"Texas",abbr:"TX",trade:"Tree Care",industry:"Landscaping",req:"No",type:"None",name:"No State License Required",auth:"N/A",exp:0,exam:false,appFee:0,renewFee:0,renewYrs:0,recip:"",bond:false,bondAmt:0,ins:false,notes:"ISA Certified Arborist recommended"},
+{id:73,state:"Texas",abbr:"TX",trade:"Solar",industry:"Energy",req:"Yes",type:"State License",name:"Electrical Contractor License (Solar)",auth:"TDLR",exp:4,exam:true,appFee:150,renewFee:100,renewYrs:1,recip:"",bond:false,bondAmt:0,ins:false,notes:"Solar PV requires electrical license; NABCEP cert recommended"},
+{id:74,state:"New York",abbr:"NY",trade:"Electrical",industry:"Construction",req:"Local Only",type:"Local Permit",name:"Master Electrician License",auth:"NYC DOB",exp:7,exam:true,appFee:310,renewFee:150,renewYrs:3,recip:"",bond:false,bondAmt:0,ins:true,notes:"NYC-specific; no statewide electrician license; 7.5 yrs minimum"},
+{id:75,state:"New York",abbr:"NY",trade:"Plumbing",industry:"Construction",req:"Local Only",type:"Local Permit",name:"Master Plumber License",auth:"NYC DOB",exp:7,exam:true,appFee:310,renewFee:150,renewYrs:3,recip:"",bond:false,bondAmt:0,ins:true,notes:"NYC-specific; no statewide plumber license; 7 yrs minimum"},
+{id:76,state:"New York",abbr:"NY",trade:"General Contractor",industry:"Construction",req:"Local Only",type:"Local Permit",name:"General Contractor Registration",auth:"NYC DOB",exp:0,exam:false,appFee:200,renewFee:100,renewYrs:2,recip:"",bond:true,bondAmt:20000,ins:true,notes:"NYC DOB registration; $20K surety for home improvement"},
+{id:77,state:"New York",abbr:"NY",trade:"HVAC",industry:"Construction",req:"Local Only",type:"Local Permit",name:"HVAC Contractor License",auth:"Local Municipal",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:true,notes:"No statewide HVAC license; NYC and other municipalities issue local licenses"},
+{id:78,state:"New York",abbr:"NY",trade:"Tree Care",industry:"Landscaping",req:"Local Only",type:"Local Permit",name:"Tree Care License",auth:"Local Municipal",exp:0,exam:false,appFee:100,renewFee:50,renewYrs:1,recip:"",bond:false,bondAmt:0,ins:true,notes:"NYC requires tree work permits; ISA Certified Arborist recommended"},
+{id:79,state:"Arizona",abbr:"AZ",trade:"General Contractor",industry:"Construction",req:"Yes",type:"State License",name:"B-1 General Commercial Contractor",auth:"Arizona ROC",exp:4,exam:true,appFee:350,renewFee:300,renewYrs:2,recip:"CA|LA|NV",bond:true,bondAmt:2500,ins:true,notes:"Projects over $1000; trade + business exam + fingerprinting required"},
+{id:80,state:"Arizona",abbr:"AZ",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"C-11 Electrical Contractor",auth:"Arizona ROC",exp:4,exam:true,appFee:350,renewFee:300,renewYrs:2,recip:"CA|LA|NV",bond:true,bondAmt:2500,ins:true,notes:"State contractor license through ROC"},
+{id:81,state:"Arizona",abbr:"AZ",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"C-37 Plumbing Contractor",auth:"Arizona ROC",exp:4,exam:true,appFee:350,renewFee:300,renewYrs:2,recip:"CA|LA|NV",bond:true,bondAmt:2500,ins:true,notes:"State contractor license through ROC"},
+{id:82,state:"Arizona",abbr:"AZ",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"C-39 AC, Refrigeration and Heating",auth:"Arizona ROC",exp:4,exam:true,appFee:350,renewFee:300,renewYrs:2,recip:"CA|LA|NV",bond:true,bondAmt:2500,ins:true,notes:"EPA 608 also required"},
+{id:83,state:"Arizona",abbr:"AZ",trade:"Roofing",industry:"Construction",req:"Yes",type:"State License",name:"C-42 Roofing Contractor",auth:"Arizona ROC",exp:4,exam:true,appFee:350,renewFee:300,renewYrs:2,recip:"CA|LA|NV",bond:true,bondAmt:2500,ins:true,notes:"80+ specialty classifications through ROC"},
+{id:84,state:"Arizona",abbr:"AZ",trade:"Solar",industry:"Energy",req:"Yes",type:"State License",name:"C-11R Solar PV Electrical",auth:"Arizona ROC",exp:4,exam:true,appFee:350,renewFee:300,renewYrs:2,recip:"CA|LA|NV",bond:true,bondAmt:2500,ins:true,notes:"NABCEP cert recommended; reciprocity with CA C-46"},
+{id:85,state:"Nevada",abbr:"NV",trade:"General Contractor",industry:"Construction",req:"Yes",type:"State License",name:"Class B General Building",auth:"NSCB",exp:4,exam:true,appFee:500,renewFee:300,renewYrs:2,recip:"CA|AZ|UT",bond:true,bondAmt:5000,ins:true,notes:"Bond $1K-$500K based on license limit; net worth requirements"},
+{id:86,state:"Nevada",abbr:"NV",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"C-2 Electrical Contractor",auth:"NSCB",exp:4,exam:true,appFee:500,renewFee:300,renewYrs:2,recip:"CA|AZ|UT",bond:true,bondAmt:5000,ins:true,notes:"OSHA 10 required within 15 days of hire for construction"},
+{id:87,state:"Nevada",abbr:"NV",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"C-1 Plumbing and Heating",auth:"NSCB",exp:4,exam:true,appFee:500,renewFee:300,renewYrs:2,recip:"CA|AZ|UT",bond:true,bondAmt:5000,ins:true,notes:"Combined plumbing and heating classification"},
+{id:88,state:"Nevada",abbr:"NV",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"C-21 Refrigeration, AC",auth:"NSCB",exp:4,exam:true,appFee:500,renewFee:300,renewYrs:2,recip:"CA|AZ|UT",bond:true,bondAmt:5000,ins:true,notes:"EPA 608 certification also required"},
+{id:89,state:"Georgia",abbr:"GA",trade:"General Contractor",industry:"Construction",req:"Yes",type:"State License",name:"GC - Unlimited",auth:"GA Secretary of State",exp:4,exam:true,appFee:300,renewFee:200,renewYrs:2,recip:"",bond:true,bondAmt:5000,ins:true,notes:"Net worth $150K required; projects over $2500; $500K GL minimum"},
+{id:90,state:"Georgia",abbr:"GA",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"Electrical Contractor License",auth:"GA Div of Electrical",exp:4,exam:true,appFee:250,renewFee:150,renewYrs:2,recip:"",bond:true,bondAmt:5000,ins:true,notes:"State-level; journeyman licenses are local"},
+{id:91,state:"Georgia",abbr:"GA",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"Master Plumber License",auth:"GA Board of Plumbers",exp:4,exam:true,appFee:250,renewFee:150,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:true,notes:"State-level for master and journeyman plumbers"},
+{id:92,state:"Georgia",abbr:"GA",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"Conditioned Air Contractor",auth:"GA Secretary of State",exp:4,exam:true,appFee:250,renewFee:150,renewYrs:2,recip:"",bond:true,bondAmt:5000,ins:true,notes:"EPA 608 also required"},
+{id:93,state:"Georgia",abbr:"GA",trade:"Tree Care",industry:"Landscaping",req:"No",type:"None",name:"No State License Required",auth:"N/A",exp:0,exam:false,appFee:0,renewFee:0,renewYrs:0,recip:"",bond:false,bondAmt:0,ins:false,notes:"ISA Certified Arborist recommended"},
+{id:94,state:"North Carolina",abbr:"NC",trade:"General Contractor",industry:"Construction",req:"Yes",type:"State License",name:"GC - Unlimited",auth:"NCLBGC",exp:4,exam:true,appFee:300,renewFee:200,renewYrs:1,recip:"FL|MS|LA",bond:true,bondAmt:10000,ins:true,notes:"Projects over $30K; NASCLA exam accepted"},
+{id:95,state:"North Carolina",abbr:"NC",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"Electrical Contractor License",auth:"NC Board of Electricians",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:1,recip:"",bond:true,bondAmt:5000,ins:true,notes:"Annual CE required; min 50% in-person classroom"},
+{id:96,state:"North Carolina",abbr:"NC",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"Plumbing Contractor License",auth:"NC Board of PHF",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:1,recip:"",bond:true,bondAmt:5000,ins:true,notes:"Workers comp required for 3+ employees"},
+{id:97,state:"North Carolina",abbr:"NC",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"Heating Contractor License",auth:"NC Board of PHF",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:1,recip:"",bond:true,bondAmt:5000,ins:true,notes:"Includes fire sprinkler contractors"},
+{id:98,state:"Michigan",abbr:"MI",trade:"General Contractor",industry:"Construction",req:"Yes",type:"State License",name:"Residential Builder License",auth:"LARA",exp:3,exam:true,appFee:200,renewFee:150,renewYrs:3,recip:"",bond:true,bondAmt:15000,ins:true,notes:"Projects over $600; 60 hrs pre-licensure education"},
+{id:99,state:"Michigan",abbr:"MI",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"Master Electrician License",auth:"LARA",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:3,recip:"",bond:false,bondAmt:0,ins:true,notes:"Apprentice, journeyman, master, contractor levels"},
+{id:100,state:"Michigan",abbr:"MI",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"Master Plumber License",auth:"LARA",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:3,recip:"",bond:false,bondAmt:0,ins:true,notes:"State-level licensing"},
+{id:101,state:"Michigan",abbr:"MI",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"Mechanical Contractor License",auth:"LARA",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:3,recip:"",bond:false,bondAmt:0,ins:true,notes:"State-level HVAC/mechanical licensing"},
+{id:102,state:"Illinois",abbr:"IL",trade:"Electrical",industry:"Construction",req:"Local Only",type:"Local Permit",name:"Electrician License",auth:"Chicago DOB",exp:4,exam:true,appFee:150,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:false,notes:"No statewide license; Chicago and other cities issue local licenses"},
+{id:103,state:"Illinois",abbr:"IL",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"Licensed Plumber",auth:"IDFPR",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:false,notes:"One of few state-level trades in IL"},
+{id:104,state:"Illinois",abbr:"IL",trade:"Roofing",industry:"Construction",req:"Yes",type:"State License",name:"Roofing Contractor License",auth:"IDFPR",exp:3,exam:true,appFee:250,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:true,notes:"One of few state-level contractor licenses in IL"},
+{id:105,state:"Illinois",abbr:"IL",trade:"General Contractor",industry:"Construction",req:"No",type:"None",name:"No State License Required",auth:"N/A",exp:0,exam:false,appFee:0,renewFee:0,renewYrs:0,recip:"",bond:false,bondAmt:0,ins:false,notes:"Local registration required in most municipalities"},
+{id:106,state:"Pennsylvania",abbr:"PA",trade:"Home Improvement",industry:"Construction",req:"Yes",type:"State Registration",name:"Home Improvement Registration",auth:"PA Attorney General",exp:0,exam:false,appFee:50,renewFee:50,renewYrs:1,recip:"",bond:false,bondAmt:0,ins:true,notes:"Required for contractors earning $5K+/yr; PA HIC number issued"},
+{id:107,state:"Pennsylvania",abbr:"PA",trade:"Electrical",industry:"Construction",req:"Local Only",type:"Local Permit",name:"Electrician License",auth:"Local Municipal",exp:4,exam:true,appFee:150,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:false,notes:"No statewide license; 2562 municipalities set own requirements"},
+{id:108,state:"Pennsylvania",abbr:"PA",trade:"General Contractor",industry:"Construction",req:"No",type:"None",name:"No State License Required",auth:"N/A",exp:0,exam:false,appFee:0,renewFee:0,renewYrs:0,recip:"",bond:false,bondAmt:0,ins:false,notes:"HIC registration separate from trade licensing"},
+{id:109,state:"Ohio",abbr:"OH",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"Electrical Contractor License",auth:"OCILB",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:true,notes:"State-level for commercial"},
+{id:110,state:"Ohio",abbr:"OH",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"Plumbing Contractor License",auth:"OCILB",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:true,notes:"State-level through OCILB"},
+{id:111,state:"Ohio",abbr:"OH",trade:"HVAC",industry:"Construction",req:"Yes",type:"State License",name:"HVAC Contractor License",auth:"OCILB",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:true,notes:"State-level through OCILB"},
+{id:112,state:"Ohio",abbr:"OH",trade:"General Contractor",industry:"Construction",req:"No",type:"None",name:"No State License Required",auth:"N/A",exp:0,exam:false,appFee:0,renewFee:0,renewYrs:0,recip:"",bond:false,bondAmt:0,ins:false,notes:"Local licensing for projects over $1000"},
+{id:113,state:"Washington",abbr:"WA",trade:"General Contractor",industry:"Construction",req:"Yes",type:"State Registration",name:"Contractor Registration",auth:"WA L&I",exp:0,exam:false,appFee:250,renewFee:250,renewYrs:2,recip:"",bond:true,bondAmt:12000,ins:true,notes:"Mandatory for all contractors; UBI number required; $12K surety bond"},
+{id:114,state:"Washington",abbr:"WA",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"Master Electrician License",auth:"WA L&I",exp:4,exam:true,appFee:200,renewFee:150,renewYrs:3,recip:"",bond:true,bondAmt:12000,ins:true,notes:"24 hrs CE per 3-yr renewal"},
+{id:115,state:"Washington",abbr:"WA",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"Journeyman Plumber License",auth:"WA L&I",exp:4,exam:true,appFee:200,renewFee:150,renewYrs:3,recip:"",bond:false,bondAmt:0,ins:false,notes:"24 hrs CE per renewal"},
+{id:116,state:"Oregon",abbr:"OR",trade:"General Contractor",industry:"Construction",req:"Yes",type:"State License",name:"General Contractor License",auth:"Oregon CCB",exp:4,exam:true,appFee:350,renewFee:250,renewYrs:2,recip:"",bond:true,bondAmt:20000,ins:true,notes:"Residential $20K bond; commercial $75K bond"},
+{id:117,state:"Oregon",abbr:"OR",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"General Journeyman Electrician",auth:"Oregon BCD",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:3,recip:"",bond:false,bondAmt:0,ins:false,notes:"State-level licensing"},
+{id:118,state:"Colorado",abbr:"CO",trade:"Electrical",industry:"Construction",req:"Yes",type:"State License",name:"Master Electrician License",auth:"DORA",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:3,recip:"",bond:false,bondAmt:0,ins:false,notes:"Residential Wireman, Journeyman, Master tiers"},
+{id:119,state:"Colorado",abbr:"CO",trade:"Plumbing",industry:"Construction",req:"Yes",type:"State License",name:"Journeyman Plumber License",auth:"CO Plumbing Board",exp:4,exam:true,appFee:200,renewFee:100,renewYrs:3,recip:"",bond:false,bondAmt:0,ins:false,notes:"State-level through DORA"},
+{id:120,state:"Colorado",abbr:"CO",trade:"General Contractor",industry:"Construction",req:"Local Only",type:"Local Permit",name:"General Contractor License",auth:"Local Municipal",exp:0,exam:false,appFee:150,renewFee:100,renewYrs:2,recip:"",bond:false,bondAmt:0,ins:false,notes:"No statewide GC license; local licensing in Denver, Colorado Springs"}
+];
+
+/* Extract unique values */
+var states = [...new Set(LICENSES.map(function(l){return l.abbr}))].sort();
+var trades = [...new Set(LICENSES.map(function(l){return l.trade}))].sort();
+var stateNames = {};
+LICENSES.forEach(function(l){stateNames[l.abbr]=l.state});
+
+/* Populate dropdowns */
+var stateSel = document.getElementById('filterState');
+['FL','CA','TX','NY','GA','NC','AZ','NV'].forEach(function(s){
+  if(stateNames[s]){var o=document.createElement('option');o.value=s;o.textContent=stateNames[s]+' ('+s+')';stateSel.appendChild(o)}
+});
+var sep=document.createElement('option');sep.disabled=true;sep.textContent='---';stateSel.appendChild(sep);
+states.forEach(function(s){
+  if(['FL','CA','TX','NY','GA','NC','AZ','NV'].indexOf(s)===-1&&stateNames[s]){
+    var o=document.createElement('option');o.value=s;o.textContent=stateNames[s]+' ('+s+')';stateSel.appendChild(o);
+  }
+});
+
+var tradeSel = document.getElementById('filterTrade');
+trades.forEach(function(t){var o=document.createElement('option');o.value=t;o.textContent=t;tradeSel.appendChild(o)});
+
+/* Filter and render */
+function getFiltered() {
+  var state = stateSel.value;
+  var trade = tradeSel.value;
+  var req = document.getElementById('filterReq').value;
+  var search = document.getElementById('filterSearch').value.toLowerCase();
+
+  return LICENSES.filter(function(l) {
+    if (state && l.abbr !== state) return false;
+    if (trade && l.trade !== trade) return false;
+    if (req && l.req !== req) return false;
+    if (search && l.name.toLowerCase().indexOf(search) === -1 && l.trade.toLowerCase().indexOf(search) === -1 && l.auth.toLowerCase().indexOf(search) === -1 && l.notes.toLowerCase().indexOf(search) === -1) return false;
+    return true;
+  });
+}
+
+function renderCards(lics) {
+  var grid = document.getElementById('licGrid');
+  if (lics.length === 0) {
+    grid.innerHTML = '<div class="no-results"><h3>No licenses found</h3><p>Try adjusting your filters</p></div>';
+    return;
+  }
+  var html = '';
+  lics.forEach(function(l) {
+    var badgeClass = l.abbr === 'CA' ? 'ca' : l.abbr === 'FL' ? 'fl' : l.abbr === 'TX' ? 'tx' : 'default';
+    var reqClass = l.req === 'Yes' ? 'req-yes' : l.req === 'Local Only' ? 'req-local' : 'req-no';
+    var reqLabel = l.req === 'Yes' ? 'State Required' : l.req === 'Local Only' ? 'Local Only' : 'Not Required';
+    var feeStr = l.appFee > 0 ? '$' + l.appFee : 'N/A';
+    var renewStr = l.renewFee > 0 ? '$' + l.renewFee + '/' + l.renewYrs + 'yr' : 'N/A';
+    var bondStr = l.bond ? '$' + l.bondAmt.toLocaleString() : 'None';
+
+    html += '<div class="lic-card" data-req="' + l.req + '" onclick="this.classList.toggle(\'expanded\')">' +
+      '<div class="lic-header">' +
+        '<div class="lic-name">' + l.name + '</div>' +
+        '<span class="lic-state-badge ' + badgeClass + '">' + l.abbr + '</span>' +
+      '</div>' +
+      '<div class="lic-meta">' +
+        '<span class="lic-tag trade">' + l.trade + '</span>' +
+        '<span class="lic-tag ' + reqClass + '">' + reqLabel + '</span>' +
+        (l.type !== 'None' ? '<span class="lic-tag type">' + l.type + '</span>' : '') +
+      '</div>' +
+      '<div class="lic-fees">' +
+        '<span>App Fee: <span class="val">' + feeStr + '</span></span>' +
+        '<span>Renewal: <span class="val">' + renewStr + '</span></span>' +
+        (l.bond ? '<span>Bond: <span class="val">' + bondStr + '</span></span>' : '') +
+        (l.exp > 0 ? '<span>Exp: <span class="val">' + l.exp + ' yrs</span></span>' : '') +
+      '</div>' +
+      '<div class="lic-notes">' + l.notes + '</div>' +
+      '<div class="lic-details">' +
+        '<div class="lic-row"><span class="label">Authority:</span><span class="val">' + l.auth + '</span></div>' +
+        '<div class="lic-row"><span class="label">Exam Required:</span><span class="val">' + (l.exam ? 'Yes' : 'No') + '</span></div>' +
+        '<div class="lic-row"><span class="label">Insurance:</span><span class="val">' + (l.ins ? 'Required' : 'Not required') + '</span></div>' +
+        (l.recip ? '<div class="lic-row"><span class="label">Reciprocity:</span><span class="val"><div class="recip">' + l.recip.split('|').map(function(s){return '<span class="recip-st">'+s+'</span>'}).join('') + '</div></span></div>' : '') +
+      '</div>' +
+      '<div class="lic-authority">' + l.state + ' &middot; ' + l.auth + '</div>' +
+    '</div>';
+  });
+  grid.innerHTML = html;
+}
+
+function updateStats(lics) {
+  document.getElementById('totalLic').textContent = lics.length;
+  document.getElementById('statesCount').textContent = [...new Set(lics.map(function(l){return l.abbr}))].length;
+  document.getElementById('reqCount').textContent = lics.filter(function(l){return l.req==='Yes'}).length;
+  document.getElementById('localCount').textContent = lics.filter(function(l){return l.req==='Local Only'}).length;
+  document.getElementById('noReqCount').textContent = lics.filter(function(l){return l.req==='No'}).length;
+  var fees = lics.filter(function(l){return l.appFee>0}).map(function(l){return l.appFee});
+  var avg = fees.length ? Math.round(fees.reduce(function(a,b){return a+b},0)/fees.length) : 0;
+  document.getElementById('avgFee').textContent = '$' + avg;
+  document.getElementById('filterCount').textContent = lics.length + ' of ' + LICENSES.length + ' licenses';
+}
+
+function applyFilters() {
+  var lics = getFiltered();
+  renderCards(lics);
+  updateStats(lics);
+}
+
+/* Event listeners */
+stateSel.addEventListener('change', applyFilters);
+tradeSel.addEventListener('change', applyFilters);
+document.getElementById('filterReq').addEventListener('change', applyFilters);
+document.getElementById('filterSearch').addEventListener('input', applyFilters);
+
+/* Chip quick filters */
+document.getElementById('chipBar').addEventListener('click', function(e) {
+  var chip = e.target.closest('.chip');
+  if (!chip) return;
+  var filterType = chip.getAttribute('data-filter');
+  var filterVal = chip.getAttribute('data-val');
+
+  var wasActive = chip.classList.contains('active');
+  document.querySelectorAll('.chip[data-filter="' + filterType + '"]').forEach(function(c){c.classList.remove('active')});
+
+  if (!wasActive) {
+    chip.classList.add('active');
+    if (filterType === 'state') stateSel.value = filterVal;
+    else if (filterType === 'trade') tradeSel.value = filterVal;
+  } else {
+    if (filterType === 'state') stateSel.value = '';
+    else if (filterType === 'trade') tradeSel.value = '';
+  }
+  applyFilters();
+});
+
+/* Initial render */
+applyFilters();
+
+/* ========== INTERACTIVE MAP ========== */
+
+/* State abbreviation to FIPS lookup (for GeoJSON matching) */
+var ABBR_TO_FIPS = {AL:'01',AK:'02',AZ:'04',AR:'05',CA:'06',CO:'08',CT:'09',DE:'10',FL:'12',GA:'13',HI:'15',ID:'16',IL:'17',IN:'18',IA:'19',KS:'20',KY:'21',LA:'22',ME:'23',MD:'24',MA:'25',MI:'26',MN:'27',MS:'28',MO:'29',MT:'30',NE:'31',NV:'32',NH:'33',NJ:'34',NM:'35',NY:'36',NC:'37',ND:'38',OH:'39',OK:'40',OR:'41',PA:'42',RI:'44',SC:'45',SD:'46',TN:'47',TX:'48',UT:'49',VT:'50',VA:'51',WA:'53',WV:'54',WI:'55',WY:'56',DC:'11'};
+var FIPS_TO_ABBR = {};
+Object.keys(ABBR_TO_FIPS).forEach(function(k){ FIPS_TO_ABBR[ABBR_TO_FIPS[k]] = k; });
+
+var ABBR_TO_NAME = {AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',DC:'District of Columbia',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming'};
+
+/* Precompute per-state license stats */
+var stateStats = {};
+LICENSES.forEach(function(l) {
+  if (!stateStats[l.abbr]) stateStats[l.abbr] = {total:0,req:0,local:0,none:0,fees:[]};
+  stateStats[l.abbr].total++;
+  if (l.req === 'Yes') stateStats[l.abbr].req++;
+  else if (l.req === 'Local Only') stateStats[l.abbr].local++;
+  else stateStats[l.abbr].none++;
+  if (l.appFee > 0) stateStats[l.abbr].fees.push(l.appFee);
+});
+
+function getStateColor(abbr) {
+  var s = stateStats[abbr];
+  if (!s) return 'rgba(255,255,255,0.04)';
+  if (s.total >= 15) return '#72d648';
+  if (s.total >= 8)  return '#4a7ab5';
+  if (s.total >= 3)  return '#9f00fa';
+  return '#ff6a1a';
+}
+
+function getStateColorAlpha(abbr, hover) {
+  var s = stateStats[abbr];
+  if (!s) return hover ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.04)';
+  var base = getStateColor(abbr);
+  /* Convert hex to rgba with alpha */
+  var r = parseInt(base.slice(1,3),16);
+  var g = parseInt(base.slice(3,5),16);
+  var b = parseInt(base.slice(5,7),16);
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + (hover ? 0.55 : 0.30) + ')';
+}
+
+/* Initialize Leaflet map */
+var map = L.map('usMap', {
+  center: [39.5, -98.5],
+  zoom: 4,
+  minZoom: 3,
+  maxZoom: 8,
+  zoomControl: true,
+  attributionControl: true,
+  scrollWheelZoom: true
+});
+
+/* Dark tile layer */
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
+
+/* State label layer (just labels, no base) */
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
+  subdomains: 'abcd',
+  maxZoom: 19,
+  pane: 'overlayPane'
+}).addTo(map);
+
+/* Selected state tracking */
+var selectedMapState = null;
+var geoLayer = null;
+
+/* Map info panel helpers */
+var mapInfoEl = document.getElementById('mapInfo');
+var miState = document.getElementById('miState');
+var miTotal = document.getElementById('miTotal');
+var miReq = document.getElementById('miReq');
+var miLocal = document.getElementById('miLocal');
+var miFee = document.getElementById('miFee');
+var mapSelLabel = document.getElementById('mapSelectedLabel');
+var mapSelState = document.getElementById('mapSelectedState');
+
+function showMapInfo(abbr) {
+  var s = stateStats[abbr];
+  var name = ABBR_TO_NAME[abbr] || abbr;
+  miState.textContent = name + ' (' + abbr + ')';
+  if (s) {
+    miTotal.textContent = s.total;
+    miReq.textContent = s.req;
+    miLocal.textContent = s.local;
+    var avg = s.fees.length ? Math.round(s.fees.reduce(function(a,b){return a+b},0)/s.fees.length) : 0;
+    miFee.textContent = '$' + avg;
+  } else {
+    miTotal.textContent = '0';
+    miReq.textContent = '0';
+    miLocal.textContent = '0';
+    miFee.textContent = 'N/A';
+  }
+  mapInfoEl.classList.add('visible');
+}
+
+function hideMapInfo() {
+  mapInfoEl.classList.remove('visible');
+}
+
+function selectState(abbr) {
+  if (selectedMapState === abbr) {
+    /* Deselect */
+    selectedMapState = null;
+    stateSel.value = '';
+    mapSelLabel.style.display = 'none';
+    map.flyTo([39.5, -98.5], 4, {duration: 0.6});
+  } else {
+    selectedMapState = abbr;
+    stateSel.value = abbr;
+    mapSelState.textContent = ABBR_TO_NAME[abbr] || abbr;
+    mapSelLabel.style.display = 'block';
+  }
+  /* Update chip state */
+  document.querySelectorAll('.chip[data-filter="state"]').forEach(function(c){
+    c.classList.toggle('active', c.getAttribute('data-val') === selectedMapState);
+  });
+  applyFilters();
+  updateGeoStyles();
+}
+
+function updateGeoStyles() {
+  if (!geoLayer) return;
+  geoLayer.eachLayer(function(layer) {
+    var abbr = layer.feature.properties._abbr;
+    var isSelected = abbr === selectedMapState;
+    layer.setStyle({
+      fillColor: isSelected ? getStateColor(abbr) : getStateColorAlpha(abbr, false),
+      fillOpacity: isSelected ? 0.7 : (stateStats[abbr] ? 0.5 : 0.15),
+      weight: isSelected ? 2.5 : 1,
+      color: isSelected ? getStateColor(abbr) : 'rgba(255,255,255,0.15)'
+    });
+    if (isSelected) layer.bringToFront();
+  });
+}
+
+/* Deselect label click handler */
+mapSelLabel.addEventListener('click', function() {
+  selectState(selectedMapState);
+});
+
+/* Load US states GeoJSON from public CDN */
+var GEO_URL = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json';
+
+var legalBadgeMarkersLayer = null;
+
+function addLegalStateBadgeMarkers(geojson) {
+  if (legalBadgeMarkersLayer) legalBadgeMarkersLayer.clearLayers();
+  else legalBadgeMarkersLayer = L.layerGroup().addTo(map);
+  geojson.features.forEach(function(feature) {
+    var abbr = feature.properties._abbr;
+    if (!abbr || !ABBR_TO_NAME[abbr]) return;
+    var name = ABBR_TO_NAME[abbr].toLowerCase().replace(/\s+/g, '-');
+    var bounds = L.geoJSON(feature).getBounds();
+    if (!bounds.isValid()) return;
+    L.marker(bounds.getCenter(), {
+      icon: L.divIcon({
+        className: 'state-badge-icon',
+        html: '<img src="../img/icons/badges/states/state-' + name + '.png" width="26" height="26" alt="' + abbr + '" onerror="this.style.display=\'none\'">',
+        iconSize: [26, 26],
+        iconAnchor: [13, 13]
+      }),
+      interactive: false,
+      zIndexOffset: -50
+    }).addTo(legalBadgeMarkersLayer);
+  });
+}
+
+function loadStatesGeo() {
+  fetch(GEO_URL)
+    .then(function(r){ return r.json(); })
+    .then(function(topo) {
+      /* Convert TopoJSON to GeoJSON */
+      var geojson = topoToGeo(topo, 'states');
+      renderGeoLayer(geojson);
+      addLegalStateBadgeMarkers(geojson);
+    })
+    .catch(function(err) {
+      console.warn('Failed to load US states topology, trying GeoJSON fallback:', err);
+      /* Fallback: try a direct GeoJSON source */
+      fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+        .then(function(r){ return r.json(); })
+        .then(function(geo) {
+          /* This GeoJSON uses "name" property, need to map to abbr */
+          var nameToAbbr = {};
+          Object.keys(ABBR_TO_NAME).forEach(function(a){ nameToAbbr[ABBR_TO_NAME[a]] = a; });
+          geo.features.forEach(function(f) {
+            f.properties._abbr = nameToAbbr[f.properties.name] || '';
+          });
+          renderGeoLayer(geo);
+          addLegalStateBadgeMarkers(geo);
+        })
+        .catch(function(err2) {
+          console.error('Failed to load any US states GeoJSON:', err2);
+        });
+    });
+}
+
+/* Minimal TopoJSON → GeoJSON converter (for us-atlas format) */
+function topoToGeo(topology, objectName) {
+  var obj = topology.objects[objectName];
+  var arcs = topology.arcs;
+  var transform = topology.transform;
+
+  function decodeArc(arcIdx) {
+    var arc = arcs[arcIdx < 0 ? ~arcIdx : arcIdx];
+    var coords = [];
+    var x = 0, y = 0;
+    arc.forEach(function(p) {
+      x += p[0]; y += p[1];
+      coords.push([
+        transform ? x * transform.scale[0] + transform.translate[0] : p[0],
+        transform ? y * transform.scale[1] + transform.translate[1] : p[1]
+      ]);
+    });
+    if (arcIdx < 0) coords.reverse();
+    return coords;
+  }
+
+  function decodeRing(indices) {
+    var coords = [];
+    indices.forEach(function(idx) {
+      var arc = decodeArc(idx);
+      /* Remove duplicate first point if joining arcs */
+      if (coords.length > 0) arc = arc.slice(1);
+      coords = coords.concat(arc);
+    });
+    return coords;
+  }
+
+  var features = obj.geometries.map(function(geom) {
+    var coordinates;
+    if (geom.type === 'Polygon') {
+      coordinates = geom.arcs.map(decodeRing);
+    } else if (geom.type === 'MultiPolygon') {
+      coordinates = geom.arcs.map(function(polygon) {
+        return polygon.map(decodeRing);
+      });
+    } else {
+      coordinates = [];
+    }
+
+    var fips = String(geom.id).padStart(2, '0');
+    var abbr = FIPS_TO_ABBR[fips] || '';
+
+    return {
+      type: 'Feature',
+      properties: Object.assign({}, geom.properties || {}, { _abbr: abbr, _fips: fips }),
+      geometry: { type: geom.type, coordinates: coordinates }
+    };
+  });
+
+  return { type: 'FeatureCollection', features: features };
+}
+
+function renderGeoLayer(geojson) {
+  geoLayer = L.geoJSON(geojson, {
+    style: function(feature) {
+      var abbr = feature.properties._abbr;
+      var hasData = !!stateStats[abbr];
+      return {
+        fillColor: getStateColorAlpha(abbr, false),
+        fillOpacity: hasData ? 0.5 : 0.15,
+        weight: 1,
+        color: 'rgba(255,255,255,0.15)',
+        dashArray: hasData ? '' : '3,3'
+      };
+    },
+    onEachFeature: function(feature, layer) {
+      var abbr = feature.properties._abbr;
+      if (!abbr) return;
+
+      layer.on('mouseover', function(e) {
+        if (abbr !== selectedMapState) {
+          e.target.setStyle({
+            fillColor: getStateColorAlpha(abbr, true),
+            fillOpacity: 0.65,
+            weight: 2,
+            color: getStateColor(abbr)
+          });
+          e.target.bringToFront();
+        }
+        showMapInfo(abbr);
+      });
+
+      layer.on('mouseout', function(e) {
+        if (abbr !== selectedMapState) {
+          geoLayer.resetStyle(e.target);
+        }
+        hideMapInfo();
+      });
+
+      layer.on('click', function(e) {
+        selectState(abbr);
+        /* Zoom to state bounds */
+        if (selectedMapState === abbr) {
+          map.flyToBounds(e.target.getBounds().pad(0.1), {duration: 0.6, maxZoom: 6});
+        }
+      });
+    }
+  }).addTo(map);
+}
+
+/* Hook into existing chip clicks to sync map */
+var origChipHandler = document.getElementById('chipBar').onclick;
+document.getElementById('chipBar').addEventListener('click', function(e) {
+  var chip = e.target.closest('.chip[data-filter="state"]');
+  if (chip) {
+    var val = chip.getAttribute('data-val');
+    var isActive = chip.classList.contains('active');
+    /* Sync map selection */
+    if (!isActive) {
+      selectedMapState = null;
+      mapSelLabel.style.display = 'none';
+      map.flyTo([39.5, -98.5], 4, {duration: 0.6});
+    } else {
+      selectedMapState = val;
+      mapSelState.textContent = ABBR_TO_NAME[val] || val;
+      mapSelLabel.style.display = 'block';
+      /* Find and zoom to the state on the map */
+      if (geoLayer) {
+        geoLayer.eachLayer(function(layer) {
+          if (layer.feature.properties._abbr === val) {
+            map.flyToBounds(layer.getBounds().pad(0.1), {duration: 0.6, maxZoom: 6});
+          }
+        });
+      }
+    }
+    updateGeoStyles();
+  }
+});
+
+/* Also sync dropdown changes to map */
+var origStateSel = stateSel.onchange;
+stateSel.addEventListener('change', function() {
+  var val = stateSel.value;
+  if (val) {
+    selectedMapState = val;
+    mapSelState.textContent = ABBR_TO_NAME[val] || val;
+    mapSelLabel.style.display = 'block';
+    if (geoLayer) {
+      geoLayer.eachLayer(function(layer) {
+        if (layer.feature.properties._abbr === val) {
+          map.flyToBounds(layer.getBounds().pad(0.1), {duration: 0.6, maxZoom: 6});
+        }
+      });
+    }
+  } else {
+    selectedMapState = null;
+    mapSelLabel.style.display = 'none';
+    map.flyTo([39.5, -98.5], 4, {duration: 0.6});
+  }
+  updateGeoStyles();
+});
+
+loadStatesGeo();
+</script>
+</body>
+</html>

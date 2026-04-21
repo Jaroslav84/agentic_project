@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/graph.css">
+<style>
+/* override graph.css overflow:hidden for scrollable content page */
+html,body{overflow:hidden}
+.graph-wrap{overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:rgba(159,0,250,.3) transparent}
+.graph-wrap::-webkit-scrollbar{width:6px}
+.graph-wrap::-webkit-scrollbar-track{background:transparent}
+.graph-wrap::-webkit-scrollbar-thumb{background:rgba(159,0,250,.25);border-radius:3px}
+.graph-wrap::-webkit-scrollbar-thumb:hover{background:rgba(159,0,250,.4)}
+
+/* page-specific colors */
+:root{--B:#378ADD}
+
+/* override graph.css chrome font sizes for this page */
+.top-bar{font-size:15px;padding:9px 20px}
+.stag{font-size:13px;padding:3px 10px}
+.stit{font-size:24px}
+.meta{font-size:13px}
+.hint{font-size:13px}
+.fs-btn{font-size:18px;padding:4px 10px}
+.bottom-bar{font-size:13px;padding:8px 20px}
+.legend-row{font-size:13px;padding:6px 20px}
+
+/* content container */
+.content{
+  max-width:1200px;margin:0 auto;padding:32px 40px 72px;
+  background:
+    linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px),
+    var(--bg);
+  background-size:44px 44px;
+  min-height:100%;
+}
+
+/* header badges row */
+.hdr-badges{display:flex;gap:10px;margin-bottom:32px;flex-wrap:wrap}
+.hbadge{
+  font-size:12px;padding:4px 12px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid;font-weight:500;
+}
+.hbadge.g{color:var(--G);border-color:rgba(96,190,53,.4);background:rgba(96,190,53,.1)}
+.hbadge.y{color:var(--Y);border-color:rgba(238,150,18,.4);background:rgba(238,150,18,.1)}
+.hbadge.b{color:var(--B);border-color:rgba(55,138,221,.4);background:rgba(55,138,221,.1)}
+.hbadge.r{color:var(--R);border-color:rgba(255,64,64,.4);background:rgba(255,64,64,.1)}
+.hbadge.p{color:var(--P);border-color:rgba(211,110,255,.4);background:rgba(211,110,255,.1)}
+
+/* section spacing */
+.sec{margin-bottom:38px}
+.slabel{
+  font-family:var(--cond);font-size:15px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.16em;color:var(--dim);margin-bottom:16px;
+}
+
+/* chart containers */
+.chart-wrap{position:relative;width:100%;margin-bottom:12px}
+.chart-legend{
+  display:flex;flex-wrap:wrap;gap:16px;margin-bottom:12px;
+  font-size:13px;color:var(--td);letter-spacing:.04em;
+}
+.chart-legend span{display:flex;align-items:center;gap:7px}
+.chart-legend span b{width:12px;height:12px;display:inline-block;flex-shrink:0;border-radius:1px}
+
+/* note callout */
+.note{
+  background:rgba(238,150,18,.04);border-left:3px solid var(--Y);
+  padding:12px 18px;font-size:13px;color:var(--td);
+  margin-bottom:14px;letter-spacing:.03em;line-height:1.65;
+}
+
+/* metrics grid */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
+.metric{
+  background:var(--bg2);border:1px solid rgba(255,255,255,.06);
+  padding:18px 20px;
+}
+.metric-label{font-size:13px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.metric-value{font-family:'Norwester',var(--cond),sans-serif;font-size:38px;line-height:1.1}
+.metric-sub{font-size:12px;color:var(--dim);margin-top:6px;letter-spacing:.06em}
+
+/* tables */
+.tw{
+  background:var(--bg2);border:1px solid rgba(255,255,255,.06);
+  overflow-x:auto;margin-bottom:12px;
+}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{
+  text-align:left;color:var(--dim);font-weight:500;padding:10px 14px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  font-size:12px;text-transform:uppercase;letter-spacing:.1em;
+}
+td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.015)}
+.tr-w{background:rgba(96,190,53,.06)}
+.tr-fb{background:rgba(211,110,255,.04)}
+
+/* decision cards */
+.dec{
+  background:var(--bg2);border:1px solid rgba(255,255,255,.06);
+  padding:18px 20px;margin-bottom:10px;display:flex;gap:16px;align-items:flex-start;
+}
+.dec-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.dec-title{font-family:var(--cond);font-size:19px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;color:var(--t)}
+.dec-val{font-size:14px;color:var(--td);margin-top:4px;line-height:1.55}
+.dec-note{font-size:13px;color:var(--dim);margin-top:5px;line-height:1.5}
+
+/* emotion/info cards grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.ecard{background:var(--bg2);border:1px solid rgba(255,255,255,.06);padding:18px 20px}
+.ecard-title{font-family:var(--cond);font-size:17px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.ecard-body{font-size:14px;color:var(--td);line-height:1.7}
+
+/* inline badges */
+.badge{
+  font-size:11px;padding:3px 9px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid;display:inline-block;
+}
+.bg{color:var(--G);border-color:rgba(96,190,53,.4);background:rgba(96,190,53,.1)}
+.by{color:var(--Y);border-color:rgba(238,150,18,.4);background:rgba(238,150,18,.1)}
+.br{color:var(--R);border-color:rgba(255,64,64,.4);background:rgba(255,64,64,.1)}
+.bp{color:var(--P);border-color:rgba(211,110,255,.4);background:rgba(211,110,255,.1)}
+.bd{color:var(--dim);border-color:rgba(88,88,88,.4);background:rgba(88,88,88,.1)}
+
+/* comparison table special */
+.cmp-big{font-size:20px;font-weight:600}
+.cmp-sub{font-size:13px;margin-left:8px;color:var(--dim)}
+
+@media(max-width:768px){
+  .content{padding:24px 18px 56px}
+  .metrics{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+  .metric-value{font-size:30px}
+}
+@media(max-width:480px){
+  .metrics{grid-template-columns:1fr}
+}
+</style>
+<script defer src="../js/env.js"></script>
+<script defer src="../js/graph-core.js"></script>
+</head>
+<body>
+<div class="shell">
+
+<div class="top-bar">
+  <span class="stit">Voice &amp; TTS Stack</span>
+  <span class="meta">8 models evaluated &middot; decisions locked &middot; April 2026</span>
+  <span class="hint">&#x25c8; SCROLL TO EXPLORE</span>
+  <button class="fs-btn" id="fsBtn" onclick="toggleFS()" title="Fullscreen">&#x26F6;</button>
+</div>
+
+<div class="graph-wrap" id="graphWrap">
+<div class="content">
+
+<!-- Header badges -->
+<div class="hdr-badges">
+  <span class="hbadge g">Inworld TTS Primary</span>
+  <span class="hbadge y">RunPod US-CA-2 &middot; $0.26/hr</span>
+  <span class="hbadge p">Kokoro v1 Fallback</span>
+  <span class="hbadge b">Parakeet RNNT 1.1B</span>
+</div>
+
+<!-- ═══════ CHART 1: SCATTER ═══════ -->
+<div class="sec">
+  <div class="slabel">ELO quality vs time-to-first-audio &mdash; all providers</div>
+  <div class="chart-legend">
+    <span><b style="background:#60be35"></b>Inworld (primary)</span>
+    <span><b style="background:#d36eff"></b>Kokoro (fallback)</span>
+    <span><b style="background:#ee9612"></b>Self-hosted candidates</span>
+    <span><b style="background:#378ADD"></b>Cloud / other</span>
+  </div>
+  <div class="chart-wrap" style="height:420px">
+    <canvas id="scatter" role="img" aria-label="Scatter plot of TTS models: ELO score vs time-to-first-audio"></canvas>
+  </div>
+  <div class="note">Two distinct clusters &mdash; no middle ground. Self-hosted: 1,056&ndash;1,080 ELO, sub-200ms. Cloud tier: 1,395&ndash;1,577 ELO, all paid. Bland AI doesn't appear &mdash; not submitted to any public benchmark.</div>
+</div>
+
+<!-- ═══════ CHART 2: HORIZONTAL BAR ═══════ -->
+<div class="sec">
+  <div class="slabel">ELO ranking &mdash; self-hosted models only (free, commercial use)</div>
+  <div class="chart-wrap" style="height:340px">
+    <canvas id="hbar" role="img" aria-label="Horizontal bar chart showing ELO scores of self-hosted TTS models"></canvas>
+  </div>
+  <div class="note">All three self-hosted options are within 24 ELO points &mdash; a statistical near-tie. The difference between them through 8kHz G.711 phone compression is likely inaudible. Kokoro wins on VRAM (2GB vs 4&ndash;8GB) and TTFA (30ms vs 150&ndash;200ms).</div>
+</div>
+
+<!-- ═══════ CHART 3: RADAR ═══════ -->
+<div class="sec">
+  <div class="slabel">Multi-dimension comparison &mdash; what matters for a phone sales agent</div>
+  <div class="chart-wrap" style="height:420px">
+    <canvas id="radar" role="img" aria-label="Radar chart comparing Kokoro, Chatterbox Turbo, Orpheus 3B, and Inworld"></canvas>
+  </div>
+</div>
+
+<!-- ═══════ METRICS ═══════ -->
+<div class="metrics">
+  <div class="metric">
+    <div class="metric-label">Inworld TTS ELO (primary)</div>
+    <div class="metric-value" style="color:#60be35">1,577</div>
+    <div class="metric-sub">#1 TTS Arena V2 &middot; April 2026</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">ELO gap vs Kokoro fallback</div>
+    <div class="metric-value" style="color:#ee9612">+521</div>
+    <div class="metric-sub">1,577 vs 1,056 &middot; Inworld wins</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Inworld TTFA p90</div>
+    <div class="metric-value" style="color:#378ADD">~130ms</div>
+    <div class="metric-sub">Mini model &middot; Max ~200ms p50</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Claude API connect &middot; p50</div>
+    <div class="metric-value" style="color:#60be35">5.6ms</div>
+    <div class="metric-sub">Anthropic SF &middot; AS399358 &middot; &#x2713; measured</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Inworld connect &middot; p50 warm</div>
+    <div class="metric-value" style="color:#60be35">13ms</div>
+    <div class="metric-sub">Google SJC &middot; AS396982 &middot; &#x2713; measured</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Turn latency p50 target</div>
+    <div class="metric-value" style="color:#fff">~550ms</div>
+    <div class="metric-sub">800ms hard ceiling &middot; benchmark req'd</div>
+  </div>
+</div>
+
+<!-- ═══════ ELO TABLE ═══════ -->
+<div class="sec">
+  <div class="slabel">TTS Arena leaderboard &mdash; all models relevant to Sales (April 2026)</div>
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Arena Rank</th>
+          <th>Model</th>
+          <th>Type</th>
+          <th>ELO</th>
+          <th>TTFA</th>
+          <th>Cost / 1M chars</th>
+          <th>Emotion Tags</th>
+          <th>Sales Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="tr-w">
+          <td style="color:#60be35">#1&ndash;2</td>
+          <td style="color:#60be35;font-weight:600">Inworld TTS-1.5-Max / Mini</td>
+          <td><span class="badge bg">cloud API</span></td>
+          <td style="color:#60be35;font-weight:600">1,577</td>
+          <td style="color:#60be35">~130&ndash;200ms</td>
+          <td style="color:#60be35">$5&ndash;10</td>
+          <td style="color:#60be35">&#x2713; experimental</td>
+          <td style="color:#60be35">PRIMARY TTS &#x2713;</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim)">#7</td>
+          <td>ElevenLabs Turbo v2.5</td>
+          <td><span class="badge bd">cloud</span></td>
+          <td style="color:var(--td)">1,544</td>
+          <td>75&ndash;150ms</td>
+          <td style="color:#ff4040">$120+</td>
+          <td>&#x2713; Audio Tags</td>
+          <td style="color:var(--dim)">too expensive</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim)">#10</td>
+          <td>Cartesia Sonic 3</td>
+          <td><span class="badge bd">cloud</span></td>
+          <td style="color:var(--td)">1,395</td>
+          <td style="color:#60be35">40ms (!)</td>
+          <td>$47</td>
+          <td>limited</td>
+          <td style="color:var(--dim)">fastest TTFA &middot; considered</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim)">&mdash;</td>
+          <td>Fish Audio S2 Pro</td>
+          <td><span class="badge by">open weight</span></td>
+          <td style="color:#ee9612">1,128</td>
+          <td>~100ms</td>
+          <td style="color:#60be35">free (self-host)</td>
+          <td>&#x2713; inline tags</td>
+          <td style="color:#ff4040">CC-BY-NC &mdash; no commercial &#x2717;</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim)">open #1</td>
+          <td>Chatterbox Turbo (Resemble AI)</td>
+          <td><span class="badge by">self-hosted</span></td>
+          <td style="color:#ee9612">1,080</td>
+          <td>~150ms</td>
+          <td style="color:#60be35">$0 (MIT)</td>
+          <td style="color:#60be35">&#x2713; [laugh][cough]</td>
+          <td style="color:var(--td)">benchmark candidate</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim)">open #2</td>
+          <td>Orpheus 3B (Canopy AI)</td>
+          <td><span class="badge by">self-hosted</span></td>
+          <td style="color:#ee9612">1,070</td>
+          <td>~200ms</td>
+          <td style="color:#60be35">$0 (Apache 2.0)</td>
+          <td>&#x2713; guided emotion</td>
+          <td style="color:var(--td)">~8GB VRAM &middot; fits worker</td>
+        </tr>
+        <tr class="tr-fb">
+          <td style="color:#d36eff">open #3</td>
+          <td style="color:#d36eff">Kokoro v1 &mdash; fallback only</td>
+          <td><span class="badge bp">self-hosted</span></td>
+          <td style="color:#d36eff">1,056</td>
+          <td style="color:#d36eff">~30ms GPU</td>
+          <td style="color:#60be35">$0 (Apache 2.0)</td>
+          <td style="color:#ff4040">&#x2717; none</td>
+          <td style="color:#d36eff">FALLBACK &mdash; Inworld down</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim)">&mdash;</td>
+          <td>Bland AI (competitor)</td>
+          <td><span class="badge br">proprietary</span></td>
+          <td style="color:#ff4040">not rated</td>
+          <td>~400ms (Turbo)</td>
+          <td style="color:#ff4040">$0.14+/min</td>
+          <td>yes (enterprise)</td>
+          <td style="color:#ff4040">absent from all leaderboards</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">Fish Audio S2 Pro (ELO 1,128 &mdash; highest open-weight on leaderboard) was disqualified: CC-BY-NC license prohibits commercial use. Sales AI is commercial. Next best free/self-hosted: Chatterbox Turbo (ELO 1,080, MIT).</div>
+</div>
+
+<!-- ═══════ FINAL STACK ═══════ -->
+<div class="sec">
+  <div class="slabel">Final stack &mdash; v1.0 locked</div>
+
+  <div class="dec" style="border-color:rgba(96,190,53,.3)">
+    <div class="dec-dot" style="background:#60be35;box-shadow:0 0 6px rgba(96,190,53,.5)"></div>
+    <div>
+      <div class="dec-title">TTS (primary) &mdash; Inworld TTS-1.5 &middot; Cloud API</div>
+      <div class="dec-val">Model: inworld-tts-1.5-max &middot; ELO 1,577 &middot; #1 TTS Arena V2 &middot; WebSocket streaming</div>
+      <div class="dec-val">TTFA: ~200ms p50 (max) &middot; ~130ms p90 (mini) &middot; Context prewarming via on_turn_context_created hook</div>
+      <div class="dec-note">Location: Google AS396982 &middot; San Jose CA &middot; 13ms connect from SFO3 (measured) &middot; Native phone-ready audio &mdash; no resampling</div>
+    </div>
+  </div>
+
+  <div class="dec" style="border-color:rgba(211,110,255,.2)">
+    <div class="dec-dot" style="background:#d36eff;box-shadow:0 0 6px rgba(211,110,255,.5)"></div>
+    <div>
+      <div class="dec-title">TTS (fallback only) &mdash; Kokoro v1 &middot; Self-hosted</div>
+      <div class="dec-val">ELO 1,056 &middot; Apache 2.0 &middot; localhost:8002 on sales-worker &middot; ~50ms TTFA GPU</div>
+      <div class="dec-note">Only activated if Inworld unreachable &#x2192; worker signals &ldquo;armed-degraded&rdquo; &middot; Resampling required: 24kHz &#x2192; 8kHz G.711 &#x3bc;-law</div>
+    </div>
+  </div>
+
+  <div class="dec">
+    <div class="dec-dot" style="background:#378ADD;box-shadow:0 0 6px rgba(55,138,221,.5)"></div>
+    <div>
+      <div class="dec-title">STT &mdash; NVIDIA Parakeet RNNT 1.1B &middot; Self-hosted</div>
+      <div class="dec-val">Streaming (RNNT) &mdash; incremental transcription overlaps VAD &middot; WER 1.8% &middot; localhost:8001</div>
+      <div class="dec-note">Moonshine as manual fallback (Controller toggle) &middot; Must benchmark on 8kHz G.711 &#x3bc;-law before go-live</div>
+    </div>
+  </div>
+
+  <div class="dec">
+    <div class="dec-dot" style="background:#378ADD;box-shadow:0 0 6px rgba(55,138,221,.5)"></div>
+    <div>
+      <div class="dec-title">VAD + Turn Detection &mdash; Silero VAD + SmartTurn v3</div>
+      <div class="dec-val">LocalSmartTurnAnalyzerV3 &middot; ~65ms CPU inference &middot; predicts turn end from prosodic features</div>
+      <div class="dec-note">Replaces fixed silence timeout &middot; Pipecat v0.0.108+ required &middot; VAD stop_secs 0.2s default</div>
+    </div>
+  </div>
+
+  <div class="dec" style="border-color:rgba(238,150,18,.2)">
+    <div class="dec-dot" style="background:#ee9612;box-shadow:0 0 6px rgba(238,150,18,.5)"></div>
+    <div>
+      <div class="dec-title">LLM &mdash; Claude Sonnet (live) + Haiku (async)</div>
+      <div class="dec-val">Sonnet: enable_prompt_caching=True &middot; KV cache preheated pre-dial &middot; streams to Inworld sentence-by-sentence</div>
+      <div class="dec-val">Haiku: post-turn async via ParallelPipeline &middot; outcome extraction &#x2192; PostgreSQL &middot; never in live path</div>
+      <div class="dec-note">Claude API: Anthropic own DC SF &middot; AS399358 &middot; 160.79.104.10 &middot; 5.6ms connect from SFO3 (measured)</div>
+    </div>
+  </div>
+
+  <div class="dec" style="border-color:rgba(159,0,250,.2)">
+    <div class="dec-dot" style="background:#9f00fa;box-shadow:0 0 6px rgba(159,0,250,.5)"></div>
+    <div>
+      <div class="dec-title">Orchestration &mdash; Pipecat v0.0.108+ &middot; Pipecat Flows &middot; 6-state machine</div>
+      <div class="dec-val">States: OPENING &#x2192; VOICEMAIL / QUALIFYING &#x2192; OBJECTION_HANDLING / TRANSFER &#x2192; CLOSING</div>
+      <div class="dec-note">TEXT_AGGREGATION_MODE: TOKEN (minimum latency &mdash; ~50ms lower than SENTENCE mode) &middot; Tunable post-launch</div>
+    </div>
+  </div>
+
+  <div class="dec">
+    <div class="dec-dot" style="background:var(--dim)"></div>
+    <div>
+      <div class="dec-title">GPU Worker &mdash; RunPod US-CA-2 &middot; RTX 4000 Ada &middot; $0.26/hr</div>
+      <div class="dec-val">20GB VRAM &middot; ~6GB used (Parakeet + Kokoro fallback) &middot; CUDA-native &middot; ephemeral per-batch</div>
+      <div class="dec-note">Network: AS14061 DO Santa Clara backend &mdash; same network as sales-app &middot; DESTROY after batch (not power off)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ LATENCY TABLE ═══════ -->
+<div class="sec">
+  <div class="slabel">Turn latency budget &mdash; v1.0 confirmed numbers (Inworld primary path)</div>
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Technology</th>
+          <th>p50</th>
+          <th>p95</th>
+          <th>Location</th>
+          <th>Confirmed?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SmartTurn v3</td>
+          <td>LocalSmartTurnAnalyzerV3</td>
+          <td style="color:#60be35">~65ms</td>
+          <td>~80ms</td>
+          <td>CPU &middot; worker local</td>
+          <td><span class="badge bg">confirmed</span></td>
+        </tr>
+        <tr>
+          <td>Parakeet RNNT (marginal)</td>
+          <td>Parakeet RNNT 1.1B streaming</td>
+          <td style="color:#60be35">~0ms</td>
+          <td>~20ms</td>
+          <td>GPU &middot; worker local</td>
+          <td><span class="badge bg">confirmed</span></td>
+        </tr>
+        <tr>
+          <td>Claude first token</td>
+          <td>Sonnet + warm KV cache</td>
+          <td style="color:#ee9612">~200ms</td>
+          <td>~400ms</td>
+          <td>Anthropic SF &middot; 5.6ms hop</td>
+          <td><span class="badge by">architecture est.</span></td>
+        </tr>
+        <tr>
+          <td>Inworld TTS TTFA</td>
+          <td>inworld-tts-1.5-max</td>
+          <td style="color:#ee9612">~200ms</td>
+          <td>~300ms</td>
+          <td>Google SJC &middot; 13ms hop</td>
+          <td><span class="badge by">per docs</span></td>
+        </tr>
+        <tr>
+          <td>Network (worker &#x2192; client)</td>
+          <td>Telnyx PSTN</td>
+          <td style="color:var(--td)">~97ms</td>
+          <td>~100ms</td>
+          <td>Chicago &middot; 77ms measured</td>
+          <td><span class="badge bg">confirmed</span></td>
+        </tr>
+        <tr style="background:rgba(255,255,255,.03)">
+          <td style="font-weight:600">Total p50 (Inworld)</td>
+          <td style="color:var(--dim)">Claude + Inworld parallel</td>
+          <td style="color:#fff;font-weight:600;font-size:19px">~550ms</td>
+          <td style="color:var(--td)">~750ms</td>
+          <td style="color:#ee9612">800ms ceiling</td>
+          <td><span class="badge by">benchmark req'd</span></td>
+        </tr>
+        <tr class="tr-fb">
+          <td style="color:#d36eff">Total p50 (Kokoro fallback)</td>
+          <td style="color:#d36eff">local GPU path</td>
+          <td style="color:#d36eff;font-weight:600">~420ms</td>
+          <td style="color:#d36eff">~650ms</td>
+          <td style="color:var(--dim)">same worker</td>
+          <td style="color:var(--dim)">~130ms faster &middot; ELO 521 lower</td>
+        </tr>
+        <tr>
+          <td>Turn 1 (pre-rendered)</td>
+          <td>cached audio playback</td>
+          <td style="color:#60be35;font-weight:600">~200ms</td>
+          <td>~200ms</td>
+          <td>worker local</td>
+          <td><span class="badge bg">zero inference</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════ EMOTIONS ═══════ -->
+<div class="sec">
+  <div class="slabel">Emotional expression &mdash; why it matters and where we stand</div>
+  <div class="grid2">
+    <div class="ecard">
+      <div class="ecard-title" style="color:#ee9612">Why emotions matter on sales calls</div>
+      <div class="ecard-body">
+        Property managers don't respond to robots.<br><br>
+        Sales needs to laugh naturally at a client joke, slow down when sensing hesitation, sound genuinely warm on a cold call about a $50K proposal.<br><br>
+        Flat, neutral TTS kills conversion. The voice is the product.
+      </div>
+    </div>
+    <div class="ecard">
+      <div class="ecard-title" style="color:#60be35">Inworld emotion support (primary)</div>
+      <div class="ecard-body">
+        Emotion tags: experimental, English only.<br><br>
+        Context-aware prosody: Inworld's model understands conversational context and modulates tone accordingly &mdash; no manual tagging required for most cases.<br><br>
+        ELO 1,577 reflects human judges preferring Inworld's delivery in blind tests. Expressiveness is baked into the model.
+      </div>
+    </div>
+    <div class="ecard">
+      <div class="ecard-title" style="color:#d36eff">Kokoro emotion support (fallback)</div>
+      <div class="ecard-body">
+        No native emotion tags.<br><br>
+        Neutral delivery &mdash; consistent but flat. Adequate for voicemails and informational turns. Will sound noticeably robotic on warm conversational moments.<br><br>
+        This is the primary reason Inworld won over Kokoro as the main model.
+      </div>
+    </div>
+    <div class="ecard">
+      <div class="ecard-title" style="color:#ee9612">Missed: Chatterbox Turbo [laugh][cough]</div>
+      <div class="ecard-body">
+        Chatterbox Turbo has native paralinguistic tags: [laugh], [chuckle], [cough], [sigh].<br><br>
+        ELO 1,080 vs Inworld 1,577. Doesn't win on quality.<br><br>
+        Interesting fallback-upgrade path: if Inworld costs become prohibitive at scale, Chatterbox + explicit emotion scripting is the natural v3 alternative.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ COMPARISON TABLE ═══════ -->
+<div class="sec">
+  <div class="slabel">Sales AI vs Bland AI &mdash; head to head</div>
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:22%">Metric</th>
+          <th style="width:39%">
+            <span style="color:#9f00fa">Sales AI</span>
+            <span style="color:var(--dim);font-weight:400;margin-left:6px">v1.9</span>
+          </th>
+          <th style="width:39%">
+            <span style="color:var(--dim)">Bland AI</span>
+            <span style="color:var(--dim);font-weight:400;margin-left:6px">competitor</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>TTS voice quality (ELO)</td>
+          <td><span class="cmp-big" style="color:#60be35">1,577</span><span class="cmp-sub">Inworld &middot; #1 TTS Arena V2</span></td>
+          <td><span style="color:#ff4040">not evaluated</span><span class="cmp-sub">absent from all public leaderboards</span></td>
+        </tr>
+        <tr>
+          <td>STT word error rate</td>
+          <td><span class="cmp-big" style="color:#60be35">1.8%</span><span class="cmp-sub">Parakeet RNNT &middot; independently verified</span></td>
+          <td><span style="color:#ff4040">not published</span><span class="cmp-sub">proprietary &middot; no independent test</span></td>
+        </tr>
+        <tr>
+          <td>Turn latency p50</td>
+          <td><span class="cmp-big" style="color:#60be35">~550ms</span><span class="cmp-sub">projected &middot; benchmark req'd</span></td>
+          <td><span class="cmp-big" style="color:var(--td)">~800ms</span><span class="cmp-sub">measured &middot; noticeable pause</span></td>
+        </tr>
+        <tr>
+          <td>Turn latency p95</td>
+          <td><span class="cmp-big" style="color:#60be35">~750ms</span><span class="cmp-sub">800ms hard ceiling</span></td>
+          <td><span class="cmp-big" style="color:var(--td)">1.2s+</span><span class="cmp-sub">measured &middot; awkward dead air</span></td>
+        </tr>
+        <tr>
+          <td>First word on pickup</td>
+          <td><span class="cmp-big" style="color:#60be35">~200ms</span><span class="cmp-sub">pre-rendered &middot; zero inference</span></td>
+          <td><span class="cmp-big" style="color:var(--td)">~800ms</span><span class="cmp-sub">generates on the fly</span></td>
+        </tr>
+        <tr>
+          <td>LLM</td>
+          <td><span style="color:#60be35;font-weight:600">Claude Sonnet</span><span class="cmp-sub">publicly benchmarked</span></td>
+          <td><span style="color:var(--td)">proprietary model</span><span class="cmp-sub">not on any public benchmark</span></td>
+        </tr>
+        <tr>
+          <td>Emotion / expressiveness</td>
+          <td><span style="color:#60be35;font-weight:600">Inworld context-aware</span><span class="cmp-sub">ELO 1,577 human preference</span></td>
+          <td><span style="color:var(--td)">LLM-based TTS</span><span class="cmp-sub">proprietary &middot; no benchmark</span></td>
+        </tr>
+        <tr>
+          <td>Cost per minute</td>
+          <td><span class="cmp-big" style="color:#60be35">~$0.02&ndash;0.03</span><span class="cmp-sub">GPU + Claude + Inworld</span></td>
+          <td><span class="cmp-big" style="color:#ff4040">$0.14+</span><span class="cmp-sub">raised 55% Dec 2025</span></td>
+        </tr>
+        <tr>
+          <td>Monthly infra (50 calls)</td>
+          <td><span class="cmp-big" style="color:#60be35">~$49&ndash;85</span><span class="cmp-sub">CPU + RunPod + Telnyx + APIs</span></td>
+          <td><span class="cmp-big" style="color:#ff4040">$330&ndash;350+</span><span class="cmp-sub">subscription + per-minute</span></td>
+        </tr>
+        <tr>
+          <td>Control</td>
+          <td><span style="color:#60be35;font-weight:600">100% yours</span><span class="cmp-sub">your server &middot; white-label ready</span></td>
+          <td><span style="color:var(--td)">Bland's platform</span><span class="cmp-sub">vendor lock-in</span></td>
+        </tr>
+        <tr>
+          <td>Infrastructure</td>
+          <td><span style="color:#60be35;font-weight:600">DO SFO3 + RunPod</span><span class="cmp-sub">Bay Area &middot; 5.6ms to Claude</span></td>
+          <td><span style="color:var(--td)">own GPU clusters</span><span class="cmp-sub">V100s colocated &middot; opaque</span></td>
+        </tr>
+        <tr>
+          <td>White-label / SaaS</td>
+          <td><span style="color:#60be35;font-weight:600">yes &mdash; v3 roadmap</span><span class="cmp-sub">full control enables reselling</span></td>
+          <td><span style="color:#ff4040">no self-serve</span><span class="cmp-sub">enterprise only &middot; locked</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">Bland's edge: zero build time, battle-tested at scale, voice cloning on enterprise plans. Sales's edge: Claude's intelligence, Inworld's benchmarked voice quality, cost control, and full ownership. At 50 calls/month you save ~$265&ndash;300/month vs Bland from day one.</div>
+</div>
+
+<!-- ═══════ PRE-LAUNCH BENCHMARKS ═══════ -->
+<div class="sec">
+  <div class="slabel">Required pre-launch benchmarks</div>
+  <div class="grid2">
+    <div class="dec" style="border-color:rgba(255,64,64,.2)">
+      <div class="dec-dot" style="background:#ff4040;box-shadow:0 0 6px rgba(255,64,64,.5)"></div>
+      <div>
+        <div class="dec-title">Inworld phone-line quality test</div>
+        <div class="dec-val">10 common openers &#x2192; Inworld &#x2192; Telnyx &#x2192; actual cell phone</div>
+        <div class="dec-note">Non-negotiable &middot; if fails &#x2192; investigate Inworld config before switching model</div>
+      </div>
+    </div>
+    <div class="dec" style="border-color:rgba(255,64,64,.2)">
+      <div class="dec-dot" style="background:#ff4040;box-shadow:0 0 6px rgba(255,64,64,.5)"></div>
+      <div>
+        <div class="dec-title">Parakeet RNNT on 8kHz G.711</div>
+        <div class="dec-val">Must pass accuracy test on phone-quality audio</div>
+        <div class="dec-note">Moonshine fallback ready &middot; Controller toggle &middot; benchmark with real phone recordings</div>
+      </div>
+    </div>
+    <div class="dec" style="border-color:rgba(238,150,18,.2)">
+      <div class="dec-dot" style="background:#ee9612;box-shadow:0 0 6px rgba(238,150,18,.5)"></div>
+      <div>
+        <div class="dec-title">End-to-end latency from RunPod US-CA-2</div>
+        <div class="dec-val">Full pipeline: audio in &#x2192; STT &#x2192; Claude &#x2192; Inworld &#x2192; audio out</div>
+        <div class="dec-note">Target: p50 &lt;550ms &middot; p95 &lt;750ms &middot; hard ceiling 800ms</div>
+      </div>
+    </div>
+    <div class="dec" style="border-color:rgba(238,150,18,.2)">
+      <div class="dec-dot" style="background:#ee9612;box-shadow:0 0 6px rgba(238,150,18,.5)"></div>
+      <div>
+        <div class="dec-title">TOKEN vs SENTENCE mode benchmark</div>
+        <div class="dec-val">Compare Inworld TTFA in TOKEN vs SENTENCE aggregation mode</div>
+        <div class="dec-note">TOKEN expected ~50ms lower &middot; validate quality tradeoff on 10 sample turns</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /graph-wrap -->
+
+<div class="bottom-bar">
+  <div class="sb-item">
+    <div class="pdot" style="background:#60be35;box-shadow:0 0 6px #60be35;animation:blink 2s infinite"></div>
+    <span style="color:#60be35">INWORLD TTS PRIMARY</span>
+  </div>
+  <div class="sb-item">
+    <div class="pdot" style="background:#d36eff;box-shadow:0 0 6px #d36eff"></div>
+    <span style="color:#d36eff">KOKORO FALLBACK</span>
+  </div>
+  <div class="sb-item"><span>ELO 1,577 &middot; ~550ms p50 &middot; 800ms ceiling</span></div>
+  <div class="sb-item" style="margin-left:auto">
+    <span style="color:var(--C)">SPEC v1.0 &middot; RunPod US-CA-2 &middot; $0.26/hr</span>
+  </div>
+</div>
+
+<div class="legend-row">
+  <div class="li"><div class="li-dot" style="background:#60be35;box-shadow:0 0 5px #60be35"></div>Inworld (primary)</div>
+  <div class="li"><div class="li-dot" style="background:#d36eff;box-shadow:0 0 5px #d36eff"></div>Kokoro (fallback)</div>
+  <div class="li"><div class="li-dot" style="background:#ee9612;box-shadow:0 0 4px #ee9612"></div>Self-hosted candidates</div>
+  <div class="li"><div class="li-dot" style="background:#378ADD;box-shadow:0 0 4px #378ADD"></div>Cloud / STT</div>
+  <div class="li"><div class="li-dot" style="background:#ff4040;box-shadow:0 0 4px #ff4040"></div>Competitor / blocker</div>
+  <div class="li"><div class="li-dot" style="background:#9f00fa;box-shadow:0 0 4px #9f00fa"></div>Pipecat orchestration</div>
+</div>
+
+</div><!-- /shell -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  /* Chart theme */
+  var TC='#585858',GC='rgba(255,255,255,.04)';
+  var TT={backgroundColor:'rgba(10,10,10,.95)',titleColor:'#fff',bodyColor:'#b0b0b0',
+    titleFont:{family:'Barlow Condensed',size:17,weight:700},
+    bodyFont:{family:'JetBrains Mono',size:14},
+    borderColor:'rgba(159,0,250,.25)',borderWidth:1,padding:12,cornerRadius:0};
+
+  Chart.defaults.font.family="'JetBrains Mono',monospace";
+  Chart.defaults.font.size=13;
+
+  /* SCATTER — ELO vs TTFA */
+  new Chart(document.getElementById('scatter'),{
+    type:'scatter',
+    data:{datasets:[
+      {label:'Inworld (primary)',
+       data:[{x:200,y:1577,n:'Inworld TTS-1.5-Max \u00b7 ELO 1577'},{x:130,y:1575,n:'Inworld TTS-1.5-Mini \u00b7 ELO 1575'}],
+       backgroundColor:'#60be35cc',borderColor:'#60be35',borderWidth:2,pointRadius:12,pointStyle:'star'},
+      {label:'Kokoro (fallback)',
+       data:[{x:30,y:1056,n:'Kokoro v1 \u00b7 ELO 1056 \u00b7 fallback only'}],
+       backgroundColor:'#d36effee',borderColor:'#d36eff',borderWidth:2.5,pointRadius:11,pointStyle:'rectRot'},
+      {label:'Self-hosted candidates',
+       data:[{x:150,y:1080,n:'Chatterbox Turbo \u00b7 ELO 1080 \u00b7 MIT'},{x:200,y:1070,n:'Orpheus 3B \u00b7 ELO 1070 \u00b7 Apache 2.0'},{x:30,y:1128,n:'Fish Audio S2 Pro \u00b7 ELO 1128 \u00b7 \u26a0 CC-BY-NC'}],
+       backgroundColor:'#ee9612cc',borderColor:'#ee9612',borderWidth:1.5,pointRadius:9},
+      {label:'Cloud / other',
+       data:[{x:75,y:1544,n:'ElevenLabs Turbo v2.5 \u00b7 ELO 1544 \u00b7 $120/M'},{x:40,y:1395,n:'Cartesia Sonic 3 \u00b7 ELO 1395 \u00b7 40ms TTFA'},{x:200,y:1562,n:'Hume Octave 2 \u00b7 ELO 1562'}],
+       backgroundColor:'#378ADDaa',borderColor:'#378ADD',borderWidth:1,pointRadius:7}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,layout:{padding:20},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:function(ctx){return ctx.raw.n||'ELO '+ctx.raw.y+' \u00b7 '+ctx.raw.x+'ms'}}}},
+      scales:{
+        x:{min:0,max:280,grid:{color:GC},ticks:{color:TC,font:{size:13}},title:{display:true,text:'time to first audio (ms) \u2014 lower is better',color:TC,font:{size:13}}},
+        y:{min:980,max:1640,grid:{color:GC},ticks:{color:TC,font:{size:13}},title:{display:true,text:'ELO \u2014 TTS Arena V2 blind human votes \u00b7 higher = more human',color:TC,font:{size:13}}}
+      }
+    }
+  });
+
+  /* HORIZONTAL BAR — self-hosted ELO */
+  new Chart(document.getElementById('hbar'),{
+    type:'bar',
+    data:{
+      labels:['Chatterbox Turbo\nMIT \u00b7 [laugh][cough]','Orpheus 3B\nApache 2.0 \u00b7 guided emotion','Kokoro v1\nApache 2.0 \u00b7 fallback only'],
+      datasets:[{
+        data:[1080,1070,1056],
+        backgroundColor:['#ee9612cc','#ee9612aa','#d36effcc'],
+        borderColor:['#ee9612','#ee9612','#d36eff'],
+        borderWidth:1.5,borderRadius:2
+      }]
+    },
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:function(ctx){return 'ELO: '+ctx.parsed.x}}}},
+      scales:{
+        x:{min:1020,max:1110,grid:{color:GC},ticks:{color:TC,font:{size:13}},title:{display:true,text:'ELO score (self-hosted models only \u00b7 commercial-safe licenses)',color:TC,font:{size:13}}},
+        y:{grid:{display:false},ticks:{color:TC,font:{size:13}}}
+      }
+    }
+  });
+
+  /* RADAR — multi-dimension */
+  new Chart(document.getElementById('radar'),{
+    type:'radar',
+    data:{
+      labels:['Voice Quality\n(ELO)','TTFA Speed','Emotion\nSupport','VRAM\nEfficiency','Cost\n(free = 10)'],
+      datasets:[
+        {label:'Inworld (primary)',data:[9.8,7,7,4,3],borderColor:'#60be35',backgroundColor:'rgba(96,190,53,.12)',borderWidth:2,pointRadius:4},
+        {label:'Kokoro v1 (fallback)',data:[5.5,9.5,1,9.5,10],borderColor:'#d36eff',backgroundColor:'rgba(211,110,255,.12)',borderWidth:2,pointRadius:4,borderDash:[4,3]},
+        {label:'Chatterbox Turbo',data:[6,7,9,7,10],borderColor:'#ee9612',backgroundColor:'rgba(238,150,18,.12)',borderWidth:2,pointRadius:4,borderDash:[2,2]},
+        {label:'Orpheus 3B',data:[5.8,6,8,6,10],borderColor:'#585858',backgroundColor:'rgba(88,88,88,.1)',borderWidth:1.5,pointRadius:3,borderDash:[6,3]}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,layout:{padding:10},
+      plugins:{
+        legend:{display:true,position:'bottom',labels:{color:TC,font:{size:13},boxWidth:14,padding:18}},
+        tooltip:{...TT}
+      },
+      scales:{
+        r:{min:0,max:10,ticks:{display:false},grid:{color:GC},pointLabels:{color:TC,font:{size:13}},angleLines:{color:GC}}
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

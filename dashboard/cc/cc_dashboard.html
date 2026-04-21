@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sales AI · Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Norwester';src:url('../css/norwester.otf') format('opentype')}
+:root{
+  --C:#9f00fa;--Cl:#d36eff;--O:#ff6a1a;--G:#72d648;--R:#ff4040;--Y:#ffb020;
+  --t:#fff;--dim:#888888;--tm:#e0e0e0;--bg3:#2a2a2a;--bg2:#242424;
+  --mono:'JetBrains Mono',monospace;
+  --jost:'Jost',sans-serif;
+  --nw:'Norwester','Jost',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
+
+/* ── TWO-SECTION LAYOUT (absolute, avoids flex-% height bugs) ── */
+.map-section{position:absolute;top:0;left:0;right:0;bottom:38%;overflow:hidden}
+.route-section{position:absolute;bottom:0;left:0;right:0;height:38%;overflow:hidden}
+#map{position:absolute;inset:0;z-index:1}
+#cvs{position:absolute;inset:0;z-index:2;pointer-events:none}
+.leaflet-container{background:#1a1a1a!important}
+.leaflet-control-attribution{background:rgba(0,0,0,.7)!important;color:#333!important;font-size:9px!important;border-radius:0!important}
+.leaflet-control-attribution a{color:#444!important}
+.leaflet-control-zoom{background:rgba(0,0,0,.8)!important;border:1px solid rgba(159,0,250,.35)!important;border-radius:3px!important}
+.leaflet-control-zoom a{background:transparent!important;color:rgba(159,0,250,.8)!important;border-bottom:1px solid rgba(159,0,250,.2)!important;font-size:16px!important;width:28px!important;height:28px!important;line-height:28px!important}
+.leaflet-control-zoom a:hover{background:rgba(159,0,250,.15)!important;color:#fff!important}
+.leaflet-tile-pane{filter:brightness(0.82) saturate(0.45)}
+#scanlines{position:absolute;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.06) 3px,rgba(0,0,0,0.06) 4px)}
+#vignette{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.6) 100%)}
+#tooltip{position:absolute;z-index:10;pointer-events:none;background:rgba(0,0,0,.92);border:1px solid rgba(159,0,250,.55);padding:8px 12px;display:none;font-family:var(--mono);font-size:11px;color:#fff;letter-spacing:.06em;box-shadow:0 0 18px rgba(159,0,250,.3);min-width:185px}
+#tooltip .tn{font-size:13px;font-weight:600;color:var(--Cl);margin-bottom:3px}
+#tooltip .tv{color:var(--Y)}
+#tooltip .ts{font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+#tooltip .ts.won{color:var(--G)}.ts.enrolled{color:var(--Cl)}.ts.not_started{color:var(--O)}
+
+/* ── MAP HUD (absolute within map-section) ── */
+#map-hud{position:absolute;inset:0;z-index:5;pointer-events:none}
+.corner{position:absolute;width:20px;height:20px}
+.corner.tl{top:7px;left:7px;border-top:2px solid rgba(159,0,250,.6);border-left:2px solid rgba(159,0,250,.6)}
+.corner.tr{top:7px;right:7px;border-top:2px solid rgba(159,0,250,.6);border-right:2px solid rgba(159,0,250,.6)}
+.corner.bl{bottom:7px;left:7px;border-bottom:2px solid rgba(159,0,250,.6);border-left:2px solid rgba(159,0,250,.6)}
+.corner.br{bottom:7px;right:7px;border-bottom:2px solid rgba(159,0,250,.6);border-right:2px solid rgba(159,0,250,.6)}
+
+.hud-top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;background:linear-gradient(180deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.6) 75%,transparent 100%);padding:9px 18px 20px;gap:15px}
+.hud-brand{font-family:var(--nw);font-size:19px;letter-spacing:.1em;text-transform:uppercase;color:#fff;text-shadow:0 0 18px rgba(159,0,250,.8),0 0 36px rgba(159,0,250,.4);white-space:nowrap}
+.hud-brand em{color:var(--Cl);font-style:normal}
+.vsep{width:1px;height:26px;background:rgba(159,0,250,.3);flex-shrink:0}
+.hstat{display:flex;flex-direction:column;gap:0;flex-shrink:0}
+.hstat .l{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.hstat .v{font-family:var(--mono);font-size:12px;font-weight:600;color:#fff;line-height:1.3}
+.hstat .v.g{color:var(--G)}.v.y{color:var(--Y)}.v.p{color:var(--Cl)}.v.o{color:var(--O)}
+.hud-r{margin-left:auto;display:flex;align-items:center;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border:1px solid;white-space:nowrap}
+.pill.online{color:var(--G);border-color:rgba(96,190,53,.35);background:rgba(96,190,53,.08)}
+.pill.online::before{content:'';width:6px;height:6px;background:var(--G);border-radius:50%;box-shadow:0 0 6px var(--G);animation:blink 2s infinite;flex-shrink:0}
+.pill.batch{color:var(--O);border-color:rgba(233,84,0,.4);background:rgba(233,84,0,.08)}
+.pill.batch::before{content:'';width:6px;height:6px;background:var(--O);border-radius:50%;box-shadow:0 0 6px var(--O);animation:blink 1.4s infinite;flex-shrink:0}
+.hdate{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.12em;white-space:nowrap}
+
+.hud-left{position:absolute;top:72px;left:0;bottom:6px;width:188px;background:linear-gradient(90deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.52) 80%,transparent 100%);padding:12px 14px;display:flex;flex-direction:column;gap:0;overflow:hidden}
+.panel-hdr{font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--Cl);margin-bottom:9px;display:flex;align-items:center;gap:5px}
+.panel-hdr::before{content:'◈';font-size:8px}
+.rep-row{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.rdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rname{font-family:var(--jost);font-size:12px;color:var(--tm);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rst{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:1px 4px;border-radius:2px;flex-shrink:0}
+.rst.av{color:var(--G);background:rgba(96,190,53,.15)}.rst.aw{color:var(--Y);background:rgba(238,150,18,.15)}.rst.ds{color:#444;background:rgba(80,80,80,.15)}.rst.fb{color:var(--Cl);background:rgba(211,110,255,.15)}
+.rwt{font-family:var(--mono);font-size:9px;color:var(--dim);flex-shrink:0;width:20px;text-align:right}
+
+.hud-rp{position:absolute;top:72px;right:0;bottom:6px;width:200px;background:linear-gradient(270deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.52) 80%,transparent 100%);padding:12px 14px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.scard{border-left:2px solid var(--C);padding:6px 8px;background:rgba(159,0,250,.06)}
+.scard.o{border-color:var(--O);background:rgba(233,84,0,.06)}.scard.g{border-color:var(--G);background:rgba(96,190,53,.06)}.scard.y{border-color:var(--Y);background:rgba(238,150,18,.06)}.scard.r{border-color:var(--R);background:rgba(255,64,64,.06)}
+.slbl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.sval{font-family:var(--nw);font-size:20px;color:#fff;line-height:1.1}
+.ssub{font-family:var(--mono);font-size:9px;color:var(--dim)}
+.sbar{height:2px;background:rgba(255,255,255,.08);margin-top:4px;overflow:hidden}
+.sfill{height:100%;background:var(--C)}.scard.o .sfill{background:var(--O)}.scard.g .sfill{background:var(--G)}.scard.y .sfill{background:var(--Y)}.scard.r .sfill{background:var(--R)}
+
+/* ── ROUTE SECTION ── */
+.route-section{display:flex;flex-direction:column;background:var(--bg3);border-top:2px solid rgba(159,0,250,.45)}
+.route-hdr{
+  flex:0 0 32px;display:flex;align-items:center;gap:16px;
+  padding:0 18px;background:rgba(0,0,0,.5);border-bottom:1px solid rgba(159,0,250,.15);
+  flex-shrink:0;
+}
+.route-hdr-title{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--Cl);display:flex;align-items:center;gap:6px}
+.route-hdr-title::before{content:'◈';font-size:9px}
+.route-hdr-meta{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim)}
+.route-hdr-meta span{color:var(--tm)}
+.route-hdr-algo{
+  margin-left:auto;font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(159,0,250,.6);border:1px solid rgba(159,0,250,.2);padding:2px 8px;
+}
+.route-cvs-wrap{flex:1;position:relative;overflow:hidden}
+#rcvs{position:absolute;inset:0;width:100%;height:100%}
+
+/* legend strip at bottom of route section */
+.route-legend{
+  flex:0 0 22px;display:flex;align-items:center;gap:16px;
+  padding:0 18px;border-top:1px solid rgba(255,255,255,.04);
+}
+.rleg{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.1em}
+.rleg-d{width:7px;height:7px;transform:rotate(45deg);flex-shrink:0}
+.rleg-l{width:16px;height:2px;flex-shrink:0}
+
+@media(max-width:768px){
+  .route-legend{flex-wrap:wrap;gap:8px;padding:0 10px;}
+}
+</style>
+<link rel="stylesheet" href="../css/avatars.css">
+<script defer src="../js/env.js"></script>
+<script defer src="../js/avatars.js"></script>
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script defer src="../js/dashboard.js"></script>
+<script defer src="../js/proplink.js"></script>
+</head>
+<body>
+
+<!-- MAP SECTION -->
+<div class="map-section">
+  <div id="map"></div>
+  <canvas id="cvs"></canvas>
+  <div id="scanlines"></div>
+  <div id="vignette"></div>
+  <div id="tooltip"></div>
+
+  <div id="map-hud">
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+
+    <div class="hud-top">
+      <div class="hud-brand">Sales <em>AI</em> &nbsp;·&nbsp; <em>Mission 1</em></div>
+      <div class="vsep"></div>
+      <div class="hstat"><span class="l">Pipeline</span><span class="v p">$37.5M</span></div>
+      <div class="hstat"><span class="l">Proposals</span><span class="v">1,357</span></div>
+      <div class="vsep"></div>
+      <div class="hstat"><span class="l">Batch #12</span><span class="v o">24 Targets</span></div>
+      <div class="hstat"><span class="l">Value</span><span class="v y">$847,230</span></div>
+      <div class="vsep"></div>
+      <div class="hstat"><span class="l">Calls Today</span><span class="v g">47</span></div>
+      <div class="hstat"><span class="l">Transfers</span><span class="v g">8</span></div>
+      <div class="vsep"></div>
+      <div class="hstat"><span class="l">Territory</span><span class="v p">+200°</span></div>
+      <div class="hstat"><span class="l">2°/day · Day</span><span class="v">100</span></div>
+      <div class="hud-r">
+        <span class="hdate">10 APR 2026 &nbsp;·&nbsp; 11:47 AM PT</span>
+        <span class="pill batch">BATCH #12 PENDING</span>
+        <span class="pill online">SALESCLAW ONLINE</span>
+      </div>
+    </div>
+
+    <div class="hud-left">
+      <div class="panel-hdr">Transfer Pool</div>
+      <div class="rep-row" id="dash-reps"></div>
+      <script>
+      (function(){
+        var reps=[
+          {id:'marco',short:'Marco R.',st:'av',stCls:'av',w:'1.0'},
+          {id:'sarah',short:'Sarah M.',st:'av',stCls:'av',w:'1.2'},
+          {id:'dan',short:'Dan M.',st:'off',stCls:'ds',w:'—'},
+          {id:'ruben',short:'Ruben O.',st:'aw',stCls:'aw',w:'1.0'},
+          {id:'anne',short:'Anne A.',st:'av',stCls:'av',w:'0.8'},
+          {id:'henry',short:'Henry J.',st:'av',stCls:'av',w:'1.0'},
+          {id:'leah',short:'Leah L.',st:'av',stCls:'av',w:'1.0'},
+          {id:'jenna',short:'Jenna M.',st:'off',stCls:'ds',w:'—'},
+          {id:'stacy',short:'Stacy P.',st:'av',stCls:'av',w:'0.3'},
+          {id:'alex',short:'Alex',st:'fb',stCls:'fb',w:'0.1'}
+        ];
+        var el=document.getElementById('dash-reps');
+        if(!el)return;
+        var html='';
+        reps.forEach(function(r){
+          var av=(typeof buildAvatar==='function')?buildAvatar(r.id,18):'<div class="rdot" style="width:18px;height:18px;background:#555;border-radius:50%"></div>';
+          html+='<div class="rep-row" style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
+            +av+'<span class="rname">'+r.short+'</span><span class="rst '+r.stCls+'">'+r.st.toUpperCase()+'</span><span class="rwt">'+r.w+'</span></div>';
+        });
+        el.outerHTML=html;
+      })();
+      </script>
+    </div>
+
+    <div class="hud-rp">
+      <div class="scard"><div class="slbl">Stale Pipeline</div><div class="sval">$37.5M</div><div class="ssub">1,357 props · NorCal</div><div class="sbar"><div class="sfill" style="width:100%"></div></div></div>
+      <div class="scard g"><div class="slbl">In Sequence</div><div class="sval">312</div><div class="ssub">$8.4M active outreach</div><div class="sbar"><div class="sfill" style="width:23%"></div></div></div>
+      <div class="scard o"><div class="slbl">Batch Queue</div><div class="sval">24</div><div class="ssub">Awaiting Alex go</div><div class="sbar"><div class="sfill" style="width:48%"></div></div></div>
+      <div class="scard y"><div class="slbl">Connect Rate</div><div class="sval">48.9%</div><div class="ssub">23 of 47 calls today</div><div class="sbar"><div class="sfill" style="width:49%"></div></div></div>
+      <div class="scard r"><div class="slbl">Blockers</div><div class="sval">8</div><div class="ssub">OQ-1 OQ-2 OQ-3 OQ-5 OQ-6</div><div class="sbar"><div class="sfill" style="width:72%"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ROUTE SECTION -->
+<div class="route-section">
+  <div class="route-hdr">
+    <div class="route-hdr-title">Drive Routes · Today</div>
+    <div class="route-hdr-meta">10 APR 2026 &nbsp;·&nbsp; <span id="route-summary">computing…</span></div>
+    <div class="route-hdr-algo">Nearest-Neighbor TSP</div>
+  </div>
+  <div class="route-cvs-wrap">
+    <canvas id="rcvs"></canvas>
+  </div>
+  <div class="route-legend">
+    <div class="rleg"><div class="rleg-d" style="background:var(--O)"></div>Not Started</div>
+    <div class="rleg"><div class="rleg-d" style="background:var(--Cl)"></div>Enrolled</div>
+    <div class="rleg"><div class="rleg-d" style="background:var(--G)"></div>Won</div>
+    <div class="rleg" style="margin-left:auto">
+      <div class="rleg-l" style="background:rgba(255,255,255,.35)"></div>Remaining
+    </div>
+    <div class="rleg">
+      <div class="rleg-l" style="background:var(--Cl)"></div>Completed
+    </div>
+    <div class="rleg">
+      <span style="width:8px;height:8px;border-radius:50%;background:var(--Cl);display:inline-block;box-shadow:0 0 5px var(--Cl)"></span>&nbsp;Traveler
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/graph.css">
+<style>
+/* page-specific canvas dimensions + background */
+.canvas{
+  width:1920px;height:1400px;
+  background:
+    radial-gradient(ellipse 900px 700px at 50% 45%,rgba(159,0,250,.04) 0%,transparent 70%),
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+    var(--bg);
+  background-size:100% 100%,44px 44px,44px 44px;
+  background-position:0 0,0 0,0 0;
+}
+/* page-specific: cheat sheet width override */
+.cheat{width:260px}
+.cheat-code{min-width:64px}
+/* page-specific: legend diamond */
+.li-diamond{width:8px;height:8px;flex-shrink:0;transform:rotate(45deg);border:1.5px solid #ee9612;background:transparent}
+</style>
+<script defer src="../js/env.js"></script>
+<script defer src="../js/graph-core.js"></script>
+<script defer src="../js/sequence.js"></script>
+<script defer src="../js/proplink.js"></script>
+</head>
+<body>
+<div class="shell">
+<div class="top-bar">
+  <span class="stit">Outreach Sequence &mdash; 44-Day Timeline</span>
+  <span class="meta">8 touches &middot; 6 actors &middot; Mission 1</span>
+  <span class="hint">&#x25C8; HOVER FOR DETAILS</span>
+  <button class="fs-btn" id="fsBtn" onclick="toggleFS()" title="Fullscreen">&#x26F6;</button>
+</div>
+
+<div class="graph-wrap" id="graphWrap">
+  <div class="canvas" id="cnv">
+
+<div class="cheat">
+  <div class="cheat-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">Cheat Sheet <span>&#9660;</span></div>
+  <div class="cheat-body">
+    <div class="cheat-section">Sequence Rules</div>
+    <div class="cheat-row"><span class="cheat-code">Contact group</span><span class="cheat-desc">One sequence per contact, not per proposal</span></div>
+    <div class="cheat-row"><span class="cheat-code">Day count</span><span class="cheat-desc">Days since oldest proposal was sent</span></div>
+    <div class="cheat-row"><span class="cheat-code">Call &times;3</span><span class="cheat-desc">3 attempts: 10:30 / 1:00 / 3:30 PM PT</span></div>
+    <div class="cheat-row"><span class="cheat-code">VM</span><span class="cheat-desc">Voicemail — left only on Day 7 (3rd miss) and Day 21 (if never engaged)</span></div>
+    <div class="cheat-row"><span class="cheat-code">Recency guard</span><span class="cheat-desc">Skip touch if human rep emailed in last 7 days</span></div>
+    <div class="cheat-section">Call Window</div>
+    <div class="cheat-row"><span class="cheat-code">Days</span><span class="cheat-desc">Tue–Fri only (Monday excluded)</span></div>
+    <div class="cheat-row"><span class="cheat-code">Hours</span><span class="cheat-desc">10:30 AM – 4:30 PM Pacific</span></div>
+    <div class="cheat-row"><span class="cheat-code">Holiday</span><span class="cheat-desc">US federal holidays → shift to next eligible day</span></div>
+    <div class="cheat-section">After Day 44</div>
+    <div class="cheat-row"><span class="cheat-code">Zero response</span><span class="cheat-desc">Stop permanently. Leave in "sent". Never close.</span></div>
+  </div>
+</div>
+    <svg id="edgeSvg" style="position:absolute;inset:0;width:1920px;height:1400px;overflow:visible;z-index:2;pointer-events:none"></svg>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="sb-item">
+    <div class="pdot" style="background:var(--G);box-shadow:0 0 6px var(--G);animation:blink 2s infinite"></div>
+    <span style="color:var(--G)">SALESCLAW ONLINE</span>
+  </div>
+  <div class="sb-item">
+    <span>PER CONTACT GROUP &middot; NOT PER PROPOSAL</span>
+  </div>
+  <div class="sb-item" style="margin-left:auto">
+    <span style="color:var(--C)">SPEC v1.0 &middot; Mission 1</span>
+  </div>
+</div>
+<div class="legend-row">
+  <div class="li"><div class="li-dot" style="background:#ff4040;box-shadow:0 0 5px #ff4040"></div>Call (&times;3 attempts)</div>
+  <div class="li"><div class="li-dot" style="background:#d36eff;box-shadow:0 0 5px #d36eff"></div>SMS</div>
+  <div class="li"><div class="li-dot" style="background:#e95400;box-shadow:0 0 5px #e95400"></div>Email</div>
+  <div class="li"><div class="li-dot" style="background:#585858;box-shadow:0 0 4px #585858"></div>Terminal / stop</div>
+</div>
+</div><!-- /shell -->
+
+<!-- Floating tooltip -->
+<div id="tt">
+  <div class="tt-head">
+    <div class="tt-head-text">
+      <div class="tt-name" id="tt-name">Node</div>
+      <div class="tt-role" id="tt-role">Role</div>
+      <div class="tt-status" id="tt-status">
+        <span class="tt-sdot" id="tt-sdot"></span>
+        <span id="tt-sv"></span>
+      </div>
+    </div>
+    <div class="tt-head-icon" id="tt-head-icon"></div>
+  </div>
+  <div class="tt-metrics" id="tt-metrics"></div>
+  <div class="tt-conns" id="tt-conns"></div>
+  <div class="tt-note" id="tt-note"></div>
+</div>
+
+</body>
+</html>
