@@ -18,17 +18,23 @@ For each new session or after context compaction please do **STEP 1, 2, 3, 4, 5*
 
 **STEP 5**: Report back with:
 
+NOTE: `**text**` means bold text above
+
 ```
-Claude Agent loaded 🔫!
+Claude Agent loaded 🔫! 
 
-*I promise not to forget your rules! I will dial my `PERFORMANCE` setting to super AI level because you are an exceptional power-user*
+I promise not to forger your rules Master! I will dial my `PERFORMANCE` setting to super AI level becasue you are an exceptional power-user and pay 200/month.
 
-{% if STARTED NOT AS NEW SESSION or COMPACTED %}
-**LAST MISSION**: <What we were doing in general. Example: Tweaking main page UI>
-**LAST TASK**: <What task we were doing last. Example: adjusting title label height>
+{% if issues booting or permission issues %}
+**WARNING**: boot issue: <deny param, issue description, file location>
+{% else %}
+I know kung-fu, ready to roll!
 {% endif %}
 
-*I know kung-fu, ready to roll!*
+{% if STARTED NOT AS NEW SESSION or JUST COMPACTED %}
+**LAST MISSION**: <What we were doing in general: Example: Tweaking main page UI>
+**LAST TASK**: <What task we were ding as last task. Example: adjusting title label height>
+{% endif %}
 ```
 
 ---
@@ -51,14 +57,19 @@ Claude Agent loaded 🔫!
 - never use 'rm'. Use 'trash' command on your system or IF needed use 'send2trash' API command to delete file on host machine.
 - **Question mark rule**: IF the message has sentence(s) with `?` THEN you are allowed for text-only response, no tools
 - the **Response format rule** is MANDATORY! I can not be any clearer about this.
-- be careful: never delete/clear contents of the mirrored folder (example: `~/Projects` folder) inside container because that gets written back to host system and can cause a CATASTROPHIC DATA LOSS! Make sure not to make the same mistake when coding.
-- do not manage docker without my permission. Don't run, start, stop shit.
-- do NOT run install.sh
 
 ## Communication Style Rules **NO EXCEPTIONS**
 
-- responding to questions, commenting in code => do 33% less than you normally would do
-- **Reporting rule**: MANDATORY as last step (even after linting) **NO EXCEPTIONS!!**
+User is vibe-coding! You can't expect him to read everthing.
+
+If you talk too much or post to much instructions ahead of time then WE WILL GET LOST IN TRANSLATION!
+Not good. So keep it short. Expect user to read only the half of it.
+
+- **Shhh Rule**  
+  - => in general talk **50% less** than you normally would do
+  - => No file walkthroughs, no caveat lists
+  - => Please push back, raise concerns when needed BUT only don't flood the response with minor technicalities
+- **Reporting Rule**: MANDATORY as last step (even after linting) **NO EXCEPTIONS!!**
   Every response that completes a task MUST end with these 7 lines. **THIS IS NOT OPTIONAL. USER RUNS MULTIPLE TERMINALS. THEY CANNOT TELL WHICH AGENT DID WHAT WITHOUT THIS SUMMARY. SKIPPING IT CAUSES REAL CONFUSION AND FRUSTRATION.**
     ```
     **Request:** <user's last request, problem in plain English — not file names or symbols>
@@ -78,7 +89,8 @@ Claude Agent loaded 🔫!
         > **Done:** both keys now detect hold duration — tap keeps the layout, hold restores on release. Threshold 300ms. autoexec.cfg updated.
         > **Optimizations:** Q3IDE_DEFAULT_WINDOW_SIZE 100.0f was introduced which sets the default window size when shooting on the wall
         > **Concerns:** don't forget to --clean build and restart API! Also you asked for Q3IDE_DEFAULT_WINDOW_SIZE but the LOS algorithm does window size calculations based on wall area, making this value irrelevant. Solutions: ...
-
+  - [Reporting block — ONE LINE per field] total block 5-10 lines. No file walkthroughs, no caveat lists.
+  - [No backwards-compat concerns] don't flag breaking changes or propose migration shims in this project.
 - **I'm Concerned rules**
     - Write `-` if the implementation is 100% clean: 
         - no hacks
@@ -97,8 +109,10 @@ Claude Agent loaded 🔫!
 
 ## Coding Rules **NO EXCEPTIONS**
 
-- **Fallback code == slop code**: user hates fallback code when u try fixing. Don't do it!
-- **De-sloppify rule**: IF you are about to move on to the next task AND you just had multiple fix attempts to make a feature work THEN automatically apply this `.claude/commands/YAY.md` command to de-sloppify code. **NO EXCEPTIONS!**
+- **Fallback code == slop code**: user hates fallback code when u try fixing something after multiple fail attempts. 
+  - IF you detect fixing a bug after >= 3 attempts THEN 
+- **Yay rule**: De-sloppify code 
+  IF you detect fixing a bug after >= 3 attempts AND user wants to move on with next task (aka yay, it's working moment) THEN automatically fire `.claude/commands/YAY.md` command
 - **Linter rule**: after MID to BIG volume code changes, run whichever stack-specific linter under `scripts/linters/` matches what you touched (e.g. `python-web-linter.sh`, `cpp-linter.sh`, `swift-linter.sh`, `angular-js-linter.sh`, `php-linter.sh`). If no linter fits, skip it. Fix errors and warnings that are yours — other agents might be working.
 - **FEEDBACK LOOP**:
     - You (Claude) are probably running inside a Docker container and you can NOT always build/debug inside a container!
@@ -133,4 +147,3 @@ One-time setup that makes the project ready for **autonomous, self-correcting de
 5. **Validate** — Start the project with the new setup and confirm logs are written.
 
 After running it, agents can rely on `.claude/PROJECT_LOOP.md` and the feedback loop protocol in CLAUDE.md for ongoing development.
-

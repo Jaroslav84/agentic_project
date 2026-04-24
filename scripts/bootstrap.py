@@ -24,8 +24,12 @@ for an action ([O]verwrite / [S]kip / [D]iff / [M]erge for .md / [A]ll-overwrite
        optional — missing source dirs are skipped silently). Same
        prompt-on-conflict behavior as `.claude/`:
          plan/              specs/              dashboard/
-         docs/adr/          docs/uml/
-         scripts/linters/   scripts/security/
+         docs/              scripts/linters/    scripts/security/
+
+       Gitignored files and OS/build junk (.DS_Store, __pycache__,
+       node_modules, .mypy_cache, …) are skipped automatically. When the
+       source is a git repo, only tracked + untracked-not-ignored files
+       are copied (`git ls-files --cached --others --exclude-standard`).
 
     5. Ensure these empty directories exist in target (created only if missing):
          docs/  plan/  reviews/  scripts/  specs/  src/  todo/
@@ -48,6 +52,7 @@ from pathlib import Path
 SCAFFOLD_DIRS = ("docs", "plan", "reviews", "scripts", "specs", "src", "todo")
 
 DONE_BANNER = r"""
+
 ▄████▄  ▄████  ██████ ███  ██ ██████ ██ ▄█████
 ██▄▄██ ██  ▄▄▄ ██▄▄   ██ ▀▄██   ██   ██ ██
 ██  ██  ▀███▀  ██▄▄▄▄ ██   ██   ██   ██ ▀█████
@@ -56,17 +61,45 @@ DONE_BANNER = r"""
 █████▄ ▄████▄ ▄████▄ ██████ ▄█████ ██████ █████▄  ▄████▄ █████▄
 ██▄▄██ ██  ██ ██  ██   ██   ▀▀▀▄▄▄   ██   ██▄▄██▄ ██▄▄██ ██▄▄█▀
 ██▄▄█▀ ▀████▀ ▀████▀   ██   █████▀   ██   ██   ██ ██  ██ ██
+                
+                COMPLETED
+
 """
 
 CONTENT_SUBTREES = (
     "plan",
     "specs",
     "dashboard",
-    "docs/adr",
-    "docs/uml",
+    "docs",
     "scripts/linters",
     "scripts/security",
 )
+
+JUNK_NAMES = {
+    ".DS_Store", "Thumbs.db", ".git",
+    "__pycache__", ".mypy_cache", ".pytest_cache", ".ruff_cache",
+    "node_modules",
+}
+
+
+def git_allowed_files(source_dir: Path, subtree: str) -> set[Path] | None:
+    """Absolute paths git would track under <subtree> (tracked + untracked-not-ignored).
+
+    Returns None if source isn't a git repo — caller falls back to copying everything.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(source_dir), "ls-files", "-z",
+             "--cached", "--others", "--exclude-standard", "--", subtree],
+            check=True, capture_output=True, text=True,
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+    return {(source_dir / p).resolve() for p in result.stdout.split("\0") if p}
+
+
+def is_junk(path: Path) -> bool:
+    return any(part in JUNK_NAMES for part in path.parts)
 
 
 def prompt_for_file_action(dest: Path) -> str:
@@ -201,8 +234,13 @@ def copy_subtree(
         return all_overwrite, all_skip
 
     print(f"\n--- {name}/ ---")
+    allowed = git_allowed_files(source_dir, name)
     for src_path in sorted(sub_src.rglob("*")):
         if src_path.is_dir():
+            continue
+        if is_junk(src_path):
+            continue
+        if allowed is not None and src_path.resolve() not in allowed:
             continue
         rel = src_path.relative_to(sub_src)
         dest_path = dest_dir / name / rel
@@ -228,13 +266,22 @@ def copy_claude_md(
         sys.exit(1)
 
     primary = dest_dir / "CLAUDE.md"
-    if primary.exists():
-        dest = dest_dir / "CLAUDE_AGENTIC-DEVELOPMENT.md"
-        print("\n--- CLAUDE.md (target has one → writing CLAUDE_AGENTIC-DEVELOPMENT.md) ---")
-    else:
-        dest = primary
+    if not primary.exists():
         print("\n--- CLAUDE.md ---")
+        _, ao, as_ = copy_file(
+            src, primary, all_overwrite=all_overwrite, all_skip=all_skip, mergeable=True
+        )
+        return all_overwrite | ao, all_skip | as_
 
+    if filecmp.cmp(src, primary, shallow=False):
+        print("\n--- CLAUDE.md ---")
+        print(f"  In sync with upstream (identical): {primary}")
+        return all_overwrite, all_skip
+
+    print("\n--- CLAUDE.md ---")
+    print(f"  ⚠️  Your CLAUDE.md diverges from upstream: {primary}")
+    print("  Writing new upstream version to CLAUDE_AGENTIC-DEVELOPMENT.md for manual merge.")
+    dest = dest_dir / "CLAUDE_AGENTIC-DEVELOPMENT.md"
     _, ao, as_ = copy_file(
         src, dest, all_overwrite=all_overwrite, all_skip=all_skip, mergeable=True
     )
