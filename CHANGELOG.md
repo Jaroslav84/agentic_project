@@ -1,3 +1,9 @@
+# v1.3.1 (2026-07-05)
+
+- `CLAUDE.md` got broken up into `CALUDE.global.md` and a project specific `CLAUDE.md` template 
+- `YALO.md` (my YOLO.md version) skill added - very handy
+- `HANDOFF.md` skill added
+
 # v1.3.0 (2026-04-22)
 
 We kinda leaned towards using Claude Code cuxx it's so good. Sorry, no more `/.agents` or `AGENTS.md`

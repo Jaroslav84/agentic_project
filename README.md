@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/Version-v1.3-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-v1.4-blue?style=for-the-badge)
 ![Claude Code](https://img.shields.io/badge/Claude_Code-ready-D97757?style=for-the-badge)
 ![OpenCode](https://img.shields.io/badge/OpenCode-ready-5D2E8C?style=for-the-badge)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
